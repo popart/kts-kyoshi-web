@@ -7,7 +7,10 @@ import {
 
 import ReactDOM from 'react-dom/client'
 import App from './App'
-import Chat, { loader as chatLoader } from './routes/chat/Chat'
+import Chat, { 
+  loader as chatLoader,
+  action as chatAction,
+} from './routes/chat/Chat'
 import ErrorPage from './ErrorPage'
 import './index.css'
 
@@ -21,6 +24,7 @@ const router = createBrowserRouter([
         path: "chat/:chatId",
         element: <Chat />,
         loader: chatLoader,
+        action: chatAction,
       },
     ]
   },

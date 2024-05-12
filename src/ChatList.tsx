@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 
 export default function ChatList({ chats }) {
-  //const chats = useLoaderData();
-
   return (
     <div>
       This is the list of all chats

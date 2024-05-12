@@ -6,8 +6,10 @@ import {
 
 
 import ReactDOM from 'react-dom/client'
-import App from './App'
-import Chat, { 
+import App, {
+    chatListLoader
+} from './App'
+import Chat, {
   loader as chatLoader,
   action as chatAction,
 } from './routes/chat/Chat'
@@ -18,6 +20,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    loader: chatListLoader,
     errorElement: <ErrorPage />,
     children: [
       {

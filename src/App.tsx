@@ -1,24 +1,23 @@
-import { useState } from 'react'
-import { Outlet } from "react-router-dom";
+import { Outlet, useLoaderData } from "react-router-dom";
 
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg' // public folder
-import './App.css'
+import "./App.css";
+import { API_BASE_URL } from './config';
+import ChatList from "./ChatList"
 
+export async function chatListLoader() {
+    const chats_response = await fetch(`${API_BASE_URL}/chat`);
+    const chats_data = await chats_response.json();
+    return chats_data;
+}
 
 export default function App() {
-  const [count, setCount] = useState(0)
+    const chats = useLoaderData();
 
-  return (
-    <>
-      This is the main page...
-      <Outlet/>
-
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-      </div>
+    return (
+        <>
+            This is the main page...
+            <ChatList chats={chats} />
+            <Outlet />
     </>
-  )
+  );
 }

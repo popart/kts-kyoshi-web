@@ -2,9 +2,11 @@ import React from "react";
 import { useNavigate } from 'react-router-dom';
 
 import { API_BASE_URL, OAUTH_CLIENT_ID, OAUTH_REDIRECT_URI } from "./config";
+import { useAuth } from './AuthProvider';
 
 export default function LoginWithGoogle() {
   const navigate = useNavigate();
+  const { setIsAuthenticated } = useAuth();
 
   React.useEffect(() => {
     const loadGoogleScript = () => {
@@ -50,6 +52,7 @@ export default function LoginWithGoogle() {
         const data = res.json()
         if (res.ok) {
           console.log('Login Success:', data);
+          setIsAuthenticated(true);
           navigate('/', { replace: true });
         } else {
           throw new Error(data.message);

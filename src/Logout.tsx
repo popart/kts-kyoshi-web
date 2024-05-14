@@ -1,9 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import { API_BASE_URL} from "./config";
+import { useAuth } from './AuthProvider';
 
 
 export default function Logout() {
   const navigate = useNavigate();
+  const { setIsAuthenticated } = useAuth();
 
   const logoutUser = async () => {
     console.log("WTF LOGOUT")
@@ -12,8 +14,8 @@ export default function Logout() {
       credentials: 'include',
     });
     if (res.ok) {
+      setIsAuthenticated(false);
       navigate('/', { replace: true });
-      window.location.reload();
     } else {
       console.error('Logout failed:', res.statusText);
     }

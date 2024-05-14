@@ -5,6 +5,7 @@ import { API_BASE_URL } from "./config";
 import ChatList from "./ChatList";
 import LoginWithGoogle from "./LoginWithGoogle";
 import Logout from "./Logout";
+import { useAuth } from './AuthProvider';
 
 export async function chatListLoader() {
   console.log("LOOOOADING CHAT LIST");
@@ -26,11 +27,16 @@ export async function chatListLoader() {
 
 export default function App() {
   const chats = useLoaderData();
+  const { isAuthenticated } = useAuth();
 
   return (
     <>
       This is the main page...
-      <ChatList chats={chats} />
+      {isAuthenticated ? (
+        <ChatList chats={chats} />
+      ) : (
+        <p>Please log in to see your profile.</p>
+      )}
       <Outlet />
       <LoginWithGoogle />
       <Logout />

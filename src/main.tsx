@@ -15,6 +15,7 @@ import Chat, {
 } from './routes/chat/Chat'
 import ErrorPage from './ErrorPage'
 import './index.css'
+import{AuthProvider}from'./AuthProvider'; 
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>
 );

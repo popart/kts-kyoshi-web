@@ -3,6 +3,7 @@ import { Outlet, useLoaderData } from "react-router-dom";
 import "./App.css";
 import { API_BASE_URL } from "./config";
 import ChatList from "./ChatList";
+import LoginWithGoogle from "./LoginWithGoogle";
 
 export async function chatListLoader() {
   const chatsResponse = await fetch(`${API_BASE_URL}/chat`);
@@ -18,6 +19,7 @@ export default function App() {
       This is the main page...
       <ChatList chats={chats} />
       <Outlet />
+      <LoginWithGoogle />
     </>
   );
 }

@@ -5,6 +5,7 @@ import { API_BASE_URL, OAUTH_CLIENT_ID, OAUTH_REDIRECT_URI } from "./config";
 
 export default function LoginWithGoogle() {
   const navigate = useNavigate();
+
   React.useEffect(() => {
     const loadGoogleScript = () => {
       const script = document.createElement("script");

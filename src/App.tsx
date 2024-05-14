@@ -4,8 +4,10 @@ import "./App.css";
 import { API_BASE_URL } from "./config";
 import ChatList from "./ChatList";
 import LoginWithGoogle from "./LoginWithGoogle";
+import Logout from "./Logout";
 
 export async function chatListLoader() {
+  console.log("LOOOOADING CHAT LIST");
   const chatsResponse = await fetch(`${API_BASE_URL}/chat`,
   {
     method:'GET',
@@ -31,6 +33,7 @@ export default function App() {
       <ChatList chats={chats} />
       <Outlet />
       <LoginWithGoogle />
+      <Logout />
     </>
   );
 }

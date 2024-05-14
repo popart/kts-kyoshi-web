@@ -6,7 +6,29 @@ import ChatList from "./ChatList";
 import LoginWithGoogle from "./LoginWithGoogle";
 
 export async function chatListLoader() {
-  const chatsResponse = await fetch(`${API_BASE_URL}/chat`);
+  /*
+  const token = localStorage.getItem('accessToken');
+  console.log("_______chat-list-loader_________")
+  console.log(token)
+  */
+  
+  const chatsResponse = await fetch(`${API_BASE_URL}/chat`,
+  {
+    method:'GET',
+    credentials: 'include',
+    /*
+    headers:{ 
+      Authorization:`Bearer ${token}`
+    }
+   */
+  });
+  if (!chatsResponse.ok) {
+    console.log("chat response bad")
+    console.log(chatsResponse)
+    return []
+  }
+  console.log("chat response NOT bad")
+  console.log(chatsResponse)
   const chatsData = await chatsResponse.json();
   return chatsData;
 }

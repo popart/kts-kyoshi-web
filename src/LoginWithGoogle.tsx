@@ -1,8 +1,10 @@
 import React from "react";
+import { useNavigate } from 'react-router-dom';
 
 import { API_BASE_URL, OAUTH_CLIENT_ID, OAUTH_REDIRECT_URI } from "./config";
 
 export default function LoginWithGoogle() {
+  const navigate = useNavigate();
   React.useEffect(() => {
     const loadGoogleScript = () => {
       const script = document.createElement("script");
@@ -36,34 +38,24 @@ export default function LoginWithGoogle() {
     }
 
     async function handleCredentialResponse(response) {
-      console.log("Encoded JWT ID token: " + response.credential);
-      // You can send this response.credential (JWT ID token) to your backend for verification and further processing
       try {
         const res = await fetch(`${API_BASE_URL}/verify-token`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ token: response.credential }),
+          credentials: 'include',
         })
-        console.log(res)
+
         const data = res.json()
         if (res.ok) {
           console.log('Login Success:', data);
-          // shouldn't need to store anything if using cookies
-
-          // Handle success - maybe update state or redirect user
-          /*
-          localStorage.setItem('accessToken', data.access_token);
-          const token = localStorage.getItem('accessToken');
-          console.log(token);
-          */
-
+          navigate('/', { replace: true });
         } else {
           throw new Error(data.message);
         }
-        console.log('Success:', data);
       } catch (error) {
         console.error('Error:', error);
-        // Handle error - show message to user or retry
+        // TODO: Handle error - show message to user or retry
       }
     }
   }, []);

@@ -7,10 +7,11 @@ import ChatLog from "./ChatLog";
 export async function loader({ params }) {
   const chatId = params.chatId;
   const chatMessagesResponse = await fetch(
-    `${API_BASE_URL}/chat_message/${chatId}`, {
-      method: 'GET',
-      credentials: 'include',
-    }
+    `${API_BASE_URL}/chat_message/${chatId}`,
+    {
+      method: "GET",
+      credentials: "include",
+    },
   );
   const chatMessagesData = await chatMessagesResponse.json();
   return chatMessagesData.reverse();
@@ -33,6 +34,7 @@ export async function action({ request }) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ message: message }),
+    credentials: "include",
   });
 
   return response;

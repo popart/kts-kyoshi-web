@@ -7,7 +7,7 @@ import {
 
 import ReactDOM from 'react-dom/client'
 import App, {
-    chatListLoader
+    chatListLoader, createChatAction
 } from './App'
 import Chat, {
   loader as chatLoader,
@@ -22,6 +22,7 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     loader: chatListLoader,
+    action: createChatAction,
     errorElement: <ErrorPage />,
     children: [
       {

@@ -17,3 +17,24 @@ export async function fetchChatList() {
     return [];
   }
 }
+
+export async function createChat() {
+  try {
+    const chatsResponse = await fetch(`${API_BASE_URL}/chat`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({}),
+      credentials: "include",
+    });
+
+    if (!chatsResponse.ok) {
+      console.log("FAIL: could not create a chat");
+    }
+    await chatsResponse.json();
+  } catch (error) {
+    console.log(error);
+  }
+  return null;
+}

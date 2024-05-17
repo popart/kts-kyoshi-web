@@ -1,13 +1,19 @@
-import { useEffect } from "react";
+import { useEffect, Dispatch, SetStateAction } from "react";
 import { createContext, useState, useContext } from "react";
-//import { useNavigate } from "react-router-dom";
 
 import { API_BASE_URL } from "./config";
 
-const AuthContext = createContext({});
+interface AuthContextType {
+  isAuthenticated: boolean;
+  setIsAuthenticated: Dispatch<SetStateAction<boolean>>;
+}
+
+const AuthContext = createContext<AuthContextType>({
+  isAuthenticated: false,
+  setIsAuthenticated: () => {},
+});
 
 export const AuthProvider = ({ children }) => {
-  //const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
@@ -20,7 +26,6 @@ export const AuthProvider = ({ children }) => {
       const data = await res.json();
       if (res.ok) {
         setIsAuthenticated(data.loggedIn);
-        //navigate("/", { replace: true });
       } else {
         throw new Error(data.message);
       }

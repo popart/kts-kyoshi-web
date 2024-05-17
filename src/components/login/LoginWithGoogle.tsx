@@ -1,8 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import { API_BASE_URL, OAUTH_CLIENT_ID, OAUTH_REDIRECT_URI } from "./config";
-import { useAuth } from "./AuthProvider";
+import { API_BASE_URL, OAUTH_CLIENT_ID, OAUTH_REDIRECT_URI } from "../../config";
+import { useAuth } from "../../AuthProvider";
 
 export default function LoginWithGoogle() {
   const navigate = useNavigate();

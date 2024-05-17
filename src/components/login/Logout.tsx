@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { API_BASE_URL} from "../../config";
-import { useAuth } from '../../AuthProvider';
+import { useAuth } from '../../providers/AuthProvider';
 
 
 export default function Logout() {

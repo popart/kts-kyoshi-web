@@ -1,7 +1,7 @@
 import { useEffect, Dispatch, SetStateAction } from "react";
 import { createContext, useState, useContext } from "react";
 
-import { API_BASE_URL } from "./config";
+import { API_BASE_URL } from "../config";
 
 interface AuthContextType {
   isAuthenticated: boolean;

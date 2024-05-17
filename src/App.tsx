@@ -5,7 +5,7 @@ import "./App.css";
 import ChatList from "./components/ChatList";
 import LoginWithGoogle from "./components/login/LoginWithGoogle";
 import Logout from "./components/login/Logout";
-import { useAuth } from "./AuthProvider";
+import { useAuth } from "./providers/AuthProvider";
 
 const containerStyle = css({
   display: "flex",

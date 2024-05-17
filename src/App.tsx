@@ -1,5 +1,7 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { css } from "@emotion/react";
+import { Link } from "react-router-dom";
+import HomeIcon from "@mui/icons-material/Home";
 
 import "./App.css";
 import ChatList from "./components/ChatList";
@@ -22,34 +24,50 @@ const bannerStyle = css({
   width: "100%",
   backgroundColor: "#333", // Change this to whatever color you want
   color: "white",
+  padding: "0 10px",
 });
 
 const contentStyle = css({
   flexGrow: 1,
 });
 
+const homeIconStyle = css({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  width: "40px",
+  height: "40px",
+  backgroundColor: "#1a1a1a",
+  borderRadius: "4px",
+});
+
 export default function App() {
+  const location = useLocation();
   const { isAuthenticated } = useAuth();
 
   return (
     <div css={containerStyle}>
       <div css={bannerStyle}>
-        <div css={{ padding: '0 10px' }}>Kyoshi Tutor!</div>
-        <div css={{padding: '0 10px' }}>
-          {isAuthenticated ? <Logout /> : <LoginWithGoogle />}
-        </div>
+        {location.pathname !== "/" ? (
+          <Link to="/" style={{ textDecoration: "none" }}>
+            <button css={homeIconStyle}>
+              <HomeIcon />
+            </button>
+          </Link>
+        ) : (
+          <div></div>
+        )}
+        <div>Kyoshi Tutor!</div>
+        <div>{isAuthenticated ? <Logout /> : <LoginWithGoogle />}</div>
       </div>
       <div css={contentStyle}>
         {isAuthenticated ? (
-          <div>
-            <ChatList />
-          </div>
+          <div>{location.pathname === "/" ? <ChatList /> : <Outlet />}</div>
         ) : (
           <div>
             <p>Please log in to see your profile.</p>
           </div>
         )}
-        <Outlet />
       </div>
     </div>
   );

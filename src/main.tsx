@@ -21,11 +21,11 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <ErrorPage />,
     children: [
-      {
-        path: "chat/:chatId",
-        element: <Chat />,
-        loader: chatLoader,
-        action: chatAction,
+        {
+            path: "chat/:chatId",
+            element: <Chat />,
+            loader: chatLoader,
+            action: chatAction,
       },
     ]
   },

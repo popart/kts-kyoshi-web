@@ -1,26 +1,18 @@
-import { useNavigate } from 'react-router-dom';
-import { API_BASE_URL} from "../../config";
-import { useAuth } from '../../providers/AuthProvider';
-
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../providers/AuthProvider";
+import { logout } from "../../services/loginService";
 
 export default function Logout() {
   const navigate = useNavigate();
   const { setIsAuthenticated } = useAuth();
 
   const logoutUser = async () => {
-    console.log("WTF LOGOUT")
-    const res = await fetch(`${API_BASE_URL}/logout`, {
-      method: "POST",
-      credentials: 'include',
-    });
-    if (res.ok) {
+    const logoutSuccess = await logout();
+    if (logoutSuccess) {
       setIsAuthenticated(false);
-      navigate('/', { replace: true });
-    } else {
-      console.error('Logout failed:', res.statusText);
+      navigate("/", { replace: true });
     }
-  }
-  return (
-    <button onClick={logoutUser}>Logout</button>
-  );
+  };
+
+  return <button onClick={logoutUser}>Logout</button>;
 }

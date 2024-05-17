@@ -20,7 +20,7 @@ export async function fetchChatList() {
 
 export async function createChat() {
   try {
-    const chatsResponse = await fetch(`${API_BASE_URL}/chat`, {
+    const response = await fetch(`${API_BASE_URL}/chat`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -29,12 +29,46 @@ export async function createChat() {
       credentials: "include",
     });
 
-    if (!chatsResponse.ok) {
-      console.log("FAIL: could not create a chat");
+    if (!response.ok) {
+      console.log(response);
+      throw Error("createChat() bad response");
     }
-    await chatsResponse.json();
   } catch (error) {
     console.log(error);
   }
-  return null;
+}
+
+export async function fetchChatMessages(chatId: string) {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/chat_message/${chatId}`,
+      {
+        method: "GET",
+        credentials: "include",
+      },
+    );
+    if (!response.ok) {
+      console.log("FAIL: could not fetch chat messages");
+    }
+    const chatMessagesData = await response.json();
+    return chatMessagesData.reverse();
+  } catch (error) {
+    console.log(error);
+  }
+  return [];
+}
+
+export async function postChatMessage(chatId: string, message: string) {
+  try {
+    await fetch(`${API_BASE_URL}/chat_message/${chatId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ message: message }),
+      credentials: "include",
+    });
+  } catch (error) {
+    console.log(error);
+  }
 }

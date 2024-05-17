@@ -1,20 +1,12 @@
 import { useRef, useEffect } from "react";
 import { useFetcher, useParams, useLoaderData } from "react-router-dom";
 
-import { API_BASE_URL } from "../../config";
 import ChatLog from "./ChatLog";
+import { fetchChatMessages, postChatMessage } from "../../services/chatService";
 
 export async function loader({ params }) {
   const chatId = params.chatId;
-  const chatMessagesResponse = await fetch(
-    `${API_BASE_URL}/chat_message/${chatId}`,
-    {
-      method: "GET",
-      credentials: "include",
-    },
-  );
-  const chatMessagesData = await chatMessagesResponse.json();
-  return chatMessagesData.reverse();
+  return await fetchChatMessages(chatId);
 }
 
 /*
@@ -28,16 +20,8 @@ export async function action({ request }) {
   const chatId = formData.get("chatId");
   const message = formData.get("message");
 
-  const response = await fetch(`${API_BASE_URL}/chat_message/${chatId}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ message: message }),
-    credentials: "include",
-  });
-
-  return response;
+  await postChatMessage(chatId, message);
+  return null;
 }
 
 export default function Chat({ params }) {

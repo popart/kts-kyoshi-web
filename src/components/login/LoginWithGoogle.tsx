@@ -1,8 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import { API_BASE_URL, OAUTH_CLIENT_ID, OAUTH_REDIRECT_URI } from "../../config";
+import {
+  OAUTH_CLIENT_ID,
+} from "../../config";
 import { useAuth } from "../../providers/AuthProvider";
+import { login } from "../../services/loginService";
 
 export default function LoginWithGoogle() {
   const navigate = useNavigate();
@@ -41,25 +44,12 @@ export default function LoginWithGoogle() {
     }
 
     async function handleCredentialResponse(response) {
-      try {
-        const res = await fetch(`${API_BASE_URL}/login`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ token: response.credential }),
-          credentials: "include",
-        });
+      const token = response.credential;
+      const loginSuccess = await login(token);
 
-        const data = await res.json();
-        if (res.ok) {
-          console.log("Login Success:", data);
-          setIsAuthenticated(true);
-          navigate("/", { replace: true });
-        } else {
-          throw new Error(data.message);
-        }
-      } catch (error) {
-        console.error("Error:", error);
-        // TODO: Handle error - show message to user or retry
+      if (loginSuccess) {
+        setIsAuthenticated(true);
+        navigate("/", { replace: true });
       }
     }
   }, []);

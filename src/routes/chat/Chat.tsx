@@ -1,5 +1,6 @@
 import { useRef, useEffect } from "react";
 import { useFetcher, useParams, useLoaderData } from "react-router-dom";
+import { css } from "@emotion/react";
 
 import ChatLog from "./ChatLog";
 import { fetchChatMessages, postChatMessage } from "../../services/chatService";
@@ -24,6 +25,21 @@ export async function action({ request }) {
   return null;
 }
 
+const containerStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  height: "100%",
+});
+
+const chatLogStyle = css({
+  flexGrow: 1,
+  minHeight: 0, // fixes scroll
+});
+const chatInputStyle = css({
+  display: "flex",
+  flexDirection: "row",
+});
+
 export default function Chat({ params }) {
   const { chatId } = useParams();
   const chatMessages = useLoaderData();
@@ -38,16 +54,20 @@ export default function Chat({ params }) {
   }, [fetcher.state]);
 
   return (
-    <div>
-      <div>Moshimosh! This is the Chat Page for {chatId}</div>
-
-      <ChatLog messages={chatMessages} inputFormData={fetcher.formData} />
+    <div css={containerStyle}>
+      <div css={chatLogStyle}>
+        {chatMessages.length > 0 ? (
+          <ChatLog messages={chatMessages} inputFormData={fetcher.formData} />
+        ) : null}
+      </div>
 
       <fetcher.Form method="post" ref={formRef}>
-        <fieldset disabled={fetcher.state !== "idle"}>
-          <textarea name="message" />
+        <fieldset disabled={fetcher.state !== "idle"} css={chatInputStyle}>
+          <textarea css={{ flexGrow: 1, height: "4em" }} name="message" />
           <input type="hidden" name="chatId" value={chatId} />
-          <button type="submit">Submit</button>
+          <button css={{ marginLeft: "5px" }} type="submit">
+            Submit
+          </button>
         </fieldset>
       </fetcher.Form>
     </div>

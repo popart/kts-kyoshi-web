@@ -29,6 +29,7 @@ const bannerStyle = css({
 
 const contentStyle = css({
   flexGrow: 1,
+  overflowY: "auto",
 });
 
 const homeIconStyle = css({
@@ -62,7 +63,9 @@ export default function App() {
       </div>
       <div css={contentStyle}>
         {isAuthenticated ? (
-          <div>{location.pathname === "/" ? <ChatList /> : <Outlet />}</div>
+          <div css={{ height: "100%" }}>
+            {location.pathname === "/" ? <ChatList /> : <Outlet />}
+          </div>
         ) : (
           <div>
             <p>Please log in to see your profile.</p>

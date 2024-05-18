@@ -7,23 +7,31 @@ function Message(message) {
   return <div>{message}</div>;
 }
 
+const flashCardPointStyle = css`
+  border-top: 1px solid #ccc;
+  padding: 5px 0;
+  &:hover {
+    background-color: #202020;
+  };
+  &:last-child {
+    border-bottom: 1px solid #ccc;
+  };
+`;
+
+
 function FlashCardLesson(lesson) {
   return (
-    <div>
-      <b>{lesson.input_text}</b>
-      <br />
-      {lesson.translated_text}
-      <br />
-      <ul>
-        {lesson.flash_cards.map((card, cardIndex) => (
-          <li key={cardIndex}>
-            <ul>
-              <li>{card.japanese_example}</li>
-              <li>{card.teaching_notes}</li>
-            </ul>
-          </li>
-        ))}
-      </ul>
+    <div css={{ display: "flex", flexDirection: "column", overflowY: "auto" }}>
+      <div css={flashCardPointStyle}>
+        <div>{lesson.input_text}</div>
+        <div>{lesson.translated_text}</div>
+      </div>
+      {lesson.flash_cards.map((card, cardIndex) => (
+        <div css={flashCardPointStyle} key={cardIndex}>
+          <div>{card.japanese_example}</div>
+          <div>{card.teaching_notes}</div>
+        </div>
+      ))}
     </div>
   );
 }
@@ -62,7 +70,7 @@ export default function ChatLog({ messages, inputFormData }) {
     setMessageIndex(newIndex);
   }
   return (
-    <div>
+    <div css={{ display: "flex", flexDirection: "column", height: "100%" }}>
       <div
         css={{
           display: "flex",

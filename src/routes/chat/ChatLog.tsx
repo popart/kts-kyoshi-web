@@ -28,21 +28,20 @@ const translationStyle = css({
   padding: "5px 0",
 });
 
-function FlashCardLesson(lesson) {
+function FlashCardLesson(lesson, hoverIndex, setHoverIndex) {
   const translationItems = [];
-  const [hoverIndex, setHoverIndex] = useState<number | null>(null);
 
   let inputText = lesson.input_text;
   let lastIndex = 0;
   lesson.flash_cards.forEach((card, index) => {
-    const exampleText = card.japanese_example.replace(/\(.*?\)/g, "");
+    const exampleText = card.japanese_example.replace(/\(.*?\)/g, "");  // remove (pronuncation)
     const startIndex = inputText.indexOf(exampleText);
     if (startIndex > -1) {
       if (startIndex > 0) {
         translationItems.push(inputText.substring(0, startIndex)); // unmatched characters to left
       }
       translationItems.push(
-        <span css={{ color: hoverIndex === index ? "red" : "white" }}>
+        <span key={index} css={{ color: hoverIndex === index ? "red" : "white" }}>
           {inputText.substring(startIndex, startIndex + exampleText.length)}
         </span>,
       ); // matched substring
@@ -63,6 +62,7 @@ function FlashCardLesson(lesson) {
       <div css={{ overflowY: "auto" }}>
         {lesson.flash_cards.map((card, cardIndex) => (
           <div
+            key={cardIndex}
             css={flashCardPointStyle}
             onMouseOver={() => setHoverIndex(cardIndex)}
             onMouseOut={() => setHoverIndex(null)}
@@ -76,12 +76,12 @@ function FlashCardLesson(lesson) {
   );
 }
 
-function renderMessage(message) {
+function renderMessage(message, hoverIndex, setHoverIndex) {
   switch (message.message_type) {
     case "message":
       return Message(message.message);
     case "flash_card_lesson":
-      return FlashCardLesson(message.flash_card_lesson);
+      return FlashCardLesson(message.flash_card_lesson, hoverIndex, setHoverIndex);
     default:
       return <div>Unexpected Response Type</div>;
   }
@@ -99,6 +99,7 @@ const arrowIconStyle = css({
 
 export default function ChatLog({ messages, inputFormData }) {
   const [messageIndex, setMessageIndex] = useState(messages.length - 1);
+  const [hoverIndex, setHoverIndex] = useState<number | null>(null);
 
   function incMessageIndex(inc: number) {
     let newIndex = messageIndex + inc;
@@ -118,23 +119,12 @@ export default function ChatLog({ messages, inputFormData }) {
         <button css={arrowIconStyle} onClick={() => incMessageIndex(-2)}>
           <ArrowBackIosNewIcon />
         </button>
-        {renderMessage(messages[messageIndex - 1])}
+        {renderMessage(messages[messageIndex - 1], hoverIndex, setHoverIndex)}
         <button css={arrowIconStyle} onClick={() => incMessageIndex(2)}>
           <ArrowForwardIosIcon />
         </button>
       </div>
-      {renderMessage(messages[messageIndex])}
+      {renderMessage(messages[messageIndex], hoverIndex, setHoverIndex)}
     </div>
   );
 }
-
-/**
-      <br />
-      <ul>
-        {messages.map((message, index) => (
-          <li key={index}>{renderMessage(message)}</li>
-        ))}
-        {inputFormData ? <li>{inputFormData.get("message")}</li> : null}
-      </ul>
-
-**/

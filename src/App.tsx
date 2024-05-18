@@ -13,6 +13,8 @@ const containerStyle = css({
   display: "flex",
   flexDirection: "column",
   height: "100vh",
+  width: "100vw",
+  maxWidth: "1280px",
 });
 
 const bannerStyle = css({
@@ -21,7 +23,6 @@ const bannerStyle = css({
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
-  width: "100%",
   backgroundColor: "#333", // Change this to whatever color you want
   color: "white",
   padding: "0 10px",

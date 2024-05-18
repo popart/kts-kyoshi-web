@@ -30,34 +30,29 @@ const translationStyle = css({
 
 function FlashCardLesson(lesson) {
   const translationItems = [];
+  const [hoverIndex, setHoverIndex] = useState<number | null>(null);
 
   let inputText = lesson.input_text;
   let lastIndex = 0;
   lesson.flash_cards.forEach((card, index) => {
     const exampleText = card.japanese_example.replace(/\(.*?\)/g, "");
-    console.log(`exampleText ${exampleText}`);
     const startIndex = inputText.indexOf(exampleText);
-    console.log(`startIndex ${startIndex}`);
     if (startIndex > -1) {
       if (startIndex > 0) {
         translationItems.push(inputText.substring(0, startIndex)); // unmatched characters to left
       }
       translationItems.push(
-        <span index={index}>
+        <span css={{ color: hoverIndex === index ? "red" : "white" }}>
           {inputText.substring(startIndex, startIndex + exampleText.length)}
         </span>,
       ); // matched substring
       inputText = inputText.substring(startIndex + exampleText.length);
       lastIndex = startIndex + exampleText.length;
-      console.log(`lastIndex ${lastIndex}`);
-        console.log(inputText)
     }
   });
   if (inputText.length > 0) {
     translationItems.push(inputText); // leftover input
   }
-  console.log(".......parsing");
-  console.log(translationItems);
 
   return (
     <div css={flashCardLessonStyle}>
@@ -67,7 +62,11 @@ function FlashCardLesson(lesson) {
       </div>
       <div css={{ overflowY: "auto" }}>
         {lesson.flash_cards.map((card, cardIndex) => (
-          <div css={flashCardPointStyle} key={cardIndex}>
+          <div
+            css={flashCardPointStyle}
+            onMouseOver={() => setHoverIndex(cardIndex)}
+            onMouseOut={() => setHoverIndex(null)}
+          >
             <div>{card.japanese_example}</div>
             <div>{card.teaching_notes}</div>
           </div>
@@ -78,8 +77,6 @@ function FlashCardLesson(lesson) {
 }
 
 function renderMessage(message) {
-  //console.log("rendering");
-  //console.log(message);
   switch (message.message_type) {
     case "message":
       return Message(message.message);
@@ -101,7 +98,6 @@ const arrowIconStyle = css({
 });
 
 export default function ChatLog({ messages, inputFormData }) {
-  console.log(messages);
   const [messageIndex, setMessageIndex] = useState(messages.length - 1);
 
   function incMessageIndex(inc: number) {

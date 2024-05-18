@@ -22,17 +22,47 @@ const flashCardLessonStyle = css({
 });
 
 const translationStyle = css({
-backgroundColor: '#333333',
-    borderTop: '1px solid #ccc',
-    borderBottom: '1px solid #ccc',
-    padding: '5px 0',
-})
+  backgroundColor: "#333333",
+  borderTop: "1px solid #ccc",
+  borderBottom: "1px solid #ccc",
+  padding: "5px 0",
+});
 
 function FlashCardLesson(lesson) {
-    return (
-        <div css={flashCardLessonStyle}>
-            <div css={translationStyle}>
-        <div>{lesson.input_text}</div>
+  const translationItems = [];
+
+  let inputText = lesson.input_text;
+  let lastIndex = 0;
+  lesson.flash_cards.forEach((card, index) => {
+    const exampleText = card.japanese_example.replace(/\(.*?\)/g, "");
+    console.log(`exampleText ${exampleText}`);
+    const startIndex = inputText.indexOf(exampleText);
+    console.log(`startIndex ${startIndex}`);
+    if (startIndex > -1) {
+      if (startIndex > 0) {
+        translationItems.push(inputText.substring(0, startIndex)); // unmatched characters to left
+      }
+      translationItems.push(
+        <span index={index}>
+          {inputText.substring(startIndex, startIndex + exampleText.length)}
+        </span>,
+      ); // matched substring
+      inputText = inputText.substring(startIndex + exampleText.length);
+      lastIndex = startIndex + exampleText.length;
+      console.log(`lastIndex ${lastIndex}`);
+        console.log(inputText)
+    }
+  });
+  if (inputText.length > 0) {
+    translationItems.push(inputText); // leftover input
+  }
+  console.log(".......parsing");
+  console.log(translationItems);
+
+  return (
+    <div css={flashCardLessonStyle}>
+      <div css={translationStyle}>
+        <div>{translationItems}</div>
         <div>{lesson.translated_text}</div>
       </div>
       <div css={{ overflowY: "auto" }}>

@@ -8,30 +8,41 @@ function Message(message) {
 }
 
 const flashCardPointStyle = css`
-  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
   padding: 5px 0;
   &:hover {
     background-color: #202020;
-  };
-  &:last-child {
-    border-bottom: 1px solid #ccc;
-  };
+  }
 `;
 
+const flashCardLessonStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  overflowY: "auto",
+});
+
+const translationStyle = css({
+backgroundColor: '#333333',
+    borderTop: '1px solid #ccc',
+    borderBottom: '1px solid #ccc',
+    padding: '5px 0',
+})
 
 function FlashCardLesson(lesson) {
-  return (
-    <div css={{ display: "flex", flexDirection: "column", overflowY: "auto" }}>
-      <div css={flashCardPointStyle}>
+    return (
+        <div css={flashCardLessonStyle}>
+            <div css={translationStyle}>
         <div>{lesson.input_text}</div>
         <div>{lesson.translated_text}</div>
       </div>
-      {lesson.flash_cards.map((card, cardIndex) => (
-        <div css={flashCardPointStyle} key={cardIndex}>
-          <div>{card.japanese_example}</div>
-          <div>{card.teaching_notes}</div>
-        </div>
-      ))}
+      <div css={{ overflowY: "auto" }}>
+        {lesson.flash_cards.map((card, cardIndex) => (
+          <div css={flashCardPointStyle} key={cardIndex}>
+            <div>{card.japanese_example}</div>
+            <div>{card.teaching_notes}</div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

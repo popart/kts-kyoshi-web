@@ -9,7 +9,6 @@ function Message(message) {
   return <div>{message}</div>;
 }
 
-
 function renderMessage(message) {
   switch (message.message_type) {
     case "message":
@@ -17,6 +16,8 @@ function renderMessage(message) {
     case "flash_card_lesson":
       return FlashCardLesson(
         message.flash_card_lesson,
+        message.chat_id,
+        message.chat_message_id,
       );
     default:
       return <div>Unexpected Response Type</div>;

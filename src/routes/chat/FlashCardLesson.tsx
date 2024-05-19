@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { css } from "@emotion/react";
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
 import BookmarkOutlinedIcon from "@mui/icons-material/BookmarkOutlined";
+import { saveFlashCard } from "../../services/flashCardService";
 
 const flashCardPointStyle = css`
   border-bottom: 1px solid #ccc;
@@ -32,7 +33,7 @@ const bookmarkStyle = css`
   margin-right: 5px;
 `;
 
-export default function FlashCardLesson(lesson) {
+export default function FlashCardLesson(lesson, chatId, chatMessageId) {
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
   const [localFlashCards, setLocalFlashCards] = useState(lesson.flash_cards);
 
@@ -40,9 +41,10 @@ export default function FlashCardLesson(lesson) {
     setLocalFlashCards(lesson.flash_cards);
   }, [lesson]);
 
-  function bookmarkHandler(index, save) {
+  async function bookmarkHandler(cardIndex, save) {
+    const res = await saveFlashCard(chatId, chatMessageId, cardIndex, save)
     const updatedFlashCards = localFlashCards.map((card, idx) =>
-      idx === index ? { ...card, is_saved: save } : card,
+      idx === cardIndex ? { ...card, is_saved: res.save } : card,
     );
     setLocalFlashCards(updatedFlashCards);
   }

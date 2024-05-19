@@ -33,26 +33,27 @@ const bookmarkStyle = css`
   margin-right: 5px;
 `;
 
-export default function FlashCardLesson(lesson, chatId, chatMessageId) {
-  const [hoverIndex, setHoverIndex] = useState<number | null>(null);
-  const [localFlashCards, setLocalFlashCards] = useState(lesson.flash_cards);
 
-  useEffect(() => {
-    setLocalFlashCards(lesson.flash_cards);
-  }, [lesson]);
+function SimpleChatMessage({ message }) {
+  return <div>{message.message}</div>;
+}
+
+function FlashCardLessonChatMessage({ message, reloadMessages }) {
+  const lesson = message.flash_card_lesson;
+  const chatId = message.chat_id;
+  const chatMessageId = message.chat_message_id;
+
+  const [hoverIndex, setHoverIndex] = useState<number | null>(null);
 
   async function bookmarkHandler(cardIndex, save) {
     const res = await saveFlashCard(chatId, chatMessageId, cardIndex, save)
-    const updatedFlashCards = localFlashCards.map((card, idx) =>
-      idx === cardIndex ? { ...card, is_saved: res.save } : card,
-    );
-    setLocalFlashCards(updatedFlashCards);
+    await reloadMessages()
   }
 
   const translationItems = [];
 
   let inputText = lesson.input_text;
-  localFlashCards.forEach((card, index) => {
+  lesson.flash_cards.forEach((card, index) => {
     const exampleText = card.japanese_example.replace(/\(.*?\)/g, ""); // remove (pronuncation)
     const startIndex = inputText.indexOf(exampleText);
     if (startIndex > -1) {
@@ -78,7 +79,7 @@ export default function FlashCardLesson(lesson, chatId, chatMessageId) {
         <div>{lesson.translated_text}</div>
       </div>
       <div css={{ overflowY: "auto" }}>
-        {localFlashCards.map((card, cardIndex) => (
+        {lesson.flash_cards.map((card, cardIndex) => (
           <div
             key={cardIndex}
             css={flashCardPointStyle}
@@ -106,5 +107,22 @@ export default function FlashCardLesson(lesson, chatId, chatMessageId) {
         ))}
       </div>
     </div>
+  );
+}
+
+export default function ChatMessage({ message, reloadMessages }) {
+  console.log(message)
+  if (message === undefined || message === null) {
+    return <></>
+  }
+  return (
+    <>
+      {message.message_type === "message" && (
+        <SimpleChatMessage message={message} />
+      )}
+      {message.message_type === "flash_card_lesson" && (
+        <FlashCardLessonChatMessage message={message} reloadMessages={reloadMessages} />
+      )}
+    </>
   );
 }

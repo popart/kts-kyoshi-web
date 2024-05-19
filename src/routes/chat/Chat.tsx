@@ -3,12 +3,8 @@ import { useFetcher, useParams, useLoaderData } from "react-router-dom";
 import { css } from "@emotion/react";
 
 import ChatLog from "./ChatLog";
-import { fetchChatMessages, postChatMessage } from "../../services/chatService";
+import { postChatMessage } from "../../services/chatService";
 
-export async function loader({ params }) {
-  const chatId = params.chatId;
-  return await fetchChatMessages(chatId);
-}
 
 /*
  * The Form will call action. While it's loading,
@@ -42,7 +38,6 @@ const chatInputStyle = css({
 
 export default function Chat({ params }) {
   const { chatId } = useParams();
-  const chatMessages = useLoaderData();
   const fetcher = useFetcher();
   const formRef = useRef(null);
 
@@ -56,9 +51,7 @@ export default function Chat({ params }) {
   return (
     <div css={containerStyle}>
       <div css={chatLogStyle}>
-        {chatMessages.length > 0 ? (
-          <ChatLog messages={chatMessages} inputFormData={fetcher.formData} />
-        ) : null}
+        <ChatLog chatId={chatId} />
       </div>
 
       <fetcher.Form method="post" ref={formRef}>

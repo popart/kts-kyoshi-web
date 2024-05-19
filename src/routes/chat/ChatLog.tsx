@@ -3,26 +3,8 @@ import { css } from "@emotion/react";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
-import FlashCardLesson from "./FlashCardLesson";
-
-function Message(message) {
-  return <div>{message}</div>;
-}
-
-function renderMessage(message) {
-  switch (message.message_type) {
-    case "message":
-      return Message(message.message);
-    case "flash_card_lesson":
-      return FlashCardLesson(
-        message.flash_card_lesson,
-        message.chat_id,
-        message.chat_message_id,
-      );
-    default:
-      return <div>Unexpected Response Type</div>;
-  }
-}
+import ChatMessage from "./ChatMessage";
+import { fetchChatMessages, postChatMessage } from "../../services/chatService";
 
 const arrowIconStyle = css({
   display: "flex",
@@ -34,12 +16,37 @@ const arrowIconStyle = css({
   borderRadius: "4px",
 });
 
-export default function ChatLog({ messages, inputFormData }) {
-  const [messageIndex, setMessageIndex] = useState(messages.length - 1);
+async function loadChatMessages(chatId) {
+  console.log(`fetching messages ${chatId}`)
+  return await fetchChatMessages(chatId);
+}
 
+export default function ChatLog({ chatId }) {
+  const [messages, setMessages] = useState([]);
+  const [messageIndex, setMessageIndex] = useState(-1);
+  const [viewingMessages, setViewingMessages] = useState([null, null]);
+
+  // reloadMessage gets passed to children so they can reload data
+  // without changing the messageIndex (used after saving a flashcard)
+  const reloadMessages = async () => {
+    const res = await loadChatMessages(chatId)
+    setMessages(res) // asynchronouse
+    return res
+  }
+  const reloadMessagesAndResetPage = async () => {
+    const res = await reloadMessages()
+    console.log(`messages.length = ${res.length}`)
+    setMessageIndex(res.length - 1);
+  }
+
+  // page load triggers loading messages
   useEffect(() => {
-    setMessageIndex(messages.length - 1);
-  }, [messages]);
+    reloadMessagesAndResetPage()
+  }, [])
+  // setting messageIndex triggers setting viewingMessages
+  useEffect(() => {
+    setViewingMessages([messages[messageIndex - 1], messages[messageIndex]]);
+  }, [messages, messageIndex]);
 
   function incMessageIndex(inc: number) {
     let newIndex = messageIndex + inc;
@@ -61,12 +68,12 @@ export default function ChatLog({ messages, inputFormData }) {
         <button css={arrowIconStyle} onClick={() => incMessageIndex(-2)}>
           <ArrowBackIosNewIcon />
         </button>
-        {renderMessage(messages[messageIndex - 1])}
+        <ChatMessage message={viewingMessages[0]} reloadMessages={reloadMessages}/>
         <button css={arrowIconStyle} onClick={() => incMessageIndex(2)}>
           <ArrowForwardIosIcon />
         </button>
       </div>
-      {renderMessage(messages[messageIndex])}
+      <ChatMessage message={viewingMessages[1]} reloadMessages={reloadMessages} />
     </div>
   );
 }

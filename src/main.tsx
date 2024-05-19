@@ -5,7 +5,6 @@ import "./index.css";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import Chat, {
-  loader as chatLoader,
   action as chatAction,
 } from "./routes/chat/Chat";
 import Study from "./routes/study/Study"
@@ -22,7 +21,6 @@ const router = createBrowserRouter([
       {
         path: "chat/:chatId",
         element: <Chat />,
-        loader: chatLoader,
         action: chatAction,
       },
       {

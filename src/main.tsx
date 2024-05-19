@@ -1,19 +1,17 @@
-import React from 'react'
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import React from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-
-import './index.css'
-import ReactDOM from 'react-dom/client'
-import App from './App'
+import "./index.css";
+import ReactDOM from "react-dom/client";
+import App from "./App";
 import Chat, {
   loader as chatLoader,
   action as chatAction,
-} from './routes/chat/Chat'
-import ErrorPage from './components/ErrorPage'
-import{AuthProvider}from'./providers/AuthProvider';
+} from "./routes/chat/Chat";
+import Study from "./routes/study/Study"
+import FlashCardStudy, { newFlashCardsLoader, reviewFlashCardsLoader } from "./routes/study/FlashCardStudy";
+import ErrorPage from "./components/ErrorPage";
+import { AuthProvider } from "./providers/AuthProvider";
 
 const router = createBrowserRouter([
   {
@@ -21,13 +19,29 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <ErrorPage />,
     children: [
-        {
-            path: "chat/:chatId",
-            element: <Chat />,
-            loader: chatLoader,
-            action: chatAction,
+      {
+        path: "chat/:chatId",
+        element: <Chat />,
+        loader: chatLoader,
+        action: chatAction,
       },
-    ]
+      {
+        path: "study/",
+        element: <Study />,
+        children: [
+          {
+            path: "new/",
+            element: <FlashCardStudy />,
+            loader: newFlashCardsLoader,
+          },
+          {
+            path: "review/",
+            element: <FlashCardStudy />,
+            loader: reviewFlashCardsLoader,
+          },
+        ]
+      },
+    ],
   },
 ]);
 
@@ -36,5 +50,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <AuthProvider>
       <RouterProvider router={router} />
     </AuthProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );

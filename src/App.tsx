@@ -2,6 +2,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import { css } from "@emotion/react";
 import { Link } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
+import BiotechIcon from '@mui/icons-material/Biotech';
 
 import "./App.css";
 import ChatList from "./components/ChatList";
@@ -57,7 +58,11 @@ export default function App() {
             </button>
           </Link>
         ) : (
-          <div></div>
+          <Link to="/study" style={{ textDecoration: "none" }}>
+            <button css={homeIconStyle}>
+              <BiotechIcon />
+            </button>
+          </Link>
         )}
         <div>Kyoshi Tutor!</div>
         <div>{isAuthenticated ? <Logout /> : <LoginWithGoogle />}</div>

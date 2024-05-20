@@ -16,15 +16,13 @@ const arrowIconStyle = css({
   borderRadius: "4px",
 });
 
-
-export default function ChatMessageCarousel({ messages, setMessages, messageIndex, setMessageIndex, reloadMessages }) {
-  const [viewingMessages, setViewingMessages] = useState([null, null]);
-
-  // setting messageIndex triggers setting viewingMessages
-  useEffect(() => {
-    setViewingMessages([messages[messageIndex - 1], messages[messageIndex]]);
-  }, [messages, messageIndex]);
-
+export default function ChatMessageCarousel({
+  messages,
+  setMessages,
+  messageIndex,
+  setMessageIndex,
+  reloadMessages,
+}) {
   function incMessageIndex(inc: number) {
     let newIndex = messageIndex + inc;
     newIndex = Math.max(1, newIndex);
@@ -45,12 +43,18 @@ export default function ChatMessageCarousel({ messages, setMessages, messageInde
         <button css={arrowIconStyle} onClick={() => incMessageIndex(-2)}>
           <ArrowBackIosNewIcon />
         </button>
-        <ChatMessage message={viewingMessages[0]} reloadMessages={reloadMessages}/>
+        <ChatMessage
+          message={messages[messageIndex - 1]}
+          reloadMessages={reloadMessages}
+        />
         <button css={arrowIconStyle} onClick={() => incMessageIndex(2)}>
           <ArrowForwardIosIcon />
         </button>
       </div>
-      <ChatMessage message={viewingMessages[1]} reloadMessages={reloadMessages} />
+      <ChatMessage
+        message={messages[messageIndex]}
+        reloadMessages={reloadMessages}
+      />
     </div>
   );
 }

@@ -3,6 +3,8 @@ import { css } from "@emotion/react";
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
 import BookmarkOutlinedIcon from "@mui/icons-material/BookmarkOutlined";
 import { saveFlashCard } from "../../services/flashCardService";
+import { marked } from 'marked';
+import DOMPurify from 'dompurify';
 
 const flashCardPointStyle = css`
   border-bottom: 1px solid #ccc;
@@ -34,7 +36,9 @@ const bookmarkStyle = css`
 `;
 
 function SimpleChatMessage({ message }) {
-  return <div css={{ overflowY: "auto" }}>{message.message}</div>;
+  const formattedMessage = marked(message.message)
+  const sanitizedMessage = DOMPurify.sanitize(formattedMessage)
+  return <div css={{ overflowY: "auto", textAlign: 'left', padding: '0 10px' }} dangerouslySetInnerHTML={{ __html: sanitizedMessage }}></div>;
 }
 
 function FlashCardLessonChatMessage({ message, reloadMessages }) {

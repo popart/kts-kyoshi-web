@@ -1,25 +1,9 @@
-import { useRef, useEffect } from "react";
-import { useFetcher, useParams, useLoaderData } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { css } from "@emotion/react";
 
-import ChatLog from "./ChatLog";
-import { postChatMessage } from "../../services/chatService";
-
-
-/*
- * The Form will call action. While it's loading,
- * fetcher.formData will have the form data for optimistic rendering.
- * Once we get a response, the page will update loader(),
- * which will pull in the latest list of messages.
- */
-export async function action({ request }) {
-  const formData = await request.formData();
-  const chatId = formData.get("chatId");
-  const message = formData.get("message");
-
-  await postChatMessage(chatId, message);
-  return null;
-}
+import ChatMessageCarousel from "./ChatMessageCarousel";
+import { fetchChatMessages, postChatMessage } from "../../services/chatService";
 
 const containerStyle = css({
   display: "flex",
@@ -38,31 +22,67 @@ const chatInputStyle = css({
 
 export default function Chat({ params }) {
   const { chatId } = useParams();
-  const fetcher = useFetcher();
-  const formRef = useRef(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const [messages, setMessages] = useState([]);
+  const [messageIndex, setMessageIndex] = useState(-1);
+
+  // update message data without resetting messageIndex
+  const reloadMessages = async () => {
+    const res = await fetchChatMessages(chatId);
+    setMessages(res); // asynchronous
+    return res;
+  };
+  // update message data and swipe to latest message
+  const reloadMessagesAndResetPage = async () => {
+    const res = await reloadMessages();
+    setMessageIndex(res.length - 1);
+  };
+
+  // page load triggers loading messages
   useEffect(() => {
-    // TODO: don't clear the textarea if the submission fails?
-    if (fetcher.state === "idle" && formRef.current) {
-      formRef.current.reset();
+    reloadMessagesAndResetPage();
+  }, []);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setIsSubmitting(true);
+    try {
+      const formData = new FormData(event.target);
+      const chatId = formData.get("chatId");
+      const message = formData.get("message");
+
+      await postChatMessage(chatId, message);
+      await reloadMessagesAndResetPage();
+      event.target.reset();
+    } catch (error) {
+      console.log("Error submitting message");
+    } finally {
+      setIsSubmitting(false);
     }
-  }, [fetcher.state]);
+  };
 
   return (
     <div css={containerStyle}>
       <div css={chatLogStyle}>
-        <ChatLog chatId={chatId} />
+        <ChatMessageCarousel
+          messages={messages}
+          setMessages={setMessages}
+          messageIndex={messageIndex}
+          setMessageIndex={setMessageIndex}
+          reloadMessages={reloadMessages}
+        />
       </div>
 
-      <fetcher.Form method="post" ref={formRef}>
-        <fieldset disabled={fetcher.state !== "idle"} css={chatInputStyle}>
+      <form method="post" onSubmit={handleSubmit}>
+        <fieldset disabled={isSubmitting} css={chatInputStyle}>
           <textarea css={{ flexGrow: 1, height: "4em" }} name="message" />
           <input type="hidden" name="chatId" value={chatId} />
           <button css={{ marginLeft: "5px" }} type="submit">
             Submit
           </button>
         </fieldset>
-      </fetcher.Form>
+      </form>
     </div>
   );
 }

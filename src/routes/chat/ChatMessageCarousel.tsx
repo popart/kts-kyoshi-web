@@ -16,33 +16,10 @@ const arrowIconStyle = css({
   borderRadius: "4px",
 });
 
-async function loadChatMessages(chatId) {
-  console.log(`fetching messages ${chatId}`)
-  return await fetchChatMessages(chatId);
-}
 
-export default function ChatLog({ chatId }) {
-  const [messages, setMessages] = useState([]);
-  const [messageIndex, setMessageIndex] = useState(-1);
+export default function ChatMessageCarousel({ messages, setMessages, messageIndex, setMessageIndex, reloadMessages }) {
   const [viewingMessages, setViewingMessages] = useState([null, null]);
 
-  // reloadMessage gets passed to children so they can reload data
-  // without changing the messageIndex (used after saving a flashcard)
-  const reloadMessages = async () => {
-    const res = await loadChatMessages(chatId)
-    setMessages(res) // asynchronouse
-    return res
-  }
-  const reloadMessagesAndResetPage = async () => {
-    const res = await reloadMessages()
-    console.log(`messages.length = ${res.length}`)
-    setMessageIndex(res.length - 1);
-  }
-
-  // page load triggers loading messages
-  useEffect(() => {
-    reloadMessagesAndResetPage()
-  }, [])
   // setting messageIndex triggers setting viewingMessages
   useEffect(() => {
     setViewingMessages([messages[messageIndex - 1], messages[messageIndex]]);

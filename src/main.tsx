@@ -4,9 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import Chat, {
-  action as chatAction,
-} from "./routes/chat/Chat";
+import Chat from "./routes/chat/Chat";
 import Study from "./routes/study/Study"
 import FlashCardStudy, { newFlashCardsLoader, reviewFlashCardsLoader } from "./routes/study/FlashCardStudy";
 import ErrorPage from "./components/ErrorPage";
@@ -21,7 +19,6 @@ const router = createBrowserRouter([
       {
         path: "chat/:chatId",
         element: <Chat />,
-        action: chatAction,
       },
       {
         path: "study/",

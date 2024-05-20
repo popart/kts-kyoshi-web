@@ -33,9 +33,8 @@ const bookmarkStyle = css`
   margin-right: 5px;
 `;
 
-
 function SimpleChatMessage({ message }) {
-  return <div>{message.message}</div>;
+  return <div css={{ overflowY: "auto" }}>{message.message}</div>;
 }
 
 function FlashCardLessonChatMessage({ message, reloadMessages }) {
@@ -46,8 +45,8 @@ function FlashCardLessonChatMessage({ message, reloadMessages }) {
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
 
   async function bookmarkHandler(cardIndex, save) {
-    const res = await saveFlashCard(chatId, chatMessageId, cardIndex, save)
-    await reloadMessages()
+    const res = await saveFlashCard(chatId, chatMessageId, cardIndex, save);
+    await reloadMessages();
   }
 
   const translationItems = [];
@@ -111,9 +110,9 @@ function FlashCardLessonChatMessage({ message, reloadMessages }) {
 }
 
 export default function ChatMessage({ message, reloadMessages }) {
-  console.log(message)
+  console.log(message);
   if (message === undefined || message === null) {
-    return <></>
+    return <></>;
   }
   return (
     <>
@@ -121,7 +120,10 @@ export default function ChatMessage({ message, reloadMessages }) {
         <SimpleChatMessage message={message} />
       )}
       {message.message_type === "flash_card_lesson" && (
-        <FlashCardLessonChatMessage message={message} reloadMessages={reloadMessages} />
+        <FlashCardLessonChatMessage
+          message={message}
+          reloadMessages={reloadMessages}
+        />
       )}
     </>
   );

@@ -6,7 +6,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import Chat from "./routes/chat/Chat";
 import Study from "./routes/study/Study"
-import FlashCardStudy, { newFlashCardsLoader, reviewFlashCardsLoader } from "./routes/study/FlashCardStudy";
+import FlashCardStudy, { flashCardsLoader } from "./routes/study/FlashCardStudy";
 import ErrorPage from "./components/ErrorPage";
 import { AuthProvider } from "./providers/AuthProvider";
 
@@ -23,18 +23,10 @@ const router = createBrowserRouter([
       {
         path: "study/",
         element: <Study />,
-        children: [
-          {
-            path: "new/",
-            element: <FlashCardStudy />,
-            loader: newFlashCardsLoader,
-          },
-          {
-            path: "review/",
-            element: <FlashCardStudy />,
-            loader: reviewFlashCardsLoader,
-          },
-        ]
+      },
+      {
+        path: "study/:flashCardStatus",
+        element: <FlashCardStudy />,
       },
     ],
   },

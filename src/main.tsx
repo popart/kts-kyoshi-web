@@ -5,8 +5,9 @@ import "./index.css";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import Chat from "./routes/chat/Chat";
-import Study from "./routes/study/Study"
-import FlashCardStudy, { flashCardsLoader } from "./routes/study/FlashCardStudy";
+import StudyMenu from "./routes/study/StudyMenu"
+import FlashCardList from "./routes/study/FlashCardList";
+import FlashCardReview from "./routes/study/FlashCardReview";
 import ErrorPage from "./components/ErrorPage";
 import { AuthProvider } from "./providers/AuthProvider";
 
@@ -22,11 +23,15 @@ const router = createBrowserRouter([
       },
       {
         path: "study/",
-        element: <Study />,
+        element: <StudyMenu />,
       },
       {
-        path: "study/:flashCardStatus",
-        element: <FlashCardStudy />,
+        path: "study/new",
+        element: <FlashCardList />,
+      },
+      {
+        path: "study/review",
+        element: <FlashCardReview />,
       },
     ],
   },

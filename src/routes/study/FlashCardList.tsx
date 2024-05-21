@@ -16,24 +16,23 @@ const buttonStyle = css({
   alignItems: "center",
 });
 
-function FlashCardList({ params }) {
-  const { flashCardStatus } = useParams();
+export default function FlashCardList() {
   const [cards, setCards] = useState([]);
 
   const loadFlashCards = async () => {
-    const res = await fetchFlashCards(flashCardStatus)
-    console.log(res)
-    setCards(res)
-  }
+    const res = await fetchFlashCards("new");
+    console.log(res);
+    setCards(res);
+  };
 
   useEffect(() => {
     loadFlashCards();
-  }, [])
+  }, []);
 
   async function addToReviewsHandler(flashCardId) {
     // TODO: show some transition
     await reviewFlashCard(flashCardId, "ADD_TO_REVIEW");
-    loadFlashCards()
+    loadFlashCards();
   }
 
   return (
@@ -49,6 +48,7 @@ function FlashCardList({ params }) {
               flexDirection: "row",
               justifyContent: "space-between",
               alignItems: "center",
+              borderRadius: "9px",
             }}
           >
             <button css={buttonStyle}>
@@ -76,8 +76,4 @@ function FlashCardList({ params }) {
       ))}
     </div>
   );
-}
-
-export default function FlashCardStudy() {
-  return <FlashCardList />;
 }

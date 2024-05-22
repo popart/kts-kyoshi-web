@@ -3,23 +3,22 @@ import { css } from "@emotion/react";
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
 import BookmarkOutlinedIcon from "@mui/icons-material/BookmarkOutlined";
 import { saveFlashCard } from "../../services/flashCardService";
-import { marked } from 'marked';
-import DOMPurify from 'dompurify';
+import { marked } from "marked";
+import DOMPurify from "dompurify";
+import FuriganaText from "../../components/FuriganaText";
 
-const flashCardPointStyle = css`
-  border-bottom: 1px solid #ccc;
-  padding: 5px 0;
-  &:hover {
-    background-color: #202020;
-  }
-  display: flex;
-  flex-direction: row;
-  align-items: baseline;
-`;
 const flashCardLessonStyle = css({
   display: "flex",
   flexDirection: "column",
   overflowY: "auto",
+});
+
+const flashCardPointStyle = css({
+  borderBottom: "1px solid #ccc",
+  padding: "5px 0",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "baseline",
 });
 
 const translationStyle = css({
@@ -36,9 +35,14 @@ const bookmarkStyle = css`
 `;
 
 function SimpleChatMessage({ message }) {
-  const formattedMessage = marked(message.message)
-  const sanitizedMessage = DOMPurify.sanitize(formattedMessage)
-  return <div css={{ overflowY: "auto", textAlign: 'left', padding: '0 10px' }} dangerouslySetInnerHTML={{ __html: sanitizedMessage }}></div>;
+  const formattedMessage = marked(message.message);
+  const sanitizedMessage = DOMPurify.sanitize(formattedMessage);
+  return (
+    <div
+      css={{ overflowY: "auto", textAlign: "left", padding: "0 10px" }}
+      dangerouslySetInnerHTML={{ __html: sanitizedMessage }}
+    ></div>
+  );
 }
 
 function FlashCardLessonChatMessage({ message, reloadMessages }) {
@@ -64,7 +68,12 @@ function FlashCardLessonChatMessage({ message, reloadMessages }) {
         translationItems.push(inputText.substring(0, startIndex)); // unmatched characters to left
       }
       translationItems.push(
-        <span key={index} css={hoverIndex === index ? { color: "red" } : null}>
+        <span
+          key={index}
+          css={hoverIndex === index ? { color: "red" } : null}
+          onMouseOver={() => setHoverIndex(index)}
+          onMouseOut={() => setHoverIndex(null)}
+        >
           {inputText.substring(startIndex, startIndex + exampleText.length)}
         </span>,
       ); // matched substring
@@ -85,27 +94,52 @@ function FlashCardLessonChatMessage({ message, reloadMessages }) {
         {lesson.flash_cards.map((card, cardIndex) => (
           <div
             key={cardIndex}
-            css={flashCardPointStyle}
+            css={[
+              css({
+                backgroundColor:
+                  hoverIndex === cardIndex ? "#333355" : "defaultColor",
+              }),
+              flashCardPointStyle,
+            ]}
             onMouseOver={() => setHoverIndex(cardIndex)}
             onMouseOut={() => setHoverIndex(null)}
           >
-            <div css={{ flexGrow: 1 }}>
-              <div>{card.japanese_example}</div>
-              <div>{card.teaching_notes}</div>
+            <div css={{ display: "flex", flexDirection: "row", width: "100%" }}>
+              <div
+                css={{
+                  flexGrow: 1,
+                  flexBasis: 0,
+                  display: "flex",
+                  justifyContent: "flex-start",
+                }}
+              >
+                [{card.jlpt_level}]
+              </div>
+              <div css={{ flexGrow: 1, flexBasis: 0 }}>
+                <FuriganaText text={card.japanese_example} />
+              </div>
+              <div
+                css={{
+                  flexGrow: 1,
+                  flexBasis: 0,
+                  display: "flex",
+                  justifyContent: "flex-end",
+                }}
+              >
+                {card.is_saved ? (
+                  <BookmarkOutlinedIcon
+                    css={bookmarkStyle}
+                    onClick={() => bookmarkHandler(cardIndex, false)}
+                  />
+                ) : (
+                  <BookmarkBorderOutlinedIcon
+                    css={bookmarkStyle}
+                    onClick={() => bookmarkHandler(cardIndex, true)}
+                  />
+                )}
+              </div>
             </div>
-            <div css={{ margin: "0 5px" }}>
-              {card.is_saved ? (
-                <BookmarkOutlinedIcon
-                  css={bookmarkStyle}
-                  onClick={() => bookmarkHandler(cardIndex, false)}
-                />
-              ) : (
-                <BookmarkBorderOutlinedIcon
-                  css={bookmarkStyle}
-                  onClick={() => bookmarkHandler(cardIndex, true)}
-                />
-              )}
-            </div>
+            <div css={{ width: "100%" }}>{card.teaching_notes}</div>
           </div>
         ))}
       </div>

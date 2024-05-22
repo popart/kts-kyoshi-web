@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import {
   fetchFlashCards,
   reviewFlashCard,
@@ -47,21 +46,36 @@ export default function FlashCardList() {
               backgroundColor: "indianRed",
               display: "flex",
               flexDirection: "row",
-              justifyContent: "space-between",
+              justifyContent: "center",
               alignItems: "center",
               borderRadius: "9px",
             }}
           >
-            <button css={buttonStyle}>
-              <RemoveCircleOutlineIcon />
-            </button>
-            <FuriganaText text={card.flash_card_content.japanese_example} />
-            <button
-              css={buttonStyle}
-              onClick={() => addToReviewsHandler(card.flash_card_id)}
+            <div
+              css={{
+                flexGrow: 1,
+                flexBasis: 0,
+                display: "flex",
+                flexDirection: "col",
+                alignItems: "center",
+              }}
             >
-              <MoveToInboxIcon />
-            </button>
+              <button css={buttonStyle}>
+                <RemoveCircleOutlineIcon />
+              </button>
+              <span>[{card.flash_card_content.jlpt_level}]</span>
+            </div>
+            <div css={{ flexGrow: 1, flexBasis: 0 }}>
+              <FuriganaText text={card.flash_card_content.japanese_example} />
+            </div>
+            <div css={{ flexGrow: 1, flexBasis: 0, display: 'flex', justifyContent: 'flex-end' }}>
+              <button
+                css={buttonStyle}
+                onClick={() => addToReviewsHandler(card.flash_card_id)}
+              >
+                <MoveToInboxIcon />
+              </button>
+            </div>
           </div>
           <div>
             {card.flash_card_content.dictionary_form !==

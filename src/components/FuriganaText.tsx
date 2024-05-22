@@ -15,6 +15,7 @@ function addRubyTags(text) {
   let output = [];
   const regex = /\(([^)]+)\)/;
 
+  let key = 0;
   while (inputText.length > 0) {
     const match = inputText.match(regex);
 
@@ -33,12 +34,13 @@ function addRubyTags(text) {
         output.push(preKanjiSubstring);
       }
       output.push(
-        <ruby>
+        <ruby key={key}>
           {inputText.substring(kanjiBeginIndex, kanjiEndIndex)}
           <rt>{match[1]}</rt>
         </ruby>,
       );
       inputText = inputText.substring(endIndex);
+      key++;
     } else {
       output.push(inputText);
       inputText = "";

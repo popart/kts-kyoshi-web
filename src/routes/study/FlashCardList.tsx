@@ -7,6 +7,7 @@ import {
 import { css } from "@emotion/react";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import MoveToInboxIcon from "@mui/icons-material/MoveToInbox";
+import FuriganaText from "../../components/FuriganaText";
 
 const buttonStyle = css({
   width: "40px",
@@ -54,7 +55,7 @@ export default function FlashCardList() {
             <button css={buttonStyle}>
               <RemoveCircleOutlineIcon />
             </button>
-            {card.flash_card_content.japanese_example}
+            <FuriganaText text={card.flash_card_content.japanese_example} />
             <button
               css={buttonStyle}
               onClick={() => addToReviewsHandler(card.flash_card_id)}

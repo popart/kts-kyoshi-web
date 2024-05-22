@@ -7,6 +7,7 @@ import {
 import { css } from "@emotion/react";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import MoveToInboxIcon from "@mui/icons-material/MoveToInbox";
+import FuriganaText from "../../components/FuriganaText";
 
 const buttonStyle = css({
   width: "40px",
@@ -33,6 +34,8 @@ function FlashCardFlipper({ card, showFront, setShowFront, setRating }) {
           borderRadius: "9px",
         }}
       >
+        <FuriganaText text={card.flash_card_content.japanese_example} />
+        <br />
         {card.flash_card_content.japanese_example}
       </div>
       {showFront ? (

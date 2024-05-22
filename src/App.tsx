@@ -1,14 +1,16 @@
-import { Outlet, useLocation } from "react-router-dom";
+import { useState } from "react";
+import { Link,  Outlet, useLocation } from "react-router-dom";
 import { css } from "@emotion/react";
-import { Link } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
-import BiotechIcon from '@mui/icons-material/Biotech';
+import BiotechIcon from "@mui/icons-material/Biotech";
 
 import "./App.css";
 import ChatList from "./components/ChatList";
 import LoginWithGoogle from "./components/login/LoginWithGoogle";
 import Logout from "./components/login/Logout";
 import { useAuth } from "./providers/AuthProvider";
+import { FuriganaContext } from "./providers/FuriganaProvider";
+import { FuriganaToggleButton } from "./components/FuriganaText";
 
 const containerStyle = css({
   display: "flex",
@@ -48,36 +50,44 @@ export default function App() {
   const location = useLocation();
   const { isAuthenticated } = useAuth();
 
+  const [showFurigana, setShowFurigana] = useState(false);
+  const toggleShowFurigana = () => setShowFurigana(!showFurigana);
+
   return (
-    <div css={containerStyle}>
-      <div css={bannerStyle}>
-        {location.pathname !== "/" ? (
-          <Link to="/" style={{ textDecoration: "none" }}>
-            <button css={homeIconStyle}>
-              <HomeIcon />
-            </button>
-          </Link>
-        ) : (
-          <Link to="/study" style={{ textDecoration: "none" }}>
-            <button css={homeIconStyle}>
-              <BiotechIcon />
-            </button>
-          </Link>
-        )}
-        <div>Kyoshi Tutor!</div>
-        <div>{isAuthenticated ? <Logout /> : <LoginWithGoogle />}</div>
-      </div>
-      <div css={contentStyle}>
-        {isAuthenticated ? (
-          <div css={{ height: "100%" }}>
-            {location.pathname === "/" ? <ChatList /> : <Outlet />}
-          </div>
-        ) : (
+    <FuriganaContext.Provider value={{ showFurigana, toggleShowFurigana }}>
+      <div css={containerStyle}>
+        <div css={bannerStyle}>
+          {location.pathname !== "/" ? (
+            <Link to="/" style={{ textDecoration: "none" }}>
+              <button css={homeIconStyle}>
+                <HomeIcon />
+              </button>
+            </Link>
+          ) : (
+            <Link to="/study" style={{ textDecoration: "none" }}>
+              <button css={homeIconStyle}>
+                <BiotechIcon />
+              </button>
+            </Link>
+          )}
+          <div>Kyoshi Tutor!</div>
           <div>
-            <p>Please log in to see your profile.</p>
+            <span css={{margin: '0 10px'}}><FuriganaToggleButton showFurigana={showFurigana} toggleShowFurigana={toggleShowFurigana} /></span>
+            {isAuthenticated ? <Logout /> : <LoginWithGoogle />}
           </div>
-        )}
+        </div>
+        <div css={contentStyle}>
+          {isAuthenticated ? (
+            <div css={{ height: "100%" }}>
+              {location.pathname === "/" ? <ChatList /> : <Outlet />}
+            </div>
+          ) : (
+            <div>
+              <p>Please log in to see your profile.</p>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </FuriganaContext.Provider>
   );
 }

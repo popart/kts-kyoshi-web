@@ -1,15 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import {
-  OAUTH_CLIENT_ID,
-} from "../../config";
-import { useAuth } from "../../providers/AuthProvider";
+import { OAUTH_CLIENT_ID } from "../../config";
+import { AuthContext } from "../../providers/AuthProvider";
 import { login } from "../../services/loginService";
 
 export default function LoginWithGoogle() {
   const navigate = useNavigate();
-  const { setIsAuthenticated } = useAuth();
+  const { setIsAuthenticated } = React.useContext(AuthContext);
 
   React.useEffect(() => {
     const loadGoogleScript = () => {

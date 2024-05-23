@@ -5,7 +5,7 @@ import "./index.css";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import Chat from "./routes/chat/Chat";
-import StudyMenu from "./routes/study/StudyMenu"
+import StudyMenu from "./routes/study/StudyMenu";
 import FlashCardList from "./routes/study/FlashCardList";
 import FlashCardReview from "./routes/study/FlashCardReview";
 import ErrorPage from "./components/ErrorPage";

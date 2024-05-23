@@ -1,18 +1,20 @@
 import { useContext } from "react";
 import { css } from "@emotion/react";
+import Button from "@mui/material/Button";
+
 import { FuriganaContext } from "../providers/FuriganaProvider";
 
-function isKanji(character) {
+function isKanji(character: string) {
   const kanjiRegex = /[\u4e00-\u9faf\u3400-\u4dbf]/;
   return kanjiRegex.test(character);
 }
 
-function addRubyTags(text) {
+function addRubyTags(text: string) {
   if (text === null) {
     return text;
   }
   let inputText = text;
-  let output = [];
+  const output = [];
   const regex = /\(([^)]+)\)/;
 
   let key = 0;
@@ -23,7 +25,7 @@ function addRubyTags(text) {
       const startIndex = match.index;
       const endIndex = startIndex + match[0].length;
 
-      let kanjiEndIndex = startIndex;
+      const kanjiEndIndex = startIndex;
       let kanjiBeginIndex = startIndex - 1;
       while (kanjiBeginIndex >= 0 && isKanji(inputText[kanjiBeginIndex])) {
         kanjiBeginIndex--;
@@ -50,10 +52,12 @@ function addRubyTags(text) {
   return output;
 }
 
-export function FuriganaToggleButton({showFurigana, toggleShowFurigana}) {
+export function FuriganaToggleButton({ showFurigana, toggleShowFurigana }) {
   return (
-    <button onClick={toggleShowFurigana}>{showFurigana ? '字' : 'あ'}</button>
-  )
+    <Button onClick={toggleShowFurigana} color="inherit">
+      {showFurigana ? "字" : "あ"}
+    </Button>
+  );
 }
 
 export default function FuriganaText({ text }) {

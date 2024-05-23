@@ -9,7 +9,7 @@ interface AuthContextType {
   setIsAuthenticated: Dispatch<SetStateAction<boolean>>;
 }
 
-const AuthContext = createContext<AuthContextType>({
+export const AuthContext = createContext<AuthContextType>({
   isAuthenticated: false,
   setIsAuthenticated: () => {},
 });
@@ -34,4 +34,4 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+// export const useAuth = () => useContext(AuthContext);

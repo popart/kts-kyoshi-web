@@ -1,10 +1,14 @@
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../providers/AuthProvider";
+
+import Button from "@mui/material/Button";
+
+import { AuthContext } from "../../providers/AuthProvider";
 import { logout } from "../../services/loginService";
 
 export default function Logout() {
   const navigate = useNavigate();
-  const { setIsAuthenticated } = useAuth();
+  const { setIsAuthenticated } = React.useContext(AuthContext);
 
   const logoutUser = async () => {
     const logoutSuccess = await logout();
@@ -14,5 +18,5 @@ export default function Logout() {
     }
   };
 
-  return <button onClick={logoutUser}>Logout</button>;
+  return <Button onClick={logoutUser} color="inherit">Logout</Button>;
 }

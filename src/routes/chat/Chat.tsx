@@ -20,7 +20,7 @@ const chatInputStyle = css({
   flexDirection: "row",
 });
 
-export default function Chat({ params }) {
+export default function Chat() {
   const { chatId } = useParams();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -67,7 +67,6 @@ export default function Chat({ params }) {
       <div css={chatLogStyle}>
         <ChatMessageCarousel
           messages={messages}
-          setMessages={setMessages}
           messageIndex={messageIndex}
           setMessageIndex={setMessageIndex}
           reloadMessages={reloadMessages}

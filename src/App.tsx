@@ -1,16 +1,11 @@
 import { useContext, useState } from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { css } from "@emotion/react";
-import HomeIcon from "@mui/icons-material/Home";
-import BiotechIcon from "@mui/icons-material/Biotech";
 
 import "./App.css";
 import ChatList from "./components/ChatList";
-import LoginWithGoogle from "./components/login/LoginWithGoogle";
-import Logout from "./components/login/Logout";
 import { AuthContext } from "./providers/AuthProvider";
 import { FuriganaContext } from "./providers/FuriganaProvider";
-import { FuriganaToggleButton } from "./components/FuriganaText";
 
 import { ThemeProvider } from "@mui/material/styles";
 import { baseTheme } from "./appTheme";

@@ -1,21 +1,9 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import {
   fetchFlashCards,
   reviewFlashCard,
 } from "../../services/flashCardService";
-import { css } from "@emotion/react";
-import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
-import MoveToInboxIcon from "@mui/icons-material/MoveToInbox";
 import FuriganaText from "../../components/FuriganaText";
-
-const buttonStyle = css({
-  width: "40px",
-  height: "40px",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-});
 
 const getRandomElement = (arr) => {
   if (!Array.isArray(arr) || arr.length === 0) {

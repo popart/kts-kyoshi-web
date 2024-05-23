@@ -12,7 +12,7 @@ import { AuthContext } from "../providers/AuthProvider";
 
 import LoginWithGoogle from "./login/LoginWithGoogle";
 import Logout from "./login/Logout";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function TopBar() {
   const navigate = useNavigate();

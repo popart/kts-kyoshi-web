@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { css } from "@emotion/react";
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
 import BookmarkOutlinedIcon from "@mui/icons-material/BookmarkOutlined";
@@ -53,7 +53,7 @@ function FlashCardLessonChatMessage({ message, reloadMessages }) {
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
 
   async function bookmarkHandler(cardIndex, save) {
-    const res = await saveFlashCard(chatId, chatMessageId, cardIndex, save);
+    await saveFlashCard(chatId, chatMessageId, cardIndex, save);
     await reloadMessages();
   }
 

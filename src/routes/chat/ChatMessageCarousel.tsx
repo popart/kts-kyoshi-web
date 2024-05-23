@@ -1,10 +1,8 @@
-import { useEffect, useState } from "react";
 import { css } from "@emotion/react";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 import ChatMessage from "./ChatMessage";
-import { fetchChatMessages, postChatMessage } from "../../services/chatService";
 
 const arrowIconStyle = css({
   display: "flex",
@@ -18,7 +16,6 @@ const arrowIconStyle = css({
 
 export default function ChatMessageCarousel({
   messages,
-  setMessages,
   messageIndex,
   setMessageIndex,
   reloadMessages,

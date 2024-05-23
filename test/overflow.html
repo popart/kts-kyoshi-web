@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+         html, body {
+             height: 100vh;
+             margin: 0;
+         }
+         .root {
+             display: flex;
+             flex-direction: column;
+             height:100%;
+         }
+         .fixed-height {
+             height: 100px;
+             background-color: #f0f0f0; /* Just for visual reference */
+         }
+         .flex-grow {
+             flex-grow: 1;
+             display: flex;
+             flex-direction: column;
+             background-color: #d0d0d0; /* Just for visual reference */
+             height: 100%;
+         }
+         .nested-container {
+             display: flex;
+             flex-direction: column;
+             flex-grow: 1;
+             height: 100%;
+        }
+        .scrollable-content {
+            overflow-y: auto; /* This makes the innermost div scrollable if it overflows */
+            background-color: #b0b0b0; /* Just for visual reference */
+            flex-grow: 1; /* Takes up remaining space in nested-container */
+            height: 100%;
+            min-height: 0;  /* fix for firefox */
+        }
+        .bottom-fixed {
+            height: 50px; /* Set your desired height here */
+            background-color: #a0a0a0; /* Just for visual reference */
+        }
+    </style>
+</head>
+<body>
+    <div class="root">
+        <div class="fixed-height">Fixed Height Div</div>
+        <div class="flex-grow">
+          <!-- Nested structure -->
+          <div class="nested-container">
+              <!-- More nested divs here if needed -->
+              Below this... is the innermost scrollable div. Add more content here to see the scrollbar in action.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam...
+              <div class="scrollable-content">
+                  <!-- Content here -->
+                  <ul>
+                      <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li> <li>test</li>
+                  </ul>
+                  <!-- Keep adding more content to test scrolling -->
+              </div>
+              <div class="bottom-fixed">Bottom Fixed Div</div>
+          </div>
+        </div>
+    </div>
+</body>

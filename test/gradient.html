@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Textured Background with Color Overlay</title>
+<style>
+  .textured-background {
+    position: relative;
+    width: 600px;
+    height: 400px;
+    background-image: url('Manga-halftone.jpg');
+    background-size: contain;
+    background-color: red;
+    background-blend-mode: multiply;
+  }
+
+  .textured-background::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: linear-gradient(to right, #ff7e5f, #feb47b);
+    mix-blend-mode: overlay; /* You can play with different blend modes */
+    opacity: 0.6; /* Adjust the opacity as needed */
+  }
+</style>
+</head>
+<body>
+
+<div class="textured-background"></div>
+
+</body>
+</html>

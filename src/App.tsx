@@ -2,7 +2,6 @@ import { useContext, useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { css } from "@emotion/react";
 
-import "./App.css";
 import { AuthContext } from "./providers/AuthProvider";
 import { FuriganaContext } from "./providers/FuriganaProvider";
 

@@ -67,7 +67,7 @@ export default function TopBar() {
           horizontal: "left",
         }}
       >
-        <MenuItem onClick={handleMenuClick("/")}>Chat</MenuItem>
+        <MenuItem onClick={handleMenuClick("/chat")}>Chat</MenuItem>
         <MenuItem onClick={handleMenuClick("/study")}>
           Study
         </MenuItem>

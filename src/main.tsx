@@ -5,6 +5,7 @@ import "./index.css";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import Chat from "./routes/chat/Chat";
+import ChatList from "./components/ChatList";
 import StudyMenu from "./routes/study/StudyMenu";
 import FlashCardList from "./routes/study/FlashCardList";
 import FlashCardReview from "./routes/study/FlashCardReview";
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <ErrorPage />,
     children: [
+      {
+        path: "chat/",
+        element: <ChatList />,
+      },
       {
         path: "chat/:chatId",
         element: <Chat />,

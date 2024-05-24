@@ -10,6 +10,7 @@ import { FuriganaContext } from "./providers/FuriganaProvider";
 import { ThemeProvider } from "@mui/material/styles";
 import { baseTheme } from "./appTheme";
 import TopBar from "./components/TopBar";
+import StudyMenu from "./routes/study/StudyMenu";
 
 // container for the whole viewport
 const containerStyle = css({
@@ -42,7 +43,7 @@ export default function App() {
           <div css={contentStyle}>
             {isAuthenticated ? (
               <div css={{ height: "100%" }}>
-                {location.pathname === "/" ? <ChatList /> : <Outlet />}
+                {location.pathname === "/" ? <StudyMenu /> : <Outlet />}
               </div>
             ) : (
               <div>

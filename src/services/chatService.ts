@@ -38,6 +38,22 @@ export async function createChat() {
   }
 }
 
+export async function deleteChat(chatId: string) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/chat/${chatId}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      console.log(response);
+      throw Error("deleteChat() bad response");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export async function fetchChatMessages(chatId: string) {
   try {
     const response = await fetch(

@@ -5,9 +5,11 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
+import Collapse from "@mui/material/Collapse";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { styled } from "@mui/material/styles";
 
-import { fetchChatList, createChat } from "../services/chatService";
+import { deleteChat, fetchChatList, createChat } from "../services/chatService";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#666666",
@@ -20,6 +22,8 @@ const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: "#f5f5f5",
     boxShadow: "0px 4px 8px rgba(0,0,0,.2)",
   },
+  display: "flex",
+  flexDirection: "row",
 }));
 
 interface ChatFormProps {
@@ -51,6 +55,29 @@ const ChatList: React.FC = () => {
     loadChats();
   }, []);
 
+  const [showConfirm, setShowConfirm] = useState<{ [key: string]: boolean }>(
+    {},
+  );
+  const handleDelete = (chatId: string) => {
+    const currentShowConfirm = showConfirm[chatId] || false;
+    return (event) => {
+      event.stopPropagation();
+      setShowConfirm((prev) => {
+        return {
+          ...prev,
+          [chatId]: !currentShowConfirm,
+        };
+      });
+    };
+  };
+  const handleConfirm = (chatId: string) => {
+    return async (event) => {
+      event.stopPropagation();
+      await deleteChat(chatId);
+      await loadChats();
+    };
+  };
+
   return (
     <Box>
       <ChatForm onNewChat={loadChats} />
@@ -61,8 +88,21 @@ const ChatList: React.FC = () => {
             elevation={2}
             onClick={() => navigate(`/chat/${chat.chat_id}`)}
           >
-            <Box>{chat.chat_name || "Untitled"}</Box>
-            <Box>{chat.created_at}</Box>
+            <Box sx={{ flexGrow: 1 }}>
+              <Box>{chat.chat_name || "Untitled"}</Box>
+              <Box>{chat.created_at}</Box>
+            </Box>
+            <Collapse in={showConfirm[chat.chat_id]} orientation="horizontal">
+              <Button
+                sx={{ height: "100%" }}
+                onClick={handleConfirm(chat.chat_id)}
+              >
+                Confirm
+              </Button>
+            </Collapse>
+            <Button onClick={handleDelete(chat.chat_id)}>
+              <DeleteIcon />
+            </Button>
           </Item>
         ))}
       </Stack>

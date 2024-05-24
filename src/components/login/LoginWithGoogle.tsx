@@ -50,6 +50,7 @@ export default function LoginWithGoogle() {
         navigate("/", { replace: true });
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <div id="signInDiv"></div>;

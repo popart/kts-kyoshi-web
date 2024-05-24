@@ -42,6 +42,7 @@ export default function Chat() {
   // page load triggers loading messages
   useEffect(() => {
     reloadMessagesAndResetPage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSubmit = async (event) => {

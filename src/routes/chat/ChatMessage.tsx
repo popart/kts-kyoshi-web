@@ -105,23 +105,19 @@ function FlashCardLessonChatMessage({ message, reloadMessages }) {
             onMouseOut={() => setHoverIndex(null)}
           >
             <div css={{ display: "flex", flexDirection: "row", width: "100%" }}>
+              <div css={{ flexGrow: 1 }}>
+                <FuriganaText text={card.japanese_example} />
+              </div>
               <div
                 css={{
-                  flexGrow: 1,
-                  flexBasis: 0,
                   display: "flex",
                   justifyContent: "flex-start",
                 }}
               >
                 [{card.jlpt_level}]
               </div>
-              <div css={{ flexGrow: 1, flexBasis: 0 }}>
-                <FuriganaText text={card.japanese_example} />
-              </div>
               <div
                 css={{
-                  flexGrow: 1,
-                  flexBasis: 0,
                   display: "flex",
                   justifyContent: "flex-end",
                 }}

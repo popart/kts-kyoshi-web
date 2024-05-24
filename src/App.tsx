@@ -3,7 +3,6 @@ import { Outlet, useLocation } from "react-router-dom";
 import { css } from "@emotion/react";
 
 import "./App.css";
-import ChatList from "./components/ChatList";
 import { AuthContext } from "./providers/AuthProvider";
 import { FuriganaContext } from "./providers/FuriganaProvider";
 

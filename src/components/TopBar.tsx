@@ -1,37 +1,56 @@
 import React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { AppBar, Toolbar } from "@mui/material";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import MenuIcon from "@mui/icons-material/Menu";
+import ListItemIcon from "@mui/material/ListItemIcon";
+
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import Logout from "@mui/icons-material/Logout";
+import Settings from "@mui/icons-material/Settings";
 
 import { FuriganaContext } from "../providers/FuriganaProvider";
 import { FuriganaToggleButton } from "./FuriganaText";
 import { AuthContext } from "../providers/AuthProvider";
 
 import LoginWithGoogle from "./login/LoginWithGoogle";
-import Logout from "./login/Logout";
-import { useNavigate } from "react-router-dom";
+import { logout } from "../services/loginService";
 
 export default function TopBar() {
   const navigate = useNavigate();
+  const location = useLocation();
 
-  // Menu Anchor
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+  const { setIsAuthenticated } = React.useContext(AuthContext);
+
+  // Account Menu Anchor
+  const [accountAnchorEl, setAccountAnchorEl] =
+    React.useState<null | HTMLElement>(null);
+  const open = Boolean(accountAnchorEl);
+  const handleAccountClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAccountAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
-    setAnchorEl(null);
+    setAccountAnchorEl(null);
   };
 
   const handleMenuClick = (menuItem: string) => {
-    return () => {
-      navigate(menuItem)
-    setAnchorEl(null);
-    };
+    if (menuItem == "logout") {
+      return async () => {
+        const logoutSuccess = await logout();
+        if (logoutSuccess) {
+          setIsAuthenticated(false);
+          navigate("/", { replace: true });
+          setAccountAnchorEl(null);
+        }
+      };
+    } else {
+      return () => {
+        navigate(menuItem);
+        setAccountAnchorEl(null);
+      };
+    }
   };
 
   const { showFurigana, toggleShowFurigana } =
@@ -41,38 +60,60 @@ export default function TopBar() {
   return (
     <AppBar elevation={0}>
       <Toolbar>
-        <Button onClick={handleClick} color="inherit">
-          <MenuIcon />
+        <Button
+          variant={location.pathname.startsWith("/study") ? "outlined" : null}
+          color="inherit"
+          onClick={() => navigate("/study")}
+        >
+          Study
         </Button>
-        <div css={{ flexGrow: 1 }}>Kyoshi</div>
+        <Button
+          variant={location.pathname.startsWith("/chat") ? "outlined" : null}
+          color="inherit"
+          onClick={() => navigate("/chat")}
+        >
+          Chat
+        </Button>
+        <div css={{ flexGrow: 1 }}></div>
         <span css={{ margin: "0 10px" }}>
           <FuriganaToggleButton
             showFurigana={showFurigana}
             toggleShowFurigana={toggleShowFurigana}
           />
         </span>
-        {isAuthenticated ? <Logout /> : <LoginWithGoogle />}
+        {isAuthenticated ? (
+          <Button onClick={handleAccountClick} color="inherit">
+            <AccountBoxIcon />
+          </Button>
+        ) : (
+          <LoginWithGoogle />
+        )}
       </Toolbar>
 
       <Menu
-        anchorEl={anchorEl}
+        anchorEl={accountAnchorEl}
         open={open}
         onClose={handleClose}
         anchorOrigin={{
           vertical: "bottom",
-          horizontal: "left",
+          horizontal: "right",
         }}
         transformOrigin={{
           vertical: "top",
-          horizontal: "left",
+          horizontal: "right",
         }}
       >
-        <MenuItem onClick={handleMenuClick("/chat")}>Chat</MenuItem>
-        <MenuItem onClick={handleMenuClick("/study")}>
-          Study
+        <MenuItem onClick={handleMenuClick("settings")}>
+          <ListItemIcon>
+            <Settings fontSize="small" />
+          </ListItemIcon>
+          Settings
         </MenuItem>
-        <MenuItem onClick={handleMenuClick("/account")}>
-          Account
+        <MenuItem onClick={handleMenuClick("logout")}>
+          <ListItemIcon>
+            <Logout fontSize="small" />
+          </ListItemIcon>
+          Logout
         </MenuItem>
       </Menu>
     </AppBar>

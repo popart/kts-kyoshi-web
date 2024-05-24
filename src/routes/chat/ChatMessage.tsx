@@ -6,19 +6,19 @@ import { saveFlashCard } from "../../services/flashCardService";
 import { marked } from "marked";
 import DOMPurify from "dompurify";
 import FuriganaText from "../../components/FuriganaText";
+import Card from "@mui/material/Card";
+import {
+  Box,
+  CardActionArea,
+  CardContent,
+  CardHeader,
+  Stack,
+} from "@mui/material";
 
 const flashCardLessonStyle = css({
   display: "flex",
   flexDirection: "column",
   overflowY: "auto",
-});
-
-const flashCardPointStyle = css({
-  borderBottom: "1px solid #ccc",
-  padding: "5px 0",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "baseline",
 });
 
 const translationStyle = css({
@@ -27,21 +27,14 @@ const translationStyle = css({
   padding: "5px 0",
 });
 
-const bookmarkStyle = css`
-  &:hover {
-    color: blue;
-  }
-  margin-right: 5px;
-`;
-
 function SimpleChatMessage({ message }) {
   const formattedMessage = marked(message.message);
   const sanitizedMessage = DOMPurify.sanitize(formattedMessage);
   return (
-    <div
-      css={{ overflowY: "auto", textAlign: "left", padding: "0 10px" }}
+    <Card
+      sx={{ overflowY: "auto", textAlign: "left", padding: "0 10px" }}
       dangerouslySetInnerHTML={{ __html: sanitizedMessage }}
-    ></div>
+    ></Card>
   );
 }
 
@@ -52,8 +45,9 @@ function FlashCardLessonChatMessage({ message, reloadMessages }) {
 
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
 
-  async function bookmarkHandler(cardIndex, save) {
-    await saveFlashCard(chatId, chatMessageId, cardIndex, save);
+  async function cardActionHandler(cardIndex: number) {
+    const is_saved = lesson.flash_cards[cardIndex].is_saved;
+    await saveFlashCard(chatId, chatMessageId, cardIndex, !is_saved);
     await reloadMessages();
   }
 
@@ -92,51 +86,34 @@ function FlashCardLessonChatMessage({ message, reloadMessages }) {
       </div>
       <div css={{ overflowY: "auto" }}>
         {lesson.flash_cards.map((card, cardIndex) => (
-          <div
+          <Card
             key={cardIndex}
-            css={[
-              css({
-                backgroundColor:
-                  hoverIndex === cardIndex ? "#333355" : "defaultColor",
-              }),
-              flashCardPointStyle,
-            ]}
             onMouseOver={() => setHoverIndex(cardIndex)}
             onMouseOut={() => setHoverIndex(null)}
           >
-            <div css={{ display: "flex", flexDirection: "row", width: "100%" }}>
-              <div css={{ flexGrow: 1 }}>
-                <FuriganaText text={card.japanese_example} />
-              </div>
-              <div
-                css={{
-                  display: "flex",
-                  justifyContent: "flex-start",
-                }}
-              >
-                [{card.jlpt_level}]
-              </div>
-              <div
-                css={{
-                  display: "flex",
-                  justifyContent: "flex-end",
-                }}
-              >
-                {card.is_saved ? (
-                  <BookmarkOutlinedIcon
-                    css={bookmarkStyle}
-                    onClick={() => bookmarkHandler(cardIndex, false)}
-                  />
-                ) : (
-                  <BookmarkBorderOutlinedIcon
-                    css={bookmarkStyle}
-                    onClick={() => bookmarkHandler(cardIndex, true)}
-                  />
-                )}
-              </div>
-            </div>
-            <div css={{ width: "100%" }}>{card.teaching_notes}</div>
-          </div>
+            <CardActionArea
+              onClick={() => cardActionHandler(cardIndex)}
+              css={{ backgroundColor: hoverIndex === cardIndex ? 'white' : 'grey' }}
+            >
+              <CardHeader
+                sx={{ width: "100%" }}
+                title={
+                  <Stack direction="row">
+                    <Box sx={{ flexGrow: 1 }}>
+                      <FuriganaText text={card.japanese_example} />
+                    </Box>
+                    <Box>[{card.jlpt_level}]</Box>
+                    {card.is_saved ? (
+                      <Box width="60px"><BookmarkOutlinedIcon /></Box>
+                    ) : (
+                      <Box width="60px"><BookmarkBorderOutlinedIcon /></Box>
+                    )}
+                  </Stack>
+                }
+              />
+              <CardContent>{card.teaching_notes}</CardContent>
+            </CardActionArea>
+          </Card>
         ))}
       </div>
     </div>

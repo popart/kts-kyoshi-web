@@ -4,10 +4,19 @@ import {
   reviewFlashCard,
 } from "../../services/flashCardService";
 import FuriganaText from "../../components/FuriganaText";
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  Container,
+} from "@mui/material";
 
 const getRandomElement = (arr) => {
   if (!Array.isArray(arr) || arr.length === 0) {
-    return null
+    return null;
   }
   const randomIndex = Math.floor(Math.random() * arr.length);
   return arr[randomIndex];
@@ -15,47 +24,47 @@ const getRandomElement = (arr) => {
 
 function FlashCardFlipper({ card, showFront, setShowFront, setRating }) {
   return (
-    <div>
-      <div
-        css={{
-          backgroundColor: "indianRed",
-          borderRadius: "9px",
-        }}
-      >
-        <FuriganaText text={card.flash_card_content.japanese_example} />
-        <br />
-        {card.flash_card_content.japanese_example}
-      </div>
-      {showFront ? (
-        <div
-          css={{
-            minHeight: "400px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-          }}
-        >
-          <button onClick={() => setShowFront(false)}>Reveal</button>
-        </div>
-      ) : (
-        <div>
-          {card.flash_card_content.dictionary_form !==
-            card.flash_card_content.japanese_example && (
-            <div>{card.flash_card_content.dictionary_form}</div>
-          )}
-          <div>{card.flash_card_content.teaching_notes}</div>
-          <br />
-          <div>{card.flash_card_content.input_text}</div>
-          <div>{card.flash_card_content.translated_text}</div>
+    <Card>
+      <CardHeader
+        title={<FuriganaText text={card.flash_card_content.japanese_example} />}
+      />
+      <CardContent>
+        {!showFront && (
+          <>
+            {card.flash_card_content.dictionary_form !==
+              card.flash_card_content.japanese_example && (
+              <div>{card.flash_card_content.dictionary_form}</div>
+            )}
+            <div>{card.flash_card_content.teaching_notes}</div>
+            <br />
+            <div>{card.flash_card_content.input_text}</div>
+            <div>{card.flash_card_content.translated_text}</div>
+          </>
+        )}
+      </CardContent>
+      <CardActions>
+        {showFront ? (
+          <Button onClick={() => setShowFront(false)}>Reveal</Button>
+        ) : (
           <div>
-            <button onClick={() => setRating(card.flash_card_id, "Again")}>Again</button>
-            <button onClick={() => setRating(card.flash_card_id, "Hard")}>Hard</button>
-            <button onClick={() => setRating(card.flash_card_id, "Good")}>Good</button>
-            <button onClick={() => setRating(card.flash_card_id, "Easy")}>Easy</button>
+            <div>
+              <Button onClick={() => setRating(card.flash_card_id, "Again")}>
+                Again
+              </Button>
+              <Button onClick={() => setRating(card.flash_card_id, "Hard")}>
+                Hard
+              </Button>
+              <Button onClick={() => setRating(card.flash_card_id, "Good")}>
+                Good
+              </Button>
+              <Button onClick={() => setRating(card.flash_card_id, "Easy")}>
+                Easy
+              </Button>
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </CardActions>
+    </Card>
   );
 }
 
@@ -83,8 +92,12 @@ export default function FlashCardReview() {
   }
 
   return (
-    <div>
-      {cards.length === 0 && <div> No cards to review 😎</div>}
+    <Container>
+      {cards.length === 0 && (
+        <Box sx={{p: 4}}>
+          No cards to review 😎
+        </Box>
+      )}
       {card !== null && (
         <FlashCardFlipper
           card={card}
@@ -93,7 +106,7 @@ export default function FlashCardReview() {
           setRating={setRating}
         />
       )}
-    </div>
+    </Container>
   );
 }
 

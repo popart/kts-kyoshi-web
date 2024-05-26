@@ -12,14 +12,13 @@ import { styled } from "@mui/material/styles";
 import { deleteChat, fetchChatList, createChat } from "../services/chatService";
 
 const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#666666",
-  ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: "left",
-  color: theme.palette.text.secondary,
   cursor: "pointer",
+  color: theme.palette.secondary.contrastText,
+  backgroundColor: theme.palette.secondary.main,
   "&:hover": {
-    backgroundColor: "#f5f5f5",
+    backgroundColor: theme.palette.secondary.dark,
     boxShadow: "0px 4px 8px rgba(0,0,0,.2)",
   },
   display: "flex",

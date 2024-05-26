@@ -14,6 +14,7 @@ import {
   CardHeader,
   Paper,
   Stack,
+  Typography,
   useTheme,
 } from "@mui/material";
 
@@ -25,12 +26,20 @@ const flashCardLessonStyle = css({
 
 function SimpleChatMessage({ message }) {
   const formattedMessage = marked(message.message);
-  const sanitizedMessage = DOMPurify.sanitize(formattedMessage);
+  const sanitizedMessage = DOMPurify.sanitize(formattedMessage)
+  const outText = (
+    <Typography
+      dangerouslySetInnerHTML={{ __html: sanitizedMessage}}>
+    </Typography>
+  );
   return (
     <Card
       sx={{ overflowY: "auto", textAlign: "left", padding: "0 10px" }}
-      dangerouslySetInnerHTML={{ __html: sanitizedMessage }}
-    ></Card>
+    >
+    <CardContent>
+    {outText}
+    </CardContent>
+    </Card>
   );
 }
 
@@ -40,8 +49,7 @@ function FlashCardLessonChatMessage({ message, reloadMessages }) {
   const lesson = message.flash_card_lesson;
   const chatId = message.chat_id;
   const chatMessageId = message.chat_message_id;
-
-  const [hoverIndex, setHoverIndex] = useState<number | null>(null);
+const [hoverIndex, setHoverIndex] = useState<number | null>(null);
 
   async function cardActionHandler(cardIndex: number) {
     const is_saved = lesson.flash_cards[cardIndex].is_saved;
@@ -78,15 +86,14 @@ function FlashCardLessonChatMessage({ message, reloadMessages }) {
 
   return (
     <Box css={flashCardLessonStyle}>
-      <Paper>
-        <Box>{translationItems}</Box>
-        <Box>{lesson.translated_text}</Box>
+      <Paper sx={{p:2}}>
+          <Typography>{translationItems}</Typography>
+          <Typography>{lesson.translated_text}</Typography>
       </Paper>
       <Box css={{ overflowY: "auto" }}>
         {lesson.flash_cards.map((card, cardIndex) => (
           <Card
             key={cardIndex}
-            color="secondary"
             onMouseOver={() => setHoverIndex(cardIndex)}
             onMouseOut={() => setHoverIndex(null)}
           >

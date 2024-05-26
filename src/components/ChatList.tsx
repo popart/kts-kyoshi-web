@@ -7,6 +7,7 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Collapse from "@mui/material/Collapse";
 import DeleteIcon from "@mui/icons-material/Delete";
+import Typography from '@mui/material/Typography';
 import { styled } from "@mui/material/styles";
 
 import { deleteChat, fetchChatList, createChat } from "../services/chatService";
@@ -88,8 +89,8 @@ const ChatList: React.FC = () => {
             onClick={() => navigate(`/chat/${chat.chat_id}`)}
           >
             <Box sx={{ flexGrow: 1 }}>
-              <Box>{chat.chat_name || "Untitled"}</Box>
-              <Box>{chat.created_at}</Box>
+              <Typography>{chat.chat_name || "Untitled"}</Typography>
+              <Typography>{chat.created_at}</Typography>
             </Box>
             <Collapse in={showConfirm[chat.chat_id]} orientation="horizontal">
               <Button

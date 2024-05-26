@@ -21,15 +21,12 @@ export default function ChatMessageCarousel({
     <Stack sx={{ height: "100%" }}>
       <Stack
         direction="horizontal"
-        sx={{ width: "100%", justifyContent: "space-between" }}
+        sx={{ width: "100%", justifyContent: "space-between", alignItems: "flex-end" }}
       >
         <Button onClick={() => incMessageIndex(-2)}>
           <ArrowBackIosNewIcon />
         </Button>
-        <ChatMessage
-          message={messages[messageIndex - 1]}
-          reloadMessages={reloadMessages}
-        />
+          {messages.length >= 2 ? messages[messageIndex - 1].message : null }
         <Button onClick={() => incMessageIndex(2)}>
           <ArrowForwardIosIcon />
         </Button>

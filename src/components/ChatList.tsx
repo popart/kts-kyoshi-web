@@ -7,7 +7,7 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Collapse from "@mui/material/Collapse";
 import DeleteIcon from "@mui/icons-material/Delete";
-import Typography from '@mui/material/Typography';
+import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 
 import { deleteChat, fetchChatList, createChat } from "../services/chatService";
@@ -80,7 +80,9 @@ const ChatList: React.FC = () => {
 
   return (
     <Box>
-      <ChatForm onNewChat={loadChats} />
+      <Box marginTop={1} marginBottom={1}>
+        <ChatForm onNewChat={loadChats} />
+      </Box>
       <Stack spacing={1}>
         {chats.map((chat, index) => (
           <Item

@@ -12,7 +12,7 @@ export default function StudyMenu() {
     const navigate = useNavigate();
 
   return (
-    <Stack spacing={1}>
+    <Stack spacing={1} marginTop={1}>
       <LeftAlignedButton variant="contained" color="secondary" onClick={() => navigate("/study/new")}> New </LeftAlignedButton>
       <LeftAlignedButton  variant="contained" color="secondary" onClick={() => navigate("/study/review")}> Review </LeftAlignedButton>
     </Stack>

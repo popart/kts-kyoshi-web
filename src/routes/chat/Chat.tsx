@@ -4,6 +4,7 @@ import { css } from "@emotion/react";
 
 import ChatMessageCarousel from "./ChatMessageCarousel";
 import { fetchChatMessages, postChatMessage } from "../../services/chatService";
+import { Box, Stack } from "@mui/material";
 
 const containerStyle = css({
   display: "flex",
@@ -18,6 +19,7 @@ const chatLogStyle = css({
 const chatInputStyle = css({
   display: "flex",
   flexDirection: "row",
+  border: "none",
 });
 
 export default function Chat() {
@@ -30,7 +32,7 @@ export default function Chat() {
   // update message data without resetting messageIndex
   const reloadMessages = async () => {
     const res = await fetchChatMessages(chatId);
-    setMessages(res); // asynchronous
+    setMessages(res); // async, Stackhronous
     return res;
   };
   // update message data and swipe to latest message
@@ -64,16 +66,17 @@ export default function Chat() {
   };
 
   return (
-    <div css={containerStyle}>
-      <div css={chatLogStyle}>
+    <Stack css={containerStyle}>
+      <Box css={chatLogStyle}>
         <ChatMessageCarousel
           messages={messages}
           messageIndex={messageIndex}
           setMessageIndex={setMessageIndex}
           reloadMessages={reloadMessages}
         />
-      </div>
+      </Box>
 
+      <Box>
       <form method="post" onSubmit={handleSubmit}>
         <fieldset disabled={isSubmitting} css={chatInputStyle}>
           <textarea css={{ flexGrow: 1, height: "4em" }} name="message" />
@@ -83,6 +86,7 @@ export default function Chat() {
           </button>
         </fieldset>
       </form>
-    </div>
+      </Box>
+    </Stack>
   );
 }

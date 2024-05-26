@@ -9,20 +9,17 @@ import { ThemeProvider } from "@mui/material/styles";
 import { baseTheme } from "./appTheme";
 import TopBar from "./components/TopBar";
 import StudyMenu from "./routes/study/StudyMenu";
+import { Box, Container, Stack, styled } from "@mui/material";
 
-// container for the whole viewport
-const containerStyle = css({
-  display: "flex",
-  flexDirection: "column",
-  height: "100vh",
-  maxWidth: "1280px",
-});
-
-// scrolling container
-const contentStyle = css({
-  marginTop: baseTheme.spacing(8),
-  flexGrow: 1,
-  overflowY: "auto",
+const FullBox = styled(Box)({
+  position: "fixed",
+  top: 0,
+  left: "50%",
+  transform: "translateX(-50%)",
+  paddingTop: "64px",
+  width: "100%",
+  maxWidth: "720px",
+  height: "calc(100vh - 64px)",
 });
 
 export default function App() {
@@ -35,9 +32,9 @@ export default function App() {
   return (
     <ThemeProvider theme={baseTheme}>
       <FuriganaContext.Provider value={{ showFurigana, toggleShowFurigana }}>
-        <TopBar />
-        <div css={containerStyle}>
-          <div css={contentStyle}>
+        <Container maxWidth="sm">
+          <TopBar />
+          <FullBox>
             {isAuthenticated ? (
               <div css={{ height: "100%" }}>
                 {location.pathname === "/" ? <StudyMenu /> : <Outlet />}
@@ -47,8 +44,8 @@ export default function App() {
                 <p>Please log in to see your profile.</p>
               </div>
             )}
-          </div>
-        </div>
+          </FullBox>
+        </Container>
       </FuriganaContext.Provider>
     </ThemeProvider>
   );

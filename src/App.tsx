@@ -8,17 +8,11 @@ import { ThemeProvider } from "@mui/material/styles";
 import { baseTheme } from "./appTheme";
 import TopBar from "./components/TopBar";
 import StudyMenu from "./routes/study/StudyMenu";
-import { Box, styled } from "@mui/material";
+import { Box, Container, CssBaseline, styled } from "@mui/material";
 
 const FullBox = styled(Box)({
-  position: "fixed",
-  top: 0,
-  left: "50%",
-  transform: "translateX(-50%)",
-  paddingTop: "64px",
   width: "100%",
-  maxWidth: "720px",
-  height: "calc(100vh - 64px)",
+  height: "calc(100vh - 52.5px)",
 });
 
 export default function App() {
@@ -30,19 +24,22 @@ export default function App() {
 
   return (
     <ThemeProvider theme={baseTheme}>
+      <CssBaseline />
       <FuriganaContext.Provider value={{ showFurigana, toggleShowFurigana }}>
         <TopBar />
-        <FullBox>
-          {isAuthenticated ? (
-            <div css={{ height: "100%" }}>
-              {location.pathname === "/" ? <StudyMenu /> : <Outlet />}
-            </div>
-          ) : (
-            <div>
-              <p>Please log in to see your profile.</p>
-            </div>
-          )}
-        </FullBox>
+        <Container maxWidth="md">
+          <FullBox>
+            {isAuthenticated ? (
+              <div css={{ height: "100%" }}>
+                {location.pathname === "/" ? <StudyMenu /> : <Outlet />}
+              </div>
+            ) : (
+              <div>
+                <p>Please log in to see your profile.</p>
+              </div>
+            )}
+          </FullBox>
+        </Container>
       </FuriganaContext.Provider>
     </ThemeProvider>
   );

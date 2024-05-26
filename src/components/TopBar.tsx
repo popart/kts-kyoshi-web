@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { AppBar, Toolbar } from "@mui/material";
+import { Stack, useTheme } from "@mui/material";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -21,6 +21,7 @@ import { logout } from "../services/loginService";
 export default function TopBar() {
   const navigate = useNavigate();
   const location = useLocation();
+  const theme = useTheme();
 
   const { setIsAuthenticated } = React.useContext(AuthContext);
 
@@ -58,66 +59,68 @@ export default function TopBar() {
   const { isAuthenticated } = React.useContext(AuthContext);
 
   return (
-      <AppBar elevation={0}>
-        <Toolbar>
-          <Button
-            variant={
-              location.pathname.startsWith("/study") ? "outlined" : "text"
-            }
-            color="peach"
-            onClick={() => navigate("/study")}
-          >
-            Study
-          </Button>
-          <Button
-            variant={
-              location.pathname.startsWith("/chat") ? "outlined" : "text"
-            }
-            color="peach"
-            onClick={() => navigate("/chat")}
-          >
-            Chat
-          </Button>
-          <div css={{ flexGrow: 1 }}></div>
-          <FuriganaToggleButton
-            showFurigana={showFurigana}
-            toggleShowFurigana={toggleShowFurigana}
-          />
-          {isAuthenticated ? (
-            <Button onClick={handleAccountClick} color="inherit">
-              <AccountBoxIcon />
-            </Button>
-          ) : (
-            <LoginWithGoogle />
-          )}
-        </Toolbar>
+    <Stack
+      direction="horizontal"
+      p={1}
+      sx={{ backgroundColor: theme.palette.primary.dark }}
+    >
+      <Button
+        variant={
+          location.pathname.startsWith("/study") || location.pathname === "/"
+            ? "outlined"
+            : "text"
+        }
+        color="peach"
+        onClick={() => navigate("/study")}
+      >
+        Study
+      </Button>
+      <Button
+        variant={location.pathname.startsWith("/chat") ? "outlined" : "text"}
+        color="peach"
+        onClick={() => navigate("/chat")}
+      >
+        Chat
+      </Button>
+      <div css={{ flexGrow: 1 }}></div>
+      <FuriganaToggleButton
+        showFurigana={showFurigana}
+        toggleShowFurigana={toggleShowFurigana}
+      />
+      {isAuthenticated ? (
+        <Button onClick={handleAccountClick} color="inherit">
+          <AccountBoxIcon />
+        </Button>
+      ) : (
+        <LoginWithGoogle />
+      )}
 
-        <Menu
-          anchorEl={accountAnchorEl}
-          open={open}
-          onClose={handleClose}
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "right",
-          }}
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-        >
-          <MenuItem onClick={handleMenuClick("settings")}>
-            <ListItemIcon>
-              <Settings fontSize="small" />
-            </ListItemIcon>
-            Settings
-          </MenuItem>
-          <MenuItem onClick={handleMenuClick("logout")}>
-            <ListItemIcon>
-              <Logout fontSize="small" />
-            </ListItemIcon>
-            Logout
-          </MenuItem>
-        </Menu>
-      </AppBar>
+      <Menu
+        anchorEl={accountAnchorEl}
+        open={open}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "right",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+      >
+        <MenuItem onClick={handleMenuClick("settings")}>
+          <ListItemIcon>
+            <Settings fontSize="small" />
+          </ListItemIcon>
+          Settings
+        </MenuItem>
+        <MenuItem onClick={handleMenuClick("logout")}>
+          <ListItemIcon>
+            <Logout fontSize="small" />
+          </ListItemIcon>
+          Logout
+        </MenuItem>
+      </Menu>
+    </Stack>
   );
 }

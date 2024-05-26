@@ -21,7 +21,7 @@ export default function ChatMessageCarousel({
     <Stack sx={{ height: "100%" }}>
       <Stack
         direction="horizontal"
-        sx={{ width: "100%", justifyContent: "space-between", alignItems: "flex-end" }}
+        sx={{ width: "100%", justifyContent: "space-between", alignItems: "center" }}
       >
         <Button onClick={() => incMessageIndex(-2)}>
           <ArrowBackIosNewIcon />

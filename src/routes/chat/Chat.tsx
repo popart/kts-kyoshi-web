@@ -23,6 +23,7 @@ const chatInputStyle = css({
   display: "flex",
   flexDirection: "row",
   border: "none",
+  padding: 0,
 });
 
 const Textarea = styled(TextareaAutosize)(

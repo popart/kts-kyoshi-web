@@ -90,7 +90,7 @@ const [hoverIndex, setHoverIndex] = useState<number | null>(null);
           <Typography>{translationItems}</Typography>
           <Typography>{lesson.translated_text}</Typography>
       </Paper>
-      <Box css={{ overflowY: "auto" }}>
+      <Stack spacing={1} marginTop={1} sx={{overflowY: "auto"}}>
         {lesson.flash_cards.map((card, cardIndex) => (
           <Card
             key={cardIndex}
@@ -121,7 +121,7 @@ const [hoverIndex, setHoverIndex] = useState<number | null>(null);
             </CardActionArea>
           </Card>
         ))}
-      </Box>
+      </Stack>
     </Box>
   );
 }

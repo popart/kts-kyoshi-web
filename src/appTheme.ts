@@ -19,6 +19,10 @@ declare module "@mui/material/Button" {
 
 export const baseTheme = createTheme({
   palette: {
+    mode: "dark",
+    background: {
+      default: "#222",
+    },
     primary: {
       main: "#e7ad92", // peach
       contrastText: "#65383a", // dark cherry
@@ -34,6 +38,24 @@ export const baseTheme = createTheme({
       main: "#feeccd", // pale pink/yellow
       dark: "#e7ad92", // peach
       contrastText: "#65383a", // dark cherry
+    },
+  },
+  components: {
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          overflow: "visible",
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: ({ ownerState }) => ({
+          ...(ownerState.variant === "text" && {
+            padding: "6px 16px",
+          }),
+        }),
+      },
     },
   },
 });

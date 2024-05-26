@@ -5,6 +5,9 @@ import { css } from "@emotion/react";
 import ChatMessageCarousel from "./ChatMessageCarousel";
 import { fetchChatMessages, postChatMessage } from "../../services/chatService";
 import { Box, Stack } from "@mui/material";
+import { TextareaAutosize } from '@mui/base/TextareaAutosize';
+import { styled } from '@mui/system';
+
 
 const containerStyle = css({
   display: "flex",
@@ -21,6 +24,17 @@ const chatInputStyle = css({
   flexDirection: "row",
   border: "none",
 });
+
+const Textarea = styled(TextareaAutosize)(
+  ({ theme }) => `
+  font-family: ${theme.typography.fontFamily};
+  &:focus {
+      outline: ${theme.palette.primary.light};
+      border-color: ${theme.palette.primary.light};
+      box-shadow: 0 0 0 1px ${theme.palette.primary.main};
+  }
+  `
+);
 
 export default function Chat() {
   const { chatId } = useParams();
@@ -79,7 +93,7 @@ export default function Chat() {
       <Box>
       <form method="post" onSubmit={handleSubmit}>
         <fieldset disabled={isSubmitting} css={chatInputStyle}>
-          <textarea css={{ flexGrow: 1, height: "4em" }} name="message" />
+          <Textarea minRows={4} css={{ flexGrow: 1 }} name="message" />
           <input type="hidden" name="chatId" value={chatId} />
           <button css={{ marginLeft: "5px" }} type="submit">
             Submit

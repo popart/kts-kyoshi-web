@@ -15,7 +15,6 @@ const containerStyle = css({
   display: "flex",
   flexDirection: "column",
   height: "100vh",
-  width: "100vw",
   maxWidth: "1280px",
 });
 

@@ -1,7 +1,6 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import "./index.css";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import Chat from "./routes/chat/Chat";

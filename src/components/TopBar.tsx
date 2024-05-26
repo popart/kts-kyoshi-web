@@ -61,26 +61,24 @@ export default function TopBar() {
     <AppBar elevation={0}>
       <Toolbar>
         <Button
-          variant={location.pathname.startsWith("/study") ? "outlined" : null}
-          color="inherit"
+          variant={location.pathname.startsWith("/study") ? "outlined" : "text"}
+          color="peach"
           onClick={() => navigate("/study")}
         >
           Study
         </Button>
         <Button
-          variant={location.pathname.startsWith("/chat") ? "outlined" : null}
-          color="inherit"
+          variant={location.pathname.startsWith("/chat") ? "outlined" : "text"}
+          color="peach"
           onClick={() => navigate("/chat")}
         >
           Chat
         </Button>
         <div css={{ flexGrow: 1 }}></div>
-        <span css={{ margin: "0 10px" }}>
-          <FuriganaToggleButton
-            showFurigana={showFurigana}
-            toggleShowFurigana={toggleShowFurigana}
-          />
-        </span>
+        <FuriganaToggleButton
+          showFurigana={showFurigana}
+          toggleShowFurigana={toggleShowFurigana}
+        />
         {isAuthenticated ? (
           <Button onClick={handleAccountClick} color="inherit">
             <AccountBoxIcon />

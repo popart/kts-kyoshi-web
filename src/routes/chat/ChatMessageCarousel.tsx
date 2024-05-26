@@ -3,6 +3,7 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 import ChatMessage from "./ChatMessage";
+import { Button, Stack } from "@mui/material";
 
 const arrowIconStyle = css({
   display: "flex",
@@ -28,30 +29,26 @@ export default function ChatMessageCarousel({
   }
 
   return (
-    <div css={{ display: "flex", flexDirection: "column", height: "100%" }}>
-      <div
-        css={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          borderBottom: "1px solid #ccc",
-        }}
+    <Stack sx={{ height: "100%" }}>
+      <Stack
+        direction="horizontal"
+        sx={{ width: "100%", justifyContent: "space-between" }}
       >
-        <button css={arrowIconStyle} onClick={() => incMessageIndex(-2)}>
+        <Button onClick={() => incMessageIndex(-2)}>
           <ArrowBackIosNewIcon />
-        </button>
+        </Button>
         <ChatMessage
           message={messages[messageIndex - 1]}
           reloadMessages={reloadMessages}
         />
-        <button css={arrowIconStyle} onClick={() => incMessageIndex(2)}>
+        <Button onClick={() => incMessageIndex(2)}>
           <ArrowForwardIosIcon />
-        </button>
-      </div>
+        </Button>
+      </Stack>
       <ChatMessage
         message={messages[messageIndex]}
         reloadMessages={reloadMessages}
       />
-    </div>
+    </Stack>
   );
 }

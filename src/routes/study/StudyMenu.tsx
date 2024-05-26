@@ -13,8 +13,8 @@ export default function StudyMenu() {
 
   return (
     <Stack>
-      <LeftAlignedButton  onClick={() => navigate("/study/new")}> New </LeftAlignedButton>
-      <LeftAlignedButton onClick={() => navigate("/study/review")}> Review </LeftAlignedButton>
+      <LeftAlignedButton variant="contained" color="secondary" onClick={() => navigate("/study/new")}> New </LeftAlignedButton>
+      <LeftAlignedButton  variant="contained" color="secondary" onClick={() => navigate("/study/review")}> Review </LeftAlignedButton>
     </Stack>
   );
 }

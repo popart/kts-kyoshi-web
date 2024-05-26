@@ -12,19 +12,15 @@ import {
   CardActionArea,
   CardContent,
   CardHeader,
+  Paper,
   Stack,
+  useTheme,
 } from "@mui/material";
 
 const flashCardLessonStyle = css({
   display: "flex",
   flexDirection: "column",
   overflowY: "auto",
-});
-
-const translationStyle = css({
-  backgroundColor: "#333333",
-  borderBottom: "1px solid #ccc",
-  padding: "5px 0",
 });
 
 function SimpleChatMessage({ message }) {
@@ -39,6 +35,8 @@ function SimpleChatMessage({ message }) {
 }
 
 function FlashCardLessonChatMessage({ message, reloadMessages }) {
+  const theme = useTheme();
+
   const lesson = message.flash_card_lesson;
   const chatId = message.chat_id;
   const chatMessageId = message.chat_message_id;
@@ -79,21 +77,22 @@ function FlashCardLessonChatMessage({ message, reloadMessages }) {
   }
 
   return (
-    <div css={flashCardLessonStyle}>
-      <div css={translationStyle}>
-        <div>{translationItems}</div>
-        <div>{lesson.translated_text}</div>
-      </div>
-      <div css={{ overflowY: "auto" }}>
+    <Box css={flashCardLessonStyle}>
+      <Paper>
+        <Box>{translationItems}</Box>
+        <Box>{lesson.translated_text}</Box>
+      </Paper>
+      <Box css={{ overflowY: "auto" }}>
         {lesson.flash_cards.map((card, cardIndex) => (
           <Card
             key={cardIndex}
+            color="secondary"
             onMouseOver={() => setHoverIndex(cardIndex)}
             onMouseOut={() => setHoverIndex(null)}
           >
             <CardActionArea
               onClick={() => cardActionHandler(cardIndex)}
-              css={{ backgroundColor: hoverIndex === cardIndex ? 'white' : 'grey' }}
+              css={{ backgroundColor: hoverIndex === cardIndex ? theme.palette.secondary.main : theme.palette.secondary.dark }}
             >
               <CardHeader
                 sx={{ width: "100%" }}
@@ -115,8 +114,8 @@ function FlashCardLessonChatMessage({ message, reloadMessages }) {
             </CardActionArea>
           </Card>
         ))}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }
 

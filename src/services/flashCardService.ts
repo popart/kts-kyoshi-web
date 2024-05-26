@@ -66,3 +66,24 @@ export async function reviewFlashCard(flashCardId, rating) {
     return [];
   }
 }
+
+export async function deleteFlashCard(flashCardId: string) {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/flash_card/${flashCardId}`,
+      {
+        method: "DELETE",
+        credentials: "include",
+      },
+    );
+    if (!response.ok) {
+      console.log(response);
+      throw Error("deleteFlashCard() bad response");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}

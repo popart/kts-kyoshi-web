@@ -3,7 +3,8 @@ import {
   fetchFlashCards,
   reviewFlashCard,
 } from "../../services/flashCardService";
-import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import Collapse from "@mui/material/Collapse";
+import DeleteIcon from "@mui/icons-material/Delete";
 import MoveToInboxIcon from "@mui/icons-material/MoveToInbox";
 import FuriganaText from "../../components/FuriganaText";
 import {
@@ -14,6 +15,8 @@ import {
   CardHeader,
   Stack,
 } from "@mui/material";
+
+import { deleteFlashCard } from "../../services/flashCardService";
 
 export default function FlashCardList() {
   const [cards, setCards] = useState([]);
@@ -28,11 +31,34 @@ export default function FlashCardList() {
     loadFlashCards();
   }, []);
 
-  async function addToReviewsHandler(flashCardId) {
+  async function addToReviewsHandler(flashCardId: string) {
     // TODO: show some transition
     await reviewFlashCard(flashCardId, "ADD_TO_REVIEW");
     loadFlashCards();
   }
+
+  const [showConfirm, setShowConfirm] = useState<{ [key: string]: boolean }>(
+    {},
+  );
+  const handleDelete = (chatId: string) => {
+    const currentShowConfirm = showConfirm[chatId] || false;
+    return (event) => {
+      event.stopPropagation();
+      setShowConfirm((prev) => {
+        return {
+          ...prev,
+          [chatId]: !currentShowConfirm,
+        };
+      });
+    };
+  };
+  const handleConfirm = (flashCardId: string) => {
+    return async (event) => {
+      event.stopPropagation();
+      await deleteFlashCard(flashCardId);
+      await loadFlashCards();
+    };
+  };
 
   return (
     <Box sx={{ height: "100%", overflowY: "auto" }}>
@@ -43,15 +69,23 @@ export default function FlashCardList() {
             <CardHeader
               title={
                 <Stack direction="row">
-                  <Button>
-                    <RemoveCircleOutlineIcon />
-                  </Button>
-                  <Box sx={{ flexGrow: 1, flexBasis: 0 }}>
+                  <Box sx={{ flexGrow: 1, flexBasis: 0, borderBottom: "1px solid" }}>
                     <FuriganaText
                       text={card.flash_card_content.japanese_example}
                     />
                   </Box>
-                  <Box>[{card.flash_card_content.jlpt_level}]</Box>
+                  <Box sx={{borderBottom: "1px solid"}}>[{card.flash_card_content.jlpt_level}]</Box>
+                  <Collapse in={showConfirm[card.flash_card_id]} orientation="horizontal">
+                    <Button
+                      sx={{ height: "100%" }}
+                      onClick={handleConfirm(card.flash_card_id)}
+                    >
+                      Confirm
+                    </Button>
+                  </Collapse>
+                  <Button onClick={handleDelete(card.flash_card_id)}>
+                    <DeleteIcon />
+                  </Button>
                   <Button
                     onClick={() => addToReviewsHandler(card.flash_card_id)}
                   >

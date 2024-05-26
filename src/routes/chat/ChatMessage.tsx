@@ -14,6 +14,7 @@ import {
   CardHeader,
   Paper,
   Stack,
+  Tooltip,
   Typography,
   useTheme,
 } from "@mui/material";
@@ -26,19 +27,15 @@ const flashCardLessonStyle = css({
 
 function SimpleChatMessage({ message }) {
   const formattedMessage = marked(message.message);
-  const sanitizedMessage = DOMPurify.sanitize(formattedMessage)
+  const sanitizedMessage = DOMPurify.sanitize(formattedMessage);
   const outText = (
     <Typography
-      dangerouslySetInnerHTML={{ __html: sanitizedMessage}}>
-    </Typography>
+      dangerouslySetInnerHTML={{ __html: sanitizedMessage }}
+    ></Typography>
   );
   return (
-    <Card
-      sx={{ overflowY: "auto", textAlign: "left", padding: "0 10px" }}
-    >
-    <CardContent>
-    {outText}
-    </CardContent>
+    <Card sx={{ overflowY: "auto", textAlign: "left", padding: "0 10px" }}>
+      <CardContent>{outText}</CardContent>
     </Card>
   );
 }
@@ -49,7 +46,7 @@ function FlashCardLessonChatMessage({ message, reloadMessages }) {
   const lesson = message.flash_card_lesson;
   const chatId = message.chat_id;
   const chatMessageId = message.chat_message_id;
-const [hoverIndex, setHoverIndex] = useState<number | null>(null);
+  const [hoverIndex, setHoverIndex] = useState<number | null>(null);
 
   async function cardActionHandler(cardIndex: number) {
     const is_saved = lesson.flash_cards[cardIndex].is_saved;
@@ -86,11 +83,11 @@ const [hoverIndex, setHoverIndex] = useState<number | null>(null);
 
   return (
     <Box css={flashCardLessonStyle}>
-      <Paper sx={{p:2}}>
-          <Typography>{translationItems}</Typography>
-          <Typography>{lesson.translated_text}</Typography>
+      <Paper sx={{ p: 2 }}>
+        <Typography>{translationItems}</Typography>
+        <Typography>{lesson.translated_text}</Typography>
       </Paper>
-      <Stack spacing={1} marginTop={1} sx={{overflowY: "auto"}}>
+      <Stack spacing={1} marginTop={1} sx={{ overflowY: "auto" }}>
         {lesson.flash_cards.map((card, cardIndex) => (
           <Card
             key={cardIndex}
@@ -99,20 +96,35 @@ const [hoverIndex, setHoverIndex] = useState<number | null>(null);
           >
             <CardActionArea
               onClick={() => cardActionHandler(cardIndex)}
-              css={{ backgroundColor: hoverIndex === cardIndex ? theme.palette.secondary.main : theme.palette.secondary.dark }}
+              css={{
+                backgroundColor:
+                  hoverIndex === cardIndex
+                    ? theme.palette.secondary.main
+                    : theme.palette.secondary.dark,
+              }}
             >
               <CardHeader
                 sx={{ width: "100%" }}
                 title={
                   <Stack direction="row">
-                    <Box sx={{ flexGrow: 1 }}>
+                    <Box sx={{ flexGrow: 1, borderBottom: "1px solid" }}>
                       <FuriganaText text={card.japanese_example} />
                     </Box>
-                    <Box>[{card.jlpt_level}]</Box>
+                    <Box sx={{ borderBottom: "1px solid" }}>
+                      [{card.jlpt_level}]
+                    </Box>
                     {card.is_saved ? (
-                      <Box width="60px"><BookmarkOutlinedIcon /></Box>
+                      <Tooltip title="Card is saved">
+                        <Box paddingLeft={1}>
+                          <BookmarkOutlinedIcon />
+                        </Box>
+                      </Tooltip>
                     ) : (
-                      <Box width="60px"><BookmarkBorderOutlinedIcon /></Box>
+                      <Tooltip title="Add to Reviews">
+                        <Box paddingLeft={1}>
+                          <BookmarkBorderOutlinedIcon />
+                        </Box>
+                      </Tooltip>
                     )}
                   </Stack>
                 }

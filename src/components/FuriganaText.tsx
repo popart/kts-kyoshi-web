@@ -3,6 +3,7 @@ import { css } from "@emotion/react";
 import Button from "@mui/material/Button";
 
 import { FuriganaContext } from "../providers/FuriganaProvider";
+import { Box } from "@mui/material";
 
 function isKanji(character: string) {
   const kanjiRegex = /[\u4e00-\u9faf\u3400-\u4dbf]/;
@@ -72,5 +73,5 @@ export default function FuriganaText({ text }) {
     }
   `;
 
-  return <div css={rubyStyle}>{addRubyTags(text)}</div>;
+  return <Box css={rubyStyle}>{addRubyTags(text)}</Box>;
 }

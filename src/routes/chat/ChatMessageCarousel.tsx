@@ -1,19 +1,8 @@
-import { css } from "@emotion/react";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 import ChatMessage from "./ChatMessage";
 import { Button, Stack } from "@mui/material";
-
-const arrowIconStyle = css({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  width: "40px",
-  height: "40px",
-  backgroundColor: "#1a1a1a",
-  borderRadius: "4px",
-});
 
 export default function ChatMessageCarousel({
   messages,

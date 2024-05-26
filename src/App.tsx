@@ -1,6 +1,5 @@
 import { useContext, useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import { css } from "@emotion/react";
 
 import { AuthContext } from "./providers/AuthProvider";
 import { FuriganaContext } from "./providers/FuriganaProvider";
@@ -9,7 +8,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import { baseTheme } from "./appTheme";
 import TopBar from "./components/TopBar";
 import StudyMenu from "./routes/study/StudyMenu";
-import { Box, Container, Stack, styled } from "@mui/material";
+import { Box, styled } from "@mui/material";
 
 const FullBox = styled(Box)({
   position: "fixed",
@@ -32,20 +31,18 @@ export default function App() {
   return (
     <ThemeProvider theme={baseTheme}>
       <FuriganaContext.Provider value={{ showFurigana, toggleShowFurigana }}>
-        <Container maxWidth="sm">
-          <TopBar />
-          <FullBox>
-            {isAuthenticated ? (
-              <div css={{ height: "100%" }}>
-                {location.pathname === "/" ? <StudyMenu /> : <Outlet />}
-              </div>
-            ) : (
-              <div>
-                <p>Please log in to see your profile.</p>
-              </div>
-            )}
-          </FullBox>
-        </Container>
+        <TopBar />
+        <FullBox>
+          {isAuthenticated ? (
+            <div css={{ height: "100%" }}>
+              {location.pathname === "/" ? <StudyMenu /> : <Outlet />}
+            </div>
+          ) : (
+            <div>
+              <p>Please log in to see your profile.</p>
+            </div>
+          )}
+        </FullBox>
       </FuriganaContext.Provider>
     </ThemeProvider>
   );

@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { css } from "@emotion/react";
 
 import ChatMessageCarousel from "./ChatMessageCarousel";
 import { fetchChatMessages, postChatMessage } from "../../services/chatService";
-import { Box, Stack } from "@mui/material";
+import { Box, Button, Stack } from "@mui/material";
 import { TextareaAutosize } from '@mui/base/TextareaAutosize';
 import { styled } from '@mui/system';
 
@@ -23,7 +23,7 @@ const chatInputStyle = css({
   display: "flex",
   flexDirection: "row",
   border: "none",
-  padding: 0,
+  padding: "8px 0",
 });
 
 const Textarea = styled(TextareaAutosize)(
@@ -43,6 +43,8 @@ export default function Chat() {
 
   const [messages, setMessages] = useState([]);
   const [messageIndex, setMessageIndex] = useState(-1);
+
+  const formRef = useRef<HTMLFormElement>(null);
 
   // update message data without resetting messageIndex
   const reloadMessages = async () => {
@@ -66,19 +68,27 @@ export default function Chat() {
     event.preventDefault();
     setIsSubmitting(true);
     try {
-      const formData = new FormData(event.target);
+      const formData = new FormData(formRef.current);
       const chatId = formData.get("chatId");
       const message = formData.get("message");
 
       await postChatMessage(chatId, message);
       await reloadMessagesAndResetPage();
-      event.target.reset();
+      formRef.current.reset();
     } catch (error) {
       console.log("Error submitting message");
     } finally {
       setIsSubmitting(false);
     }
   };
+
+  function handleShiftEnter(event) {
+    if (event.key === "Enter" && event.shiftKey) {
+      if (!isSubmitting) {
+        handleSubmit(event);
+      }
+    }
+  }
 
   return (
     <Stack css={containerStyle}>
@@ -92,13 +102,13 @@ export default function Chat() {
       </Box>
 
       <Box>
-      <form method="post" onSubmit={handleSubmit}>
+      <form method="post" onSubmit={handleSubmit} ref={formRef}>
         <fieldset disabled={isSubmitting} css={chatInputStyle}>
-          <Textarea minRows={4} css={{ flexGrow: 1 }} name="message" />
+            <Textarea minRows={4} css={{ flexGrow: 1 }} name="message" onKeyDown={handleShiftEnter} />
           <input type="hidden" name="chatId" value={chatId} />
-          <button css={{ marginLeft: "5px" }} type="submit">
+          <Button css={{ marginLeft: "8px" }} type="submit" variant="contained">
             Submit
-          </button>
+          </Button>
         </fieldset>
       </form>
       </Box>

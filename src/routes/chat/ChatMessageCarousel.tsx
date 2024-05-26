@@ -21,13 +21,23 @@ export default function ChatMessageCarousel({
     <Stack sx={{ height: "100%" }}>
       <Stack
         direction="horizontal"
-        sx={{ width: "100%", justifyContent: "space-between", alignItems: "center" }}
+        sx={{
+          width: "100%",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
       >
-        <Button onClick={() => incMessageIndex(-2)}>
+        <Button
+          onClick={() => incMessageIndex(-2)}
+          disabled={messageIndex <= 1}
+        >
           <ArrowBackIosNewIcon />
         </Button>
-          {messages.length >= 2 ? messages[messageIndex - 1].message : null }
-        <Button onClick={() => incMessageIndex(2)}>
+        {messages.length >= 2 ? messages[messageIndex - 1].message : null}
+        <Button
+          onClick={() => incMessageIndex(2)}
+          disabled={messageIndex >= messages.length - 1}
+        >
           <ArrowForwardIosIcon />
         </Button>
       </Stack>

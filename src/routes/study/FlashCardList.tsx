@@ -62,7 +62,7 @@ export default function FlashCardList() {
 
   return (
     <Box sx={{ height: "100%", overflowY: "auto" }}>
-      <Stack>
+      <Stack spacing={1} marginTop={1}>
         {cards.length === 0 && <Box> No cards to review 😎</Box>}
         {cards.map((card, idx) => (
           <Card key={idx} variant="outlined">

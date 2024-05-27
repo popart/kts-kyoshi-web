@@ -12,6 +12,7 @@ import {
   CardContent,
   CardHeader,
   Container,
+  Stack,
 } from "@mui/material";
 
 const getRandomElement = (arr) => {
@@ -46,8 +47,7 @@ function FlashCardFlipper({ card, showFront, setShowFront, setRating }) {
         {showFront ? (
           <Button onClick={() => setShowFront(false)}>Reveal</Button>
         ) : (
-          <div>
-            <div>
+          <Stack direction="row" spacing={1}>
               <Button onClick={() => setRating(card.flash_card_id, "Again")}>
                 Again
               </Button>
@@ -60,8 +60,7 @@ function FlashCardFlipper({ card, showFront, setShowFront, setRating }) {
               <Button onClick={() => setRating(card.flash_card_id, "Easy")}>
                 Easy
               </Button>
-            </div>
-          </div>
+          </Stack>
         )}
       </CardActions>
     </Card>

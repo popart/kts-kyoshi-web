@@ -35,7 +35,7 @@ export default function App() {
               </div>
             ) : (
               <div>
-                <p>Please log in to see your profile.</p>
+                <p>Please log in to get started.</p>
               </div>
             )}
           </FullBox>

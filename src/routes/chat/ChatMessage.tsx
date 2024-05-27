@@ -12,6 +12,7 @@ import {
   CardActionArea,
   CardContent,
   CardHeader,
+  Collapse,
   Paper,
   Stack,
   Tooltip,
@@ -47,6 +48,7 @@ function FlashCardLessonChatMessage({ message, reloadMessages }) {
   const chatId = message.chat_id;
   const chatMessageId = message.chat_message_id;
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
+  const [showTutorResponse, setShowTutorResponse] = useState<boolean>(false);
 
   async function cardActionHandler(cardIndex: number) {
     const is_saved = lesson.flash_cards[cardIndex].is_saved;
@@ -56,37 +58,59 @@ function FlashCardLessonChatMessage({ message, reloadMessages }) {
 
   const translationItems = [];
 
-  let inputText = lesson.input_text;
+  let exampleSentence = lesson.example_sentence;
   lesson.flash_cards.forEach((card, index) => {
-    const exampleText = card.japanese_example.replace(/\(.*?\)/g, ""); // remove (pronuncation)
-    const startIndex = inputText.indexOf(exampleText);
+    const exampleText = card.japanese_example; // remove (pronuncation)
+    const startIndex = exampleSentence.indexOf(exampleText);
     if (startIndex > -1) {
       if (startIndex > 0) {
-        translationItems.push(inputText.substring(0, startIndex)); // unmatched characters to left
+        translationItems.push(exampleSentence.substring(0, startIndex)); // unmatched characters to left
       }
       translationItems.push(
-        <span
+        <Box
           key={index}
           css={hoverIndex === index ? { color: "red" } : null}
           onMouseOver={() => setHoverIndex(index)}
           onMouseOut={() => setHoverIndex(null)}
         >
-          {inputText.substring(startIndex, startIndex + exampleText.length)}
-        </span>,
+          <FuriganaText
+            text={exampleSentence.substring(
+              startIndex,
+              startIndex + exampleText.length,
+            )}
+          />
+        </Box>,
       ); // matched substring
-      inputText = inputText.substring(startIndex + exampleText.length);
+      exampleSentence = exampleSentence.substring(
+        startIndex + exampleText.length,
+      );
     }
   });
-  if (inputText.length > 0) {
-    translationItems.push(inputText); // leftover input
+  if (exampleSentence.length > 0) {
+    translationItems.push(exampleSentence); // leftover input
   }
 
   return (
     <Box css={flashCardLessonStyle}>
-      <Paper sx={{ p: 2 }}>
-        <Typography>{translationItems}</Typography>
-        <Typography>{lesson.translated_text}</Typography>
-      </Paper>
+      <Box
+        onClick={() => setShowTutorResponse((prev) => !prev)}
+        sx={{ cursor: "pointer" }}
+      >
+        <Paper sx={{ p: 2 }}>
+          <Typography component="div">
+            <Stack direction="row" sx={{ alignItems: "flex-end" }}>
+              {translationItems}
+            </Stack>
+          </Typography>
+          <Typography>{lesson.example_sentence_translation}</Typography>
+        </Paper>
+        <Collapse in={showTutorResponse} orientation="vertical">
+          <Paper sx={{ p: 2 }}>
+            <FuriganaText text={lesson.tutor_response} />
+          </Paper>
+        </Collapse>
+      </Box>
+
       <Stack spacing={1} marginTop={1} sx={{ overflowY: "auto" }}>
         {lesson.flash_cards.map((card, cardIndex) => (
           <Card
@@ -139,7 +163,6 @@ function FlashCardLessonChatMessage({ message, reloadMessages }) {
 }
 
 export default function ChatMessage({ message, reloadMessages }) {
-  console.log(message);
   if (message === undefined || message === null) {
     return <></>;
   }

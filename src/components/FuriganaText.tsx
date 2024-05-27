@@ -27,8 +27,8 @@ function addRubyTags(text: string) {
       const endIndex = startIndex + match[0].length;
 
       const kanjiEndIndex = startIndex;
-      let kanjiBeginIndex = startIndex - 1;
-      while (kanjiBeginIndex >= 0 && isKanji(inputText[kanjiBeginIndex])) {
+      let kanjiBeginIndex = startIndex;
+      while (kanjiBeginIndex >= 1 && isKanji(inputText[kanjiBeginIndex - 1])) {
         kanjiBeginIndex--;
       }
 
@@ -65,6 +65,7 @@ export default function FuriganaText({ text }) {
   const { showFurigana } = useContext(FuriganaContext);
 
   const rubyStyle = css`
+    display: inline-block;
     rt {
       visibility: ${showFurigana ? "visible" : "hidden"};
     }

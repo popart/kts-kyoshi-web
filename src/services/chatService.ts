@@ -38,6 +38,28 @@ export async function createChat() {
   }
 }
 
+export async function updateChat(chatId: string, chatName: string) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/chat/${chatId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        chat_name: chatName
+      }),
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      console.log(response);
+      throw Error("updateChat() bad response");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export async function deleteChat(chatId: string) {
   try {
     const response = await fetch(`${API_BASE_URL}/chat/${chatId}`, {

@@ -97,7 +97,7 @@ export default function FlashCardList() {
             <CardContent>
               {card.flash_card_content.dictionary_form !==
                 card.flash_card_content.japanese_example && (
-                <Stack direction="horizontal" sx={{ alignItems: "flex-end" }}>
+                <Stack direction="row" sx={{ alignItems: "flex-end" }}>
                   Root:&nbsp;&nbsp;
                   <FuriganaText
                     text={card.flash_card_content.dictionary_form}

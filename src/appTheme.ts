@@ -64,5 +64,12 @@ export const baseTheme = createTheme({
         }),
       },
     },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        input: {
+          padding: "6px",
+        },
+      },
+    },
   },
 });

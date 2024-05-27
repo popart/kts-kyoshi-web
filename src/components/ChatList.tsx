@@ -7,10 +7,18 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Collapse from "@mui/material/Collapse";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditNoteIcon from "@mui/icons-material/EditNote";
+import SaveIcon from "@mui/icons-material/Save";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 
-import { deleteChat, fetchChatList, createChat } from "../services/chatService";
+import {
+  deleteChat,
+  fetchChatList,
+  createChat,
+  updateChat,
+} from "../services/chatService";
+import { TextField } from "@mui/material";
 
 const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
@@ -39,7 +47,7 @@ const ChatForm: React.FC<ChatFormProps> = ({ onNewChat }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Button type="submit">Create Chat</Button>
+      <Button type="submit">New Chat</Button>
     </form>
   );
 };
@@ -47,9 +55,26 @@ const ChatForm: React.FC<ChatFormProps> = ({ onNewChat }) => {
 const ChatList: React.FC = () => {
   const navigate = useNavigate();
   const [chats, setChats] = useState([]);
+  const [editChat, setEditChat] = useState<{ [key: string]: boolean }>({});
+  const [editChatNames, setEditChatNames] = useState<{ [key: string]: string }>(
+    {},
+  );
+
   const loadChats = async () => {
     const chatData = await fetchChatList();
     setChats(chatData);
+    setEditChat(
+      chatData.reduce((acc, currentChat) => {
+        acc[currentChat.chat_id] = false;
+        return acc;
+      }, {}),
+    );
+    setEditChatNames(
+      chatData.reduce((acc, currentChat) => {
+        acc[currentChat.chat_id] = currentChat.chat_name || "Untitled";
+        return acc;
+      }, {}),
+    );
   };
   useEffect(() => {
     loadChats();
@@ -78,6 +103,44 @@ const ChatList: React.FC = () => {
     };
   };
 
+  const handleEditChat = (chatId: string) => {
+    return async (event) => {
+      event.stopPropagation();
+      const currentEditChat = editChat[chatId];
+      if (!currentEditChat) {
+        setEditChat((prev) => {
+          return {
+            ...prev,
+            [chatId]: !currentEditChat,
+          };
+        });
+      } else {
+        await updateChat(chatId, editChatNames[chatId]);
+        loadChats();
+      }
+    };
+  };
+  const handleChatChange = (chatId: string) => {
+    return async (event) => {
+      setEditChatNames((prev) => {
+        return {
+          ...prev,
+          [chatId]: event.target.value,
+        };
+      });
+    };
+  };
+  const handleClickChatItem = (chatId: string) => {
+    return async () => {
+      if (editChat[chatId]) {
+        await updateChat(chatId, editChatNames[chatId]);
+        loadChats();
+      } else {
+        navigate(`/chat/${chatId}`);
+      }
+    };
+  };
+
   return (
     <Box>
       <Box marginTop={1} marginBottom={1}>
@@ -88,10 +151,30 @@ const ChatList: React.FC = () => {
           <Item
             key={index}
             elevation={2}
-            onClick={() => navigate(`/chat/${chat.chat_id}`)}
+            onClick={handleClickChatItem(chat.chat_id)}
           >
             <Box sx={{ flexGrow: 1 }}>
-              <Typography>{chat.chat_name || "Untitled"}</Typography>
+              <Stack direction="row" sx={{ alignItems: "center" }}>
+                <Typography component="div">
+                  {editChat[chat.chat_id] ? (
+                    <TextField
+                      onClick={(e) => e.stopPropagation()}
+                      onChange={handleChatChange(chat.chat_id)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          handleEditChat(chat.chat_id)(e);
+                        }
+                      }}
+                      value={editChatNames[chat.chat_id] || "Untitled"}
+                    />
+                  ) : (
+                    chat.chat_name || "Untitled"
+                  )}
+                </Typography>
+                <Button onClick={handleEditChat(chat.chat_id)}>
+                  {editChat[chat.chat_id] ? <SaveIcon /> : <EditNoteIcon />}
+                </Button>
+              </Stack>
               <Typography>{chat.created_at}</Typography>
             </Box>
             <Collapse in={showConfirm[chat.chat_id]} orientation="horizontal">

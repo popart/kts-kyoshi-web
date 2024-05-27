@@ -60,7 +60,7 @@ export default function TopBar() {
 
   return (
     <Stack
-      direction="horizontal"
+      direction="row"
       p={1}
       sx={{ backgroundColor: theme.palette.primary.dark }}
     >

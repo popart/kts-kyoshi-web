@@ -35,12 +35,12 @@ export async function checkLogin() {
       headers: { "Content-Type": "application/json" },
       credentials: "include",
     });
-      if (!response.ok) {
-          console.log(response)
-          throw Error("Could not determine login state")
-      }
-      const data = await response.json();
-      return data.loggedIn;
+    if (!response.ok) {
+      console.log(response);
+      throw Error("Could not determine login state");
+    }
+    const data = await response.json();
+    return data.loggedIn;
   } catch (error) {
     console.log(error);
   }

@@ -3,7 +3,6 @@ import { createContext, useState } from "react";
 
 import { checkLogin } from "../services/loginService";
 
-
 interface AuthContextType {
   isAuthenticated: boolean;
   setIsAuthenticated: Dispatch<SetStateAction<boolean>>;

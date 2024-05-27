@@ -38,8 +38,11 @@ function FlashCardFlipper({ card, showFront, setShowFront, setRating }) {
             )}
             <div>{card.flash_card_content.teaching_notes}</div>
             <br />
-            <div>{card.flash_card_content.input_text}</div>
-            <div>{card.flash_card_content.translated_text}</div>
+            <i>Example</i>
+            <div>
+              <FuriganaText text={card.flash_card_content.example_sentence} />
+            </div>
+            <div>{card.flash_card_content.example_sentence_translation}</div>
           </>
         )}
       </CardContent>
@@ -48,18 +51,18 @@ function FlashCardFlipper({ card, showFront, setShowFront, setRating }) {
           <Button onClick={() => setShowFront(false)}>Reveal</Button>
         ) : (
           <Stack direction="row" spacing={1}>
-              <Button onClick={() => setRating(card.flash_card_id, "Again")}>
-                Again
-              </Button>
-              <Button onClick={() => setRating(card.flash_card_id, "Hard")}>
-                Hard
-              </Button>
-              <Button onClick={() => setRating(card.flash_card_id, "Good")}>
-                Good
-              </Button>
-              <Button onClick={() => setRating(card.flash_card_id, "Easy")}>
-                Easy
-              </Button>
+            <Button onClick={() => setRating(card.flash_card_id, "Again")}>
+              Again
+            </Button>
+            <Button onClick={() => setRating(card.flash_card_id, "Hard")}>
+              Hard
+            </Button>
+            <Button onClick={() => setRating(card.flash_card_id, "Good")}>
+              Good
+            </Button>
+            <Button onClick={() => setRating(card.flash_card_id, "Easy")}>
+              Easy
+            </Button>
           </Stack>
         )}
       </CardActions>
@@ -92,11 +95,7 @@ export default function FlashCardReview() {
 
   return (
     <Container>
-      {cards.length === 0 && (
-        <Box sx={{p: 4}}>
-          No cards to review 😎
-        </Box>
-      )}
+      {cards.length === 0 && <Box sx={{ p: 4 }}>No cards to review 😎</Box>}
       {card !== null && (
         <FlashCardFlipper
           card={card}

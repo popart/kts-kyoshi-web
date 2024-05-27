@@ -69,13 +69,24 @@ export default function FlashCardList() {
             <CardHeader
               title={
                 <Stack direction="row">
-                  <Box sx={{ flexGrow: 1, flexBasis: 0, borderBottom: "1px solid" }}>
+                  <Box
+                    sx={{
+                      flexGrow: 1,
+                      flexBasis: 0,
+                      borderBottom: "1px solid",
+                    }}
+                  >
                     <FuriganaText
                       text={card.flash_card_content.japanese_example}
                     />
                   </Box>
-                  <Box sx={{borderBottom: "1px solid"}}>[{card.flash_card_content.jlpt_level}]</Box>
-                  <Collapse in={showConfirm[card.flash_card_id]} orientation="horizontal">
+                  <Box sx={{ borderBottom: "1px solid" }}>
+                    [{card.flash_card_content.jlpt_level}]
+                  </Box>
+                  <Collapse
+                    in={showConfirm[card.flash_card_id]}
+                    orientation="horizontal"
+                  >
                     <Button
                       sx={{ height: "100%" }}
                       onClick={handleConfirm(card.flash_card_id)}
@@ -106,8 +117,11 @@ export default function FlashCardList() {
               )}
               <div>{card.flash_card_content.teaching_notes}</div>
               <br />
-              <div>{card.flash_card_content.input_text}</div>
-              <div>{card.flash_card_content.translated_text}</div>
+              <i>Example</i>
+              <div>
+                <FuriganaText text={card.flash_card_content.example_sentence} />
+              </div>
+              <div>{card.flash_card_content.example_sentence_translation}</div>
             </CardContent>
           </Card>
         ))}

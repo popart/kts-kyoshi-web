@@ -44,6 +44,24 @@ export async function fetchFlashCards(flashCardStatus) {
   }
 }
 
+export async function fetchFlashCardCounts() {
+  try {
+    const response = await fetch(`${API_BASE_URL}/flash_card_counts`, {
+      method: "GET",
+      credentials: "include",
+    });
+    if (!response.ok) {
+      console.log(response);
+      throw Error("fetchChatList() bad response");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
+
 export async function reviewFlashCard(flashCardId, rating) {
   try {
     const response = await fetch(

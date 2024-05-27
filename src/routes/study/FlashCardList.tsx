@@ -14,11 +14,13 @@ import {
   CardContent,
   CardHeader,
   Stack,
+  useTheme,
 } from "@mui/material";
 
 import { deleteFlashCard } from "../../services/flashCardService";
 
 export default function FlashCardList() {
+  const theme = useTheme();
   const [cards, setCards] = useState([]);
 
   const loadFlashCards = async () => {
@@ -65,7 +67,11 @@ export default function FlashCardList() {
       <Stack spacing={1} marginTop={1}>
         {cards.length === 0 && <Box> No cards to review 😎</Box>}
         {cards.map((card, idx) => (
-          <Card key={idx} variant="outlined">
+          <Card
+            key={idx}
+            sx={{ backgroundColor: theme.palette.secondary.main }}
+            variant="outlined"
+          >
             <CardHeader
               title={
                 <Stack direction="row">
@@ -88,16 +94,21 @@ export default function FlashCardList() {
                     orientation="horizontal"
                   >
                     <Button
+                      color="tertiary"
                       sx={{ height: "100%" }}
                       onClick={handleConfirm(card.flash_card_id)}
                     >
                       Confirm
                     </Button>
                   </Collapse>
-                  <Button onClick={handleDelete(card.flash_card_id)}>
+                  <Button
+                    color="tertiary"
+                    onClick={handleDelete(card.flash_card_id)}
+                  >
                     <DeleteIcon />
                   </Button>
                   <Button
+                    color="tertiary"
                     onClick={() => addToReviewsHandler(card.flash_card_id)}
                   >
                     <MoveToInboxIcon />

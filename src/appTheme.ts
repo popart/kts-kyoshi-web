@@ -2,42 +2,50 @@ import { createTheme } from "@mui/material/styles";
 
 declare module "@mui/material/styles" {
   interface Palette {
-    peach: Palette["primary"];
+    tertiary: Palette["tertiary"];
+    pop: Palette["primary"];
   }
 
   interface PaletteOptions {
-    peach?: PaletteOptions["primary"];
+    tertiary?: PaletteOptions["tertiary"];
+    pop?: PaletteOptions["primary"];
   }
 }
 
-// Update the Button's color options to include an peach option
+// Update the Button's color options to include an pop option
 declare module "@mui/material/Button" {
   interface ButtonPropsColorOverrides {
-    peach: true;
+    tertiary: true;
+    pop: true;
   }
 }
 
 export const baseTheme = createTheme({
   palette: {
-    mode: "dark",
+    mode: "light",
     background: {
-      default: "#222",
+      default: "#fff",
+    },
+    pop: {
+      // deep red
+      main: "#f70301",
     },
     primary: {
-      main: "#e7ad92", // peach
-      contrastText: "#65383a", // dark cherry
+      // a very light pink
+      main: "#ffd4d4",
+      contrastText: "#000",
     },
     secondary: {
-      // a bluish gray
-      light: "#cbc5c2",
-      main: "#868e81",
-      dark: "#596d69",
-      contrastText: "#ddd",
+      // gray
+      main: "#e8e9ec",
     },
-    peach: {
-      main: "#feeccd", // pale pink/yellow
-      dark: "#e7ad92", // peach
-      contrastText: "#65383a", // dark cherry
+    tertiary: {
+      // a dark pink
+      main: "#ffa9a9",
+      contrastText: "#728484",
+    },
+    text: {
+      primary: "#111",
     },
   },
   components: {
@@ -68,6 +76,13 @@ export const baseTheme = createTheme({
       styleOverrides: {
         input: {
           padding: "6px",
+        },
+      },
+    },
+    MuiMenu: {
+      styleOverrides: {
+        list: {
+          backgroundColor: "#fff",
         },
       },
     },

@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { Stack, useTheme } from "@mui/material";
+import { Paper, Stack, useTheme } from "@mui/material";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -59,68 +59,70 @@ export default function TopBar() {
   const { isAuthenticated } = React.useContext(AuthContext);
 
   return (
-    <Stack
-      direction="row"
-      p={1}
-      sx={{ backgroundColor: theme.palette.primary.dark }}
-    >
-      <Button
-        variant={
-          location.pathname.startsWith("/study") || location.pathname === "/"
-            ? "outlined"
-            : "text"
-        }
-        color="peach"
-        onClick={() => navigate("/study")}
+    <Paper elevation={2}>
+      <Stack
+        direction="row"
+        p={1}
+        sx={{ backgroundColor: theme.palette.secondary.dark }}
       >
-        Study
-      </Button>
-      <Button
-        variant={location.pathname.startsWith("/chat") ? "outlined" : "text"}
-        color="peach"
-        onClick={() => navigate("/chat")}
-      >
-        Chat
-      </Button>
-      <div css={{ flexGrow: 1 }}></div>
-      <FuriganaToggleButton
-        showFurigana={showFurigana}
-        toggleShowFurigana={toggleShowFurigana}
-      />
-      {isAuthenticated ? (
-        <Button onClick={handleAccountClick} color="inherit">
-          <AccountBoxIcon />
+        <Button
+          color="primary"
+          variant={
+            location.pathname.startsWith("/study") || location.pathname === "/"
+              ? "outlined"
+              : "text"
+          }
+          onClick={() => navigate("/study")}
+        >
+          Study
         </Button>
-      ) : (
-        <LoginWithGoogle />
-      )}
+        <Button
+          color="primary"
+          variant={location.pathname.startsWith("/chat") ? "outlined" : "text"}
+          onClick={() => navigate("/chat")}
+        >
+          Chat
+        </Button>
+        <div css={{ flexGrow: 1 }}></div>
+        <FuriganaToggleButton
+          showFurigana={showFurigana}
+          toggleShowFurigana={toggleShowFurigana}
+        />
+        {isAuthenticated ? (
+          <Button onClick={handleAccountClick} color="inherit">
+            <AccountBoxIcon />
+          </Button>
+        ) : (
+          <LoginWithGoogle />
+        )}
 
-      <Menu
-        anchorEl={accountAnchorEl}
-        open={open}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "right",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
-      >
-        <MenuItem onClick={handleMenuClick("settings")}>
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Settings
-        </MenuItem>
-        <MenuItem onClick={handleMenuClick("logout")}>
-          <ListItemIcon>
-            <Logout fontSize="small" />
-          </ListItemIcon>
-          Logout
-        </MenuItem>
-      </Menu>
-    </Stack>
+        <Menu
+          anchorEl={accountAnchorEl}
+          open={open}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "right",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+        >
+          <MenuItem onClick={handleMenuClick("settings")}>
+            <ListItemIcon sx={{ color: theme.palette.text.primary }}>
+              <Settings fontSize="small" />
+            </ListItemIcon>
+            Settings
+          </MenuItem>
+          <MenuItem onClick={handleMenuClick("logout")}>
+            <ListItemIcon sx={{ color: theme.palette.text.primary }}>
+              <Logout fontSize="small" />
+            </ListItemIcon>
+            Logout
+          </MenuItem>
+        </Menu>
+      </Stack>
+    </Paper>
   );
 }

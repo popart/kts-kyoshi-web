@@ -21,6 +21,7 @@ export default function ChatMessageCarousel({
     <Stack sx={{ height: "100%" }}>
       <Stack
         direction="row"
+        p={1}
         sx={{
           width: "100%",
           justifyContent: "space-between",

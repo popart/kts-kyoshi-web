@@ -14,6 +14,7 @@ import {
   CardHeader,
   Container,
   Stack,
+  useTheme,
 } from "@mui/material";
 
 const getRandomElement = (arr) => {
@@ -25,8 +26,10 @@ const getRandomElement = (arr) => {
 };
 
 function FlashCardFlipper({ card, showFront, setShowFront, setRating }) {
+  const theme = useTheme();
+
   return (
-    <Card>
+    <Card sx={{ backgroundColor: theme.palette.secondary.main }}>
       <CardHeader
         title={
           <Stack direction="row" sx={{ alignItems: "flex-end" }}>
@@ -58,19 +61,33 @@ function FlashCardFlipper({ card, showFront, setShowFront, setRating }) {
       </CardContent>
       <CardActions>
         {showFront ? (
-          <Button onClick={() => setShowFront(false)}>Reveal</Button>
+          <Button color="tertiary" onClick={() => setShowFront(false)}>
+            Reveal
+          </Button>
         ) : (
           <Stack direction="row" spacing={1}>
-            <Button onClick={() => setRating(card.flash_card_id, "Again")}>
+            <Button
+              color="tertiary"
+              onClick={() => setRating(card.flash_card_id, "Again")}
+            >
               Again
             </Button>
-            <Button onClick={() => setRating(card.flash_card_id, "Hard")}>
+            <Button
+              color="tertiary"
+              onClick={() => setRating(card.flash_card_id, "Hard")}
+            >
               Hard
             </Button>
-            <Button onClick={() => setRating(card.flash_card_id, "Good")}>
+            <Button
+              color="tertiary"
+              onClick={() => setRating(card.flash_card_id, "Good")}
+            >
               Good
             </Button>
-            <Button onClick={() => setRating(card.flash_card_id, "Easy")}>
+            <Button
+              color="tertiary"
+              onClick={() => setRating(card.flash_card_id, "Easy")}
+            >
               Easy
             </Button>
           </Stack>

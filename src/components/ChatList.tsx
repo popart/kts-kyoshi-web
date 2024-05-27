@@ -21,7 +21,11 @@ import {
 import { TextField } from "@mui/material";
 
 const Item = styled(Paper)(({ theme }) => ({
-  padding: theme.spacing(1),
+  paddingLeft: theme.spacing(2),
+  paddingRight: theme.spacing(2),
+  paddingTop: theme.spacing(1),
+  paddingBottom: theme.spacing(1),
+
   textAlign: "left",
   cursor: "pointer",
   color: theme.palette.secondary.contrastText,
@@ -47,7 +51,9 @@ const ChatForm: React.FC<ChatFormProps> = ({ onNewChat }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Button type="submit">New Chat</Button>
+      <Button color="tertiary" type="submit">
+        New Chat
+      </Button>
     </form>
   );
 };
@@ -148,11 +154,7 @@ const ChatList: React.FC = () => {
       </Box>
       <Stack spacing={1}>
         {chats.map((chat, index) => (
-          <Item
-            key={index}
-            elevation={2}
-            onClick={handleClickChatItem(chat.chat_id)}
-          >
+          <Item key={index} onClick={handleClickChatItem(chat.chat_id)}>
             <Box sx={{ flexGrow: 1 }}>
               <Stack direction="row" sx={{ alignItems: "center" }}>
                 <Typography component="div">
@@ -171,7 +173,7 @@ const ChatList: React.FC = () => {
                     chat.chat_name || "Untitled"
                   )}
                 </Typography>
-                <Button onClick={handleEditChat(chat.chat_id)}>
+                <Button color="tertiary" onClick={handleEditChat(chat.chat_id)}>
                   {editChat[chat.chat_id] ? <SaveIcon /> : <EditNoteIcon />}
                 </Button>
               </Stack>
@@ -179,13 +181,14 @@ const ChatList: React.FC = () => {
             </Box>
             <Collapse in={showConfirm[chat.chat_id]} orientation="horizontal">
               <Button
+                color="tertiary"
                 sx={{ height: "100%" }}
                 onClick={handleConfirm(chat.chat_id)}
               >
                 Confirm
               </Button>
             </Collapse>
-            <Button onClick={handleDelete(chat.chat_id)}>
+            <Button color="tertiary" onClick={handleDelete(chat.chat_id)}>
               <DeleteIcon />
             </Button>
           </Item>

@@ -69,7 +69,7 @@ function FlashCardLessonChatMessage({ message, reloadMessages }) {
       translationItems.push(
         <Box
           key={index}
-          css={hoverIndex === index ? { color: "red" } : null}
+          css={hoverIndex === index ? { color: theme.palette.pop.main } : null}
           onMouseOver={() => setHoverIndex(index)}
           onMouseOut={() => setHoverIndex(null)}
         >
@@ -98,24 +98,45 @@ function FlashCardLessonChatMessage({ message, reloadMessages }) {
       <Stack
         onClick={() => setShowTutorResponse((prev) => !prev)}
         sx={{ cursor: "pointer" }}
+        marginBottom={1}
       >
-        <Paper sx={{ p: 2 }}>
+        <Paper
+          elevation={1}
+          sx={{
+            p: 2,
+            backgroundColor: theme.palette.primary.main,
+            borderBottomLeftRadius: showTutorResponse ? 0 : null,
+            borderBottomRightRadius: showTutorResponse ? 0 : null,
+          }}
+        >
           <Typography component="div">
-            <Stack direction="row" sx={{ alignItems: "flex-end" }}>
+            <Stack
+              direction="row"
+              sx={{ alignItems: "flex-end", flexWrap: "wrap" }}
+            >
               {translationItems}
             </Stack>
           </Typography>
           <Typography>{lesson.example_sentence_translation}</Typography>
         </Paper>
-        <Collapse in={showTutorResponse} orientation="vertical">
+        <Collapse
+          in={showTutorResponse}
+          orientation="vertical"
+          sx={{ zIndex: -1, position: "relative" }}
+        >
           <Paper
-            sx={{ p: 2 }}
+            sx={{
+              p: 2,
+              backgroundColor: theme.palette.secondary.dark,
+              borderTopLeftRadius: 0,
+              borderTopRightRadius: 0,
+            }}
             dangerouslySetInnerHTML={{ __html: sanitizedMessage }}
           ></Paper>
         </Collapse>
       </Stack>
 
-      <Stack spacing={1} marginTop={1} sx={{ overflowY: "auto" }}>
+      <Stack spacing={1} sx={{ overflowY: "auto" }}>
         {lesson.flash_cards.map((card, cardIndex) => (
           <Card
             key={cardIndex}
@@ -127,8 +148,8 @@ function FlashCardLessonChatMessage({ message, reloadMessages }) {
               css={{
                 backgroundColor:
                   hoverIndex === cardIndex
-                    ? theme.palette.secondary.main
-                    : theme.palette.secondary.dark,
+                    ? theme.palette.secondary.dark
+                    : theme.palette.secondary.main,
               }}
             >
               <CardHeader

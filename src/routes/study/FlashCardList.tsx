@@ -106,8 +106,9 @@ export default function FlashCardList() {
               )}
               <div>{card.flash_card_content.teaching_notes}</div>
               <br />
-              <div>{card.flash_card_content.input_text}</div>
-              <div>{card.flash_card_content.translated_text}</div>
+              <i>Example</i>
+              <div><FuriganaText text={card.flash_card_content.example_sentence} /></div>
+              <div>{card.flash_card_content.example_sentence_translation}</div>
             </CardContent>
           </Card>
         ))}

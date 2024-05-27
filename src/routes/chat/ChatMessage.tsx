@@ -90,9 +90,12 @@ function FlashCardLessonChatMessage({ message, reloadMessages }) {
     translationItems.push(exampleSentence); // leftover input
   }
 
+  const formattedMessage = marked(lesson.tutor_response);
+  const sanitizedMessage = DOMPurify.sanitize(formattedMessage);
+
   return (
     <Box css={flashCardLessonStyle}>
-      <Box
+      <Stack
         onClick={() => setShowTutorResponse((prev) => !prev)}
         sx={{ cursor: "pointer" }}
       >
@@ -105,11 +108,12 @@ function FlashCardLessonChatMessage({ message, reloadMessages }) {
           <Typography>{lesson.example_sentence_translation}</Typography>
         </Paper>
         <Collapse in={showTutorResponse} orientation="vertical">
-          <Paper sx={{ p: 2 }}>
-            <FuriganaText text={lesson.tutor_response} />
-          </Paper>
+          <Paper
+            sx={{ p: 2 }}
+            dangerouslySetInnerHTML={{ __html: sanitizedMessage }}
+          ></Paper>
         </Collapse>
-      </Box>
+      </Stack>
 
       <Stack spacing={1} marginTop={1} sx={{ overflowY: "auto" }}>
         {lesson.flash_cards.map((card, cardIndex) => (

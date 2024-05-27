@@ -18,5 +18,9 @@ export default function Logout() {
     }
   };
 
-  return <Button onClick={logoutUser} color="inherit">Logout</Button>;
+  return (
+    <Button onClick={logoutUser} color="inherit">
+      Logout
+    </Button>
+  );
 }

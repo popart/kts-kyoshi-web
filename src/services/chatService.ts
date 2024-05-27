@@ -46,7 +46,7 @@ export async function updateChat(chatId: string, chatName: string) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        chat_name: chatName
+        chat_name: chatName,
       }),
       credentials: "include",
     });
@@ -78,13 +78,10 @@ export async function deleteChat(chatId: string) {
 
 export async function fetchChatMessages(chatId: string) {
   try {
-    const response = await fetch(
-      `${API_BASE_URL}/chat_message/${chatId}`,
-      {
-        method: "GET",
-        credentials: "include",
-      },
-    );
+    const response = await fetch(`${API_BASE_URL}/chat_message/${chatId}`, {
+      method: "GET",
+      credentials: "include",
+    });
     if (!response.ok) {
       console.log("FAIL: could not fetch chat messages");
     }

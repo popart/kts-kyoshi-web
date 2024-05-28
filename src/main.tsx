@@ -9,6 +9,7 @@ import StudyMenu from "./routes/study/StudyMenu";
 import FlashCardList from "./routes/study/FlashCardList";
 import FlashCardReview from "./routes/study/FlashCardReview";
 import ErrorPage from "./components/ErrorPage";
+import Settings from "./routes/settings/Settings";
 import { AuthProvider } from "./providers/AuthProvider";
 
 const router = createBrowserRouter([
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
       {
         path: "study/review",
         element: <FlashCardReview />,
+      },
+      {
+        path: "settings/",
+        element: <Settings />,
       },
     ],
   },

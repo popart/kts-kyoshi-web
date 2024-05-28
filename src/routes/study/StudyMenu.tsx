@@ -38,7 +38,7 @@ export default function StudyMenu() {
         <CardActionArea onClick={() => navigate("/study/new")}>
           <CardHeader title="NEW" />
           <CardContent sx={{ color: theme.palette.text.secondary }}>
-            <b>{flashCardCounts["NEW"]}</b> new cards waiting to be added to
+            <b>{flashCardCounts["NEW"]}</b> cards waiting to be added to
             reviews.
             <br />
             <br />

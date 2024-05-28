@@ -66,7 +66,7 @@ export default function TopBar() {
         sx={{ backgroundColor: theme.palette.secondary.dark }}
       >
         <Button
-          color="primary"
+          color="tertiary"
           variant={
             location.pathname.startsWith("/study") || location.pathname === "/"
               ? "outlined"
@@ -77,7 +77,7 @@ export default function TopBar() {
           Study
         </Button>
         <Button
-          color="primary"
+          color="tertiary"
           variant={location.pathname.startsWith("/chat") ? "outlined" : "text"}
           onClick={() => navigate("/chat")}
         >
@@ -89,7 +89,7 @@ export default function TopBar() {
           toggleShowFurigana={toggleShowFurigana}
         />
         {isAuthenticated ? (
-          <Button onClick={handleAccountClick} color="inherit">
+          <Button onClick={handleAccountClick} color="tertiary">
             <AccountBoxIcon />
           </Button>
         ) : (

@@ -77,16 +77,22 @@ export default function FlashCardList() {
                 <Stack direction="row">
                   <Box
                     sx={{
+                      color: theme.palette.pop.main,
                       flexGrow: 1,
                       flexBasis: 0,
-                      borderBottom: "1px solid",
+                      borderBottom: `1px solid ${theme.palette.text.secondary}`,
                     }}
                   >
                     <FuriganaText
                       text={card.flash_card_content.japanese_example}
                     />
                   </Box>
-                  <Box sx={{ borderBottom: "1px solid" }}>
+                  <Box
+                    sx={{
+                      color: theme.palette.text.secondary,
+                      borderBottom: `1px solid ${theme.palette.text.secondary}`,
+                    }}
+                  >
                     [{card.flash_card_content.jlpt_level}]
                   </Box>
                   <Collapse

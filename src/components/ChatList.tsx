@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
-import Collapse from "@mui/material/Collapse";
+import {
+  Box,
+  Button,
+  Collapse,
+  Paper,
+  Stack,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import SaveIcon from "@mui/icons-material/Save";
-import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 
 import {
@@ -59,6 +62,7 @@ const ChatForm: React.FC<ChatFormProps> = ({ onNewChat }) => {
 };
 
 const ChatList: React.FC = () => {
+  const theme = useTheme();
   const navigate = useNavigate();
   const [chats, setChats] = useState([]);
   const [editChat, setEditChat] = useState<{ [key: string]: boolean }>({});
@@ -177,7 +181,9 @@ const ChatList: React.FC = () => {
                   {editChat[chat.chat_id] ? <SaveIcon /> : <EditNoteIcon />}
                 </Button>
               </Stack>
-              <Typography>{chat.created_at}</Typography>
+              <Typography sx={{ color: theme.palette.text.secondary }}>
+                {chat.created_at}
+              </Typography>
             </Box>
             <Collapse in={showConfirm[chat.chat_id]} orientation="horizontal">
               <Button

@@ -33,10 +33,20 @@ function FlashCardFlipper({ card, showFront, setShowFront, setRating }) {
       <CardHeader
         title={
           <Stack direction="row" sx={{ alignItems: "flex-end" }}>
-            <Box sx={{ flexGrow: 1, borderBottom: "1px solid" }}>
+            <Box
+              sx={{
+                flexGrow: 1,
+                borderBottom: `1px solid ${theme.palette.text.secondary}`,
+              }}
+            >
               <FuriganaText text={card.flash_card_content.japanese_example} />
             </Box>
-            <Box sx={{ borderBottom: "1px solid" }}>
+            <Box
+              sx={{
+                color: theme.palette.text.secondary,
+                borderBottom: `1px solid ${theme.palette.text.secondary}`,
+              }}
+            >
               [{card.flash_card_content.jlpt_level}]
             </Box>
           </Stack>
@@ -45,13 +55,15 @@ function FlashCardFlipper({ card, showFront, setShowFront, setRating }) {
       <CardContent>
         {!showFront && (
           <>
+            <div>{card.flash_card_content.teaching_notes}</div>
             {card.flash_card_content.dictionary_form !==
               card.flash_card_content.japanese_example && (
-              <div>{card.flash_card_content.dictionary_form}</div>
+              <>
+                <br />
+                <div>Root: {card.flash_card_content.dictionary_form}</div>
+              </>
             )}
-            <div>{card.flash_card_content.teaching_notes}</div>
             <br />
-            <i>Example</i>
             <div>
               <FuriganaText text={card.flash_card_content.example_sentence} />
             </div>

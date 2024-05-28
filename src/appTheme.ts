@@ -24,7 +24,8 @@ export const baseTheme = createTheme({
   palette: {
     mode: "light",
     background: {
-      default: "#fff",
+      // gray
+      default: "#e8e9ec",
     },
     pop: {
       // deep red
@@ -36,16 +37,15 @@ export const baseTheme = createTheme({
       contrastText: "#000",
     },
     secondary: {
-      // gray
-      main: "#e8e9ec",
+      main: "#fff",
     },
     tertiary: {
-      // a dark pink
-      main: "#ffa9a9",
-      contrastText: "#728484",
+      main: "#444",
+      contrastText: "#fff",
     },
     text: {
       primary: "#111",
+      secondary: "#444",
     },
   },
   components: {

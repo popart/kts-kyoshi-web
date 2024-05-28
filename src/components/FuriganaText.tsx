@@ -55,7 +55,7 @@ function addRubyTags(text: string) {
 
 export function FuriganaToggleButton({ showFurigana, toggleShowFurigana }) {
   return (
-    <Button onClick={toggleShowFurigana} color="inherit">
+    <Button onClick={toggleShowFurigana} color="tertiary">
       {showFurigana ? "あ" : "字"}
     </Button>
   );

@@ -31,6 +31,7 @@ export default function ChatMessageCarousel({
         <Button
           onClick={() => incMessageIndex(-2)}
           disabled={messageIndex <= 1}
+          color="primaryDark"
         >
           <ArrowBackIosNewIcon />
         </Button>
@@ -38,6 +39,7 @@ export default function ChatMessageCarousel({
         <Button
           onClick={() => incMessageIndex(2)}
           disabled={messageIndex >= messages.length - 1}
+          color="primaryDark"
         >
           <ArrowForwardIosIcon />
         </Button>

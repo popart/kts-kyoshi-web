@@ -2,13 +2,15 @@ import { createTheme } from "@mui/material/styles";
 
 declare module "@mui/material/styles" {
   interface Palette {
-    tertiary: Palette["tertiary"];
+    tertiary: Palette["primary"];
     pop: Palette["primary"];
+    primaryDark: Palette["primary"];
   }
 
   interface PaletteOptions {
-    tertiary?: PaletteOptions["tertiary"];
+    tertiary?: PaletteOptions["primary"];
     pop?: PaletteOptions["primary"];
+    primaryDark?: PaletteOptions["primary"];
   }
 }
 
@@ -17,6 +19,7 @@ declare module "@mui/material/Button" {
   interface ButtonPropsColorOverrides {
     tertiary: true;
     pop: true;
+    primaryDark: true;
   }
 }
 
@@ -34,6 +37,10 @@ export const baseTheme = createTheme({
     primary: {
       // a very light pink
       main: "#ffd4d4",
+      contrastText: "#000",
+    },
+    primaryDark: {
+      main: "#ff7a7a",
       contrastText: "#000",
     },
     secondary: {

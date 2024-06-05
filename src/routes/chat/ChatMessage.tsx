@@ -19,6 +19,8 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
+import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 const flashCardLessonStyle = css({
   display: "flex",
@@ -104,6 +106,7 @@ function FlashCardLessonChatMessage({ message, reloadMessages }) {
           elevation={1}
           sx={{
             p: 2,
+            pb: 0.5,
             backgroundColor: theme.palette.primary.main,
             borderBottomLeftRadius: showTutorResponse ? 0 : null,
             borderBottomRightRadius: showTutorResponse ? 0 : null,
@@ -117,7 +120,14 @@ function FlashCardLessonChatMessage({ message, reloadMessages }) {
               {translationItems}
             </Stack>
           </Typography>
-          <Typography>{lesson.example_sentence_translation}</Typography>
+          <Stack direction="row">
+            <Typography sx={{ flexGrow: 1 }}>
+              {lesson.example_sentence_translation}
+            </Typography>
+            <Box>
+              {showTutorResponse ? <ArrowDropDownIcon /> : <ArrowLeftIcon />}
+            </Box>
+          </Stack>
         </Paper>
         <Collapse
           in={showTutorResponse}

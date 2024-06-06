@@ -95,7 +95,7 @@ export async function fetchChatMessages(chatId: string) {
 
 export async function postChatMessage(chatId: string, message: string) {
   try {
-    await fetch(`${API_BASE_URL}/chat_message/${chatId}`, {
+    const res = await fetch(`${API_BASE_URL}/chat_message/${chatId}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -103,6 +103,11 @@ export async function postChatMessage(chatId: string, message: string) {
       body: JSON.stringify({ message: message }),
       credentials: "include",
     });
+    if (!res.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await res.json();
+    return data;
   } catch (error) {
     console.log(error);
   }

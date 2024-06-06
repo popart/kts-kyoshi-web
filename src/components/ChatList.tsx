@@ -171,7 +171,11 @@ const ChatList: React.FC = () => {
                           handleEditChat(chat.chat_id)(e);
                         }
                       }}
-                      value={editChatNames[chat.chat_id] === null ? "Untitled" : editChatNames[chat.chat_id]}
+                      value={
+                        editChatNames[chat.chat_id] === null
+                          ? "Untitled"
+                          : editChatNames[chat.chat_id]
+                      }
                     />
                   ) : (
                     chat.chat_name || "Untitled"

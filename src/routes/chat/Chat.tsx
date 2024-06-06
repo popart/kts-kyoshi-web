@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { css } from "@emotion/react";
 
+import { Dialog, DialogContent, DialogTitle } from "@mui/material";
+
 import ChatMessageCarousel from "./ChatMessageCarousel";
 import { fetchChatMessages, postChatMessage } from "../../services/chatService";
 import { Box, Button, Stack } from "@mui/material";
@@ -43,6 +45,8 @@ export default function Chat() {
   const [messages, setMessages] = useState([]);
   const [messageIndex, setMessageIndex] = useState(-1);
 
+  const [showLimitExceeded, setShowLimitExceeded] = useState(false);
+
   const formRef = useRef<HTMLFormElement>(null);
 
   // update message data without resetting messageIndex
@@ -71,9 +75,14 @@ export default function Chat() {
       const chatId = formData.get("chatId");
       const message = formData.get("message");
 
-      await postChatMessage(chatId, message);
-      await reloadMessagesAndResetPage();
-      formRef.current.reset();
+      const res = await postChatMessage(chatId, message);
+      if (res.status === "SUCCESS") {
+        await reloadMessagesAndResetPage();
+        formRef.current.reset();
+      }
+      if (res.status === "LIMIT_EXCEEDED") {
+        setShowLimitExceeded(true);
+      }
     } catch (error) {
       console.log("Error submitting message");
     } finally {
@@ -82,11 +91,17 @@ export default function Chat() {
   };
 
   function handleShiftEnter(event) {
-    if (event.key === "Enter" && event.shiftKey) {
+    if (event.key === "Enter") {
       if (!isSubmitting) {
         handleSubmit(event);
       }
     }
+  }
+
+  function genEmail() {
+    const name = "andrew";
+    const domain = "goginko";
+    return `${name}@${domain}.com`;
   }
 
   return (
@@ -120,6 +135,23 @@ export default function Chat() {
           </fieldset>
         </form>
       </Box>
+      <Dialog
+        open={showLimitExceeded}
+        onClose={() => setShowLimitExceeded(false)}
+      >
+        <DialogTitle>Translation Limit Exceeded</DialogTitle>
+        <DialogContent>
+          I have to pay for each message to the translator AI, so I set the
+          limit to 25 messages per day for now. You can come back in 24 hours
+          and then get another 25 messages. If you think this app is great and
+          you want to pay for it, or have any other feedback, let me know.
+          <br />
+          <br />
+          Thanks!
+          <br />
+          {genEmail()}
+        </DialogContent>
+      </Dialog>
     </Stack>
   );
 }

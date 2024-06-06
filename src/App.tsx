@@ -12,7 +12,7 @@ import { Box, Container, CssBaseline, styled } from "@mui/material";
 
 const FullBox = styled(Box)({
   width: "100%",
-  height: "calc(100vh - 52.5px)",
+  height: "calc(100dvh - 52.5px)",
 });
 
 export default function App() {

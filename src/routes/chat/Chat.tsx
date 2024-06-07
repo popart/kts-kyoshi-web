@@ -46,6 +46,7 @@ export default function Chat() {
   const [messageIndex, setMessageIndex] = useState(-1);
 
   const [showLimitExceeded, setShowLimitExceeded] = useState(false);
+  const [showChatError, setShowChatError] = useState(false);
 
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -82,6 +83,9 @@ export default function Chat() {
       }
       if (res.status === "LIMIT_EXCEEDED") {
         setShowLimitExceeded(true);
+      }
+      if (res.status === "ERROR") {
+        setShowChatError(true);
       }
     } catch (error) {
       console.log("Error submitting message");
@@ -150,6 +154,12 @@ export default function Chat() {
           Thanks!
           <br />
           {genEmail()}
+        </DialogContent>
+      </Dialog>
+      <Dialog open={showChatError} onClose={() => setShowChatError(false)}>
+        <DialogTitle>Chat Error</DialogTitle>
+        <DialogContent>
+          Couldn't process that message. Try another?
         </DialogContent>
       </Dialog>
     </Stack>

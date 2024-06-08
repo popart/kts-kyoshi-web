@@ -18,6 +18,15 @@ const LeftAlignedButton = styled(Button)({
   justifyContent: "flex-start",
 });
 
+const Item = styled(Card)(({ theme }) => ({
+  backgroundColor: theme.palette.secondary.dark,
+  "&:hover": {
+    backgroundColor: theme.palette.secondary.main,
+    boxShadow: "0px 4px 8px rgba(0,0,0,.2)",
+  },
+  flex: 1,
+}));
+
 export default function StudyMenu() {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -34,7 +43,7 @@ export default function StudyMenu() {
 
   return (
     <Stack spacing={1} marginTop={1} direction="row">
-      <Card sx={{ flex: 1 }}>
+      <Item>
         <CardActionArea onClick={() => navigate("/study/new")}>
           <CardHeader title="NEW" />
           <CardContent sx={{ color: theme.palette.text.secondary }}>
@@ -44,8 +53,8 @@ export default function StudyMenu() {
             <br />
           </CardContent>
         </CardActionArea>
-      </Card>
-      <Card sx={{ flex: 1 }}>
+      </Item>
+      <Item sx={{ flex: 1 }}>
         <CardActionArea onClick={() => navigate("/study/review")}>
           <CardHeader title="REVIEW" />
           <CardContent sx={{ color: theme.palette.text.secondary }}>
@@ -54,7 +63,7 @@ export default function StudyMenu() {
             <b>{flashCardCounts["REVIEW"]}</b> cards total in deck.
           </CardContent>
         </CardActionArea>
-      </Card>
+      </Item>
     </Stack>
   );
 }

@@ -100,7 +100,7 @@ export default function FlashCardList() {
                     orientation="horizontal"
                   >
                     <Button
-                      color="tertiary"
+                      color="tertiaryDark"
                       sx={{ height: "100%" }}
                       onClick={handleConfirm(card.flash_card_id)}
                     >
@@ -108,13 +108,13 @@ export default function FlashCardList() {
                     </Button>
                   </Collapse>
                   <Button
-                    color="tertiary"
+                    color="tertiaryDark"
                     onClick={handleDelete(card.flash_card_id)}
                   >
                     <DeleteIcon />
                   </Button>
                   <Button
-                    color="tertiary"
+                    color="tertiaryDark"
                     onClick={() => addToReviewsHandler(card.flash_card_id)}
                   >
                     <MoveToInboxIcon />

@@ -106,7 +106,6 @@ function FlashCardLessonChatMessage({ message, reloadMessages }) {
           elevation={1}
           sx={{
             p: 2,
-            pb: 0.5,
             backgroundColor: theme.palette.primary.main,
             borderBottomLeftRadius: showTutorResponse ? 0 : null,
             borderBottomRightRadius: showTutorResponse ? 0 : null,
@@ -124,9 +123,10 @@ function FlashCardLessonChatMessage({ message, reloadMessages }) {
             <Typography sx={{ flexGrow: 1 }}>
               {lesson.example_sentence_translation}
             </Typography>
-            <Box>
+            <Stack direction="column" alignContent="flex-end">
+              <Box sx={{ flexGrow: 1 }} />
               {showTutorResponse ? <ArrowDropDownIcon /> : <ArrowLeftIcon />}
-            </Box>
+            </Stack>
           </Stack>
         </Paper>
         <Collapse
@@ -158,8 +158,8 @@ function FlashCardLessonChatMessage({ message, reloadMessages }) {
               css={{
                 backgroundColor:
                   hoverIndex === cardIndex
-                    ? theme.palette.secondary.dark
-                    : theme.palette.secondary.main,
+                    ? theme.palette.secondary.main
+                    : theme.palette.secondary.dark,
               }}
             >
               <CardHeader

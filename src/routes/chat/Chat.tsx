@@ -6,7 +6,7 @@ import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 
 import ChatMessageCarousel from "./ChatMessageCarousel";
 import { fetchChatMessages, postChatMessage } from "../../services/chatService";
-import { Box, Button, Stack } from "@mui/material";
+import { Box, Button, Stack, useTheme } from "@mui/material";
 import { TextareaAutosize } from "@mui/base/TextareaAutosize";
 import { styled } from "@mui/system";
 
@@ -39,6 +39,8 @@ const Textarea = styled(TextareaAutosize)(
 );
 
 export default function Chat() {
+  const theme = useTheme();
+
   const { chatId } = useParams();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -127,6 +129,7 @@ export default function Chat() {
               css={{ flexGrow: 1 }}
               name="message"
               onKeyDown={handleShiftEnter}
+              sx={{ backgroundColor: theme.palette.secondary.main }}
             />
             <input type="hidden" name="chatId" value={chatId} />
             <Button

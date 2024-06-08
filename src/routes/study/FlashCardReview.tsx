@@ -73,31 +73,31 @@ function FlashCardFlipper({ card, showFront, setShowFront, setRating }) {
       </CardContent>
       <CardActions>
         {showFront ? (
-          <Button color="tertiary" onClick={() => setShowFront(false)}>
+          <Button color="tertiaryDark" onClick={() => setShowFront(false)}>
             Reveal
           </Button>
         ) : (
           <Stack direction="row" spacing={1}>
             <Button
-              color="tertiary"
+              color="tertiaryDark"
               onClick={() => setRating(card.flash_card_id, "Again")}
             >
               Again
             </Button>
             <Button
-              color="tertiary"
+              color="tertiaryDark"
               onClick={() => setRating(card.flash_card_id, "Hard")}
             >
               Hard
             </Button>
             <Button
-              color="tertiary"
+              color="tertiaryDark"
               onClick={() => setRating(card.flash_card_id, "Good")}
             >
               Good
             </Button>
             <Button
-              color="tertiary"
+              color="tertiaryDark"
               onClick={() => setRating(card.flash_card_id, "Easy")}
             >
               Easy

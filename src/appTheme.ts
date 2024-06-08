@@ -3,14 +3,18 @@ import { createTheme } from "@mui/material/styles";
 declare module "@mui/material/styles" {
   interface Palette {
     tertiary: Palette["primary"];
+    tertiaryDark: Palette["primary"];
     pop: Palette["primary"];
     primaryDark: Palette["primary"];
+    topBar: Palette["primary"];
   }
 
   interface PaletteOptions {
     tertiary?: PaletteOptions["primary"];
+    tertiaryDark?: PaletteOptions["primary"];
     pop?: PaletteOptions["primary"];
     primaryDark?: PaletteOptions["primary"];
+    topBar?: PaletteOptions["primary"];
   }
 }
 
@@ -18,8 +22,16 @@ declare module "@mui/material/styles" {
 declare module "@mui/material/Button" {
   interface ButtonPropsColorOverrides {
     tertiary: true;
+    tertiaryDark: true;
     pop: true;
     primaryDark: true;
+    topBar: true;
+  }
+}
+
+declare module "@mui/material/Stack" {
+  interface StackPropsColorOverrides {
+    topBar: true;
   }
 }
 
@@ -28,31 +40,41 @@ export const baseTheme = createTheme({
     mode: "light",
     background: {
       // gray
-      default: "#e8e9ec",
+      default: "#9ca4ba",
     },
     pop: {
       // deep red
       main: "#f70301",
     },
     primary: {
-      // a very light pink
-      main: "#ffd4d4",
+      // peach
+      //main: "#fec9a3",
+      //main: "#ffdfc9",
+      main: "#dcc0ad",
       contrastText: "#000",
     },
     primaryDark: {
-      main: "#ff7a7a",
+      main: "#fe8936",
       contrastText: "#000",
     },
     secondary: {
-      main: "#fff",
+      main: "#eee",
+      dark: "#ccc",
     },
     tertiary: {
-      main: "#444",
-      contrastText: "#fff",
+      main: "#b3b8d7",
+      contrastText: "#eee",
+    },
+    tertiaryDark: {
+      main: "#1e367c",
+      contrastText: "#eee",
+    },
+    topBar: {
+      main: "#465a93",
     },
     text: {
       primary: "#111",
-      secondary: "#444",
+      secondary: "#565d70",
     },
   },
   components: {
@@ -89,7 +111,7 @@ export const baseTheme = createTheme({
     MuiMenu: {
       styleOverrides: {
         list: {
-          backgroundColor: "#fff",
+          backgroundColor: "#eee",
         },
       },
     },

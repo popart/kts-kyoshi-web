@@ -32,9 +32,9 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: "left",
   cursor: "pointer",
   color: theme.palette.secondary.contrastText,
-  backgroundColor: theme.palette.secondary.main,
+  backgroundColor: theme.palette.secondary.dark,
   "&:hover": {
-    backgroundColor: theme.palette.secondary.dark,
+    backgroundColor: theme.palette.secondary.main,
     boxShadow: "0px 4px 8px rgba(0,0,0,.2)",
   },
   display: "flex",
@@ -54,7 +54,7 @@ const ChatForm: React.FC<ChatFormProps> = ({ onNewChat }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Button color="tertiary" type="submit">
+      <Button color="primary" variant="contained" type="submit">
         New Chat
       </Button>
     </form>
@@ -181,7 +181,10 @@ const ChatList: React.FC = () => {
                     chat.chat_name || "Untitled"
                   )}
                 </Typography>
-                <Button color="tertiary" onClick={handleEditChat(chat.chat_id)}>
+                <Button
+                  color="tertiaryDark"
+                  onClick={handleEditChat(chat.chat_id)}
+                >
                   {editChat[chat.chat_id] ? <SaveIcon /> : <EditNoteIcon />}
                 </Button>
               </Stack>
@@ -191,14 +194,14 @@ const ChatList: React.FC = () => {
             </Box>
             <Collapse in={showConfirm[chat.chat_id]} orientation="horizontal">
               <Button
-                color="tertiary"
+                color="tertiaryDark"
                 sx={{ height: "100%" }}
                 onClick={handleConfirm(chat.chat_id)}
               >
                 Confirm
               </Button>
             </Collapse>
-            <Button color="tertiary" onClick={handleDelete(chat.chat_id)}>
+            <Button color="tertiaryDark" onClick={handleDelete(chat.chat_id)}>
               <DeleteIcon />
             </Button>
           </Item>

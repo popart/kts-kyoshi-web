@@ -63,7 +63,7 @@ export default function TopBar() {
       <Stack
         direction="row"
         p={1}
-        sx={{ backgroundColor: theme.palette.secondary.dark }}
+        sx={{ backgroundColor: theme.palette.topBar.main }}
       >
         <Button
           color="tertiary"

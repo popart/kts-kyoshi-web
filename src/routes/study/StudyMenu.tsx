@@ -19,10 +19,10 @@ const LeftAlignedButton = styled(Button)({
 });
 
 const Item = styled(Card)(({ theme }) => ({
-  backgroundColor: theme.palette.secondary.dark,
+  backgroundColor: theme.palette.secondary.main,
+  border: "1px solid transparent",
   "&:hover": {
-    backgroundColor: theme.palette.secondary.main,
-    boxShadow: "0px 4px 8px rgba(0,0,0,.2)",
+    border: "1px solid",
   },
   flex: 1,
 }));

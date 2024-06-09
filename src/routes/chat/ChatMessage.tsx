@@ -100,15 +100,15 @@ function FlashCardLessonChatMessage({ message, reloadMessages }) {
       <Stack
         onClick={() => setShowTutorResponse((prev) => !prev)}
         sx={{ cursor: "pointer" }}
-        marginBottom={1}
+        padding={1}
       >
         <Paper
           elevation={1}
           sx={{
             p: 2,
-            backgroundColor: theme.palette.primary.main,
             borderBottomLeftRadius: showTutorResponse ? 0 : null,
             borderBottomRightRadius: showTutorResponse ? 0 : null,
+            border: 1,
           }}
         >
           <Typography component="div">
@@ -146,7 +146,7 @@ function FlashCardLessonChatMessage({ message, reloadMessages }) {
         </Collapse>
       </Stack>
 
-      <Stack spacing={1} sx={{ overflowY: "auto" }}>
+      <Stack spacing={1} sx={{ overflowY: "auto" }} padding={1}>
         {lesson.flash_cards.map((card, cardIndex) => (
           <Card
             key={cardIndex}

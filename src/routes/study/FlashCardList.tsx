@@ -64,13 +64,12 @@ export default function FlashCardList() {
 
   return (
     <Box sx={{ height: "100%", overflowY: "auto" }}>
-      <Stack spacing={1} marginTop={1}>
+      <Stack spacing={1} padding={1}>
         {cards.length === 0 && <Box> No cards to review 😎</Box>}
         {cards.map((card, idx) => (
           <Card
             key={idx}
             sx={{ backgroundColor: theme.palette.secondary.main }}
-            variant="outlined"
           >
             <CardHeader
               title={

@@ -40,7 +40,7 @@ export const baseTheme = createTheme({
     mode: "light",
     background: {
       // gray
-      default: "#9ca4ba",
+      default: "#e8e9ec",
     },
     pop: {
       // deep red
@@ -48,9 +48,7 @@ export const baseTheme = createTheme({
     },
     primary: {
       // peach
-      //main: "#fec9a3",
-      //main: "#ffdfc9",
-      main: "#dcc0ad",
+      main: "#fff",
       contrastText: "#000",
     },
     primaryDark: {
@@ -58,11 +56,11 @@ export const baseTheme = createTheme({
       contrastText: "#000",
     },
     secondary: {
-      main: "#eee",
+      main: "#fff",
       dark: "#ccc",
     },
     tertiary: {
-      main: "#b3b8d7",
+      main: "#f1f3ff",
       contrastText: "#eee",
     },
     tertiaryDark: {

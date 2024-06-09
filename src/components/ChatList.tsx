@@ -33,9 +33,10 @@ const Item = styled(Paper)(({ theme }) => ({
   cursor: "pointer",
   color: theme.palette.secondary.contrastText,
   backgroundColor: theme.palette.secondary.dark,
+  border: "1px solid transparent",
   "&:hover": {
+    border: "1px solid",
     backgroundColor: theme.palette.secondary.main,
-    boxShadow: "0px 4px 8px rgba(0,0,0,.2)",
   },
   display: "flex",
   flexDirection: "row",
@@ -54,7 +55,12 @@ const ChatForm: React.FC<ChatFormProps> = ({ onNewChat }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Button color="primary" variant="contained" type="submit">
+      <Button
+        color="primary"
+        variant="contained"
+        type="submit"
+        sx={{ border: 1, borderColor: "primary.dark" }}
+      >
         New Chat
       </Button>
     </form>

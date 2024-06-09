@@ -31,9 +31,9 @@ const Textarea = styled(TextareaAutosize)(
   ({ theme }) => `
   font-family: ${theme.typography.fontFamily};
   &:focus {
-      outline: ${theme.palette.primary.light};
-      border-color: ${theme.palette.primary.light};
-      box-shadow: 0 0 0 1px ${theme.palette.primary.main};
+      outline: ${theme.palette.tertiary.light};
+      border-color: ${theme.palette.tertiary.light};
+      box-shadow: 0 0 0 1px ${theme.palette.tertiary.main};
   }
   `,
 );
@@ -129,13 +129,14 @@ export default function Chat() {
               css={{ flexGrow: 1 }}
               name="message"
               onKeyDown={handleShiftEnter}
-              sx={{ backgroundColor: theme.palette.secondary.main }}
             />
             <input type="hidden" name="chatId" value={chatId} />
             <Button
               css={{ marginLeft: "8px" }}
               type="submit"
               variant="contained"
+              color="primary"
+              sx={{ border: 1, borderColor: "primary.dark" }}
             >
               Submit
             </Button>

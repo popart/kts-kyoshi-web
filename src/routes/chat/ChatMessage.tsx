@@ -188,7 +188,14 @@ function FlashCardLessonChatMessage({ message, reloadMessages }) {
                   </Stack>
                 }
               />
-              <CardContent>{card.teaching_notes}</CardContent>
+              <CardContent>
+                {card.teaching_notes}
+                {card.japanese_example !== card.dictionary_form && (
+                  <Box>
+                    Root: <FuriganaText text={card.dictionary_form} />
+                  </Box>
+                )}
+              </CardContent>
             </CardActionArea>
           </Card>
         ))}

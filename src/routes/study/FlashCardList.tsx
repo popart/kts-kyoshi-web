@@ -122,6 +122,7 @@ export default function FlashCardList() {
               }
             />
             <CardContent>
+              <div>{card.flash_card_content.teaching_notes}</div>
               {card.flash_card_content.dictionary_form !==
                 card.flash_card_content.japanese_example && (
                 <Stack direction="row" sx={{ alignItems: "flex-end" }}>
@@ -131,7 +132,6 @@ export default function FlashCardList() {
                   />
                 </Stack>
               )}
-              <div>{card.flash_card_content.teaching_notes}</div>
               <br />
               <i>Example</i>
               <div>

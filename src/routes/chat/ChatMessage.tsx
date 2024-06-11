@@ -66,7 +66,9 @@ function FlashCardLessonChatMessage({ message, reloadMessages }) {
     const startIndex = exampleSentence.indexOf(exampleText);
     if (startIndex > -1) {
       if (startIndex > 0) {
-        translationItems.push(exampleSentence.substring(0, startIndex)); // unmatched characters to left
+        translationItems.push(
+          <FuriganaText text={exampleSentence.substring(0, startIndex)} />,
+        ); // unmatched characters to left
       }
       translationItems.push(
         <Box
@@ -89,7 +91,7 @@ function FlashCardLessonChatMessage({ message, reloadMessages }) {
     }
   });
   if (exampleSentence.length > 0) {
-    translationItems.push(exampleSentence); // leftover input
+    translationItems.push(<FuriganaText text={exampleSentence} />); // leftover input
   }
 
   const formattedMessage = marked(lesson.tutor_response);

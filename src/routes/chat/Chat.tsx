@@ -98,7 +98,7 @@ export default function Chat() {
   };
 
   function handleShiftEnter(event) {
-    if (event.key === "Enter") {
+    if (event.key === "Enter" && event.ctrlKey) {
       if (!isSubmitting) {
         handleSubmit(event);
       }

@@ -30,6 +30,7 @@ const chatInputStyle = css({
 const Textarea = styled(TextareaAutosize)(
   ({ theme }) => `
   font-family: ${theme.typography.fontFamily};
+  font-size: 2rem;
   &:focus {
       outline: ${theme.palette.tertiary.light};
       border-color: ${theme.palette.tertiary.light};
@@ -125,7 +126,7 @@ export default function Chat() {
         <form method="post" onSubmit={handleSubmit} ref={formRef}>
           <fieldset disabled={isSubmitting} css={chatInputStyle}>
             <Textarea
-              minRows={4}
+              minRows={2}
               css={{ flexGrow: 1 }}
               name="message"
               onKeyDown={handleShiftEnter}

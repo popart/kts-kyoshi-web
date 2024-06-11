@@ -166,10 +166,10 @@ function FlashCardLessonChatMessage({ message, reloadMessages }) {
                 sx={{ width: "100%" }}
                 title={
                   <Stack direction="row">
-                    <Box sx={{ flexGrow: 1, borderBottom: "1px solid" }}>
+                    <Box sx={{ flexGrow: 1, borderBottom: `1px solid gray` }}>
                       <FuriganaText text={card.japanese_example} />
                     </Box>
-                    <Box sx={{ borderBottom: "1px solid" }}>
+                    <Box sx={{ borderBottom: "1px solid gray" }}>
                       [{card.jlpt_level}]
                     </Box>
                     {card.is_saved ? (
@@ -189,12 +189,14 @@ function FlashCardLessonChatMessage({ message, reloadMessages }) {
                 }
               />
               <CardContent>
-                {card.teaching_notes}
-                {card.japanese_example !== card.dictionary_form && (
-                  <Box>
-                    Root: <FuriganaText text={card.dictionary_form} />
-                  </Box>
-                )}
+                <Typography>
+                  {card.teaching_notes}
+                  {card.japanese_example !== card.dictionary_form && (
+                    <Box>
+                      Root: <FuriganaText text={card.dictionary_form} />
+                    </Box>
+                  )}
+                </Typography>
               </CardContent>
             </CardActionArea>
           </Card>

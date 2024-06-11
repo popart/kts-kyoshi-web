@@ -36,10 +36,21 @@ export default function App() {
             ) : (
               <div>
                 <p>Please log in to get started.</p>
-                <p><b>What is this?</b></p>
-                <p>It's an app to help with immersion learning for Japanese. You type in a Japanese sentence, and then it translates it and explains the grammar. Based on that explanation, it creates flash cards that you can review using a spaced repetition system (SRS) in the app. It's very basic, so please watch the video before trying to use it.</p>
+                <p>
+                  <b>What is this?</b>
+                </p>
+                <p>
+                  It's an app to help with immersion learning for Japanese. You
+                  type in a Japanese sentence, and then it translates it and
+                  explains the grammar. Based on that explanation, it creates
+                  flash cards that you can review using a spaced repetition
+                  system (SRS) in the app. It's very basic, so please watch the
+                  video before trying to use it.
+                </p>
                 <p>Demo/how-to-use in the video below!</p>
-                <video width="320" height="240" controls><source src="/goginko_demo.mp4" type="video/mp4" /></video>
+                <video width="320" height="240" controls>
+                  <source src="/goginko_demo.mp4" type="video/mp4" />
+                </video>
               </div>
             )}
           </FullBox>

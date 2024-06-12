@@ -13,9 +13,13 @@ import {
   CardContent,
   CardHeader,
   Container,
+  Collapse,
   Stack,
   useTheme,
 } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+
+import { deleteFlashCard } from "../../services/flashCardService";
 
 const getRandomElement = (arr) => {
   if (!Array.isArray(arr) || arr.length === 0) {
@@ -25,8 +29,37 @@ const getRandomElement = (arr) => {
   return arr[randomIndex];
 };
 
-function FlashCardFlipper({ card, showFront, setShowFront, setRating }) {
+function FlashCardFlipper({
+  card,
+  showFront,
+  setShowFront,
+  setRating,
+  callDeleteFlashCard,
+}) {
   const theme = useTheme();
+
+  const [showConfirm, setShowConfirm] = useState<boolean>(false);
+  const handleDelete = (chatId: string) => {
+    return (event) => {
+      event.stopPropagation();
+      setShowConfirm((currentShowConfirm) => {
+        return !currentShowConfirm;
+      });
+    };
+  };
+  const handleConfirm = (flashCardId: string) => {
+    return async (event) => {
+      event.stopPropagation();
+      await callDeleteFlashCard(flashCardId);
+      setShowConfirm((currentShowConfirm) => {
+        return !currentShowConfirm;
+      });
+    };
+  };
+  const handleSetRating = (flashCardId, rating) => {
+    setRating(flashCardId, rating);
+    setShowConfirm(false);
+  };
 
   return (
     <Card sx={{ backgroundColor: theme.palette.secondary.main }}>
@@ -73,37 +106,56 @@ function FlashCardFlipper({ card, showFront, setShowFront, setRating }) {
       </CardContent>
       <CardActions>
         {showFront ? (
-          <Button color="tertiaryDark" onClick={() => setShowFront(false)}>
+          <Button
+            color="tertiaryDark"
+            onClick={() => {
+              setShowFront(false);
+              setShowConfirm(false);
+            }}
+          >
             Reveal
           </Button>
         ) : (
           <Stack direction="row" spacing={1}>
             <Button
               color="tertiaryDark"
-              onClick={() => setRating(card.flash_card_id, "Again")}
+              onClick={() => handleSetRating(card.flash_card_id, "Again")}
             >
               Again
             </Button>
             <Button
               color="tertiaryDark"
-              onClick={() => setRating(card.flash_card_id, "Hard")}
+              onClick={() => handleSetRating(card.flash_card_id, "Hard")}
             >
               Hard
             </Button>
             <Button
               color="tertiaryDark"
-              onClick={() => setRating(card.flash_card_id, "Good")}
+              onClick={() => handleSetRating(card.flash_card_id, "Good")}
             >
               Good
             </Button>
             <Button
               color="tertiaryDark"
-              onClick={() => setRating(card.flash_card_id, "Easy")}
+              onClick={() => handleSetRating(card.flash_card_id, "Easy")}
             >
               Easy
             </Button>
           </Stack>
         )}
+        <Box sx={{ flexGrow: 1 }} />
+        <Collapse in={showConfirm} orientation="horizontal">
+          <Button
+            color="tertiaryDark"
+            sx={{ height: "100%" }}
+            onClick={handleConfirm(card.flash_card_id)}
+          >
+            Confirm
+          </Button>
+        </Collapse>
+        <Button color="tertiaryDark" onClick={handleDelete(card.flash_card_id)}>
+          <DeleteIcon />
+        </Button>
       </CardActions>
     </Card>
   );
@@ -139,6 +191,13 @@ export default function FlashCardReview() {
     flashCardCounts["DONE"]++;
   }
 
+  async function callDeleteFlashCard(flashCardId) {
+    // TODO: show some transition
+    await deleteFlashCard(flashCardId);
+    loadFlashCards();
+    flashCardCounts["DUE"]--;
+  }
+
   return (
     <Container>
       {cards.length === 0 && <Box sx={{ p: 4 }}>No cards to review 😎</Box>}
@@ -152,6 +211,7 @@ export default function FlashCardReview() {
             showFront={showFront}
             setShowFront={setShowFront}
             setRating={setRating}
+            callDeleteFlashCard={callDeleteFlashCard}
           />
         </Box>
       )}

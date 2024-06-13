@@ -6,7 +6,7 @@ import { FuriganaContext } from "../providers/FuriganaProvider";
 import { Box } from "@mui/material";
 
 function isKanji(character: string) {
-  const kanjiRegex = /[\u4e00-\u9faf\u3400-\u4dbf]/;
+  const kanjiRegex = /[\u4e00-\u9faf\u3400-\u4dbf々]/;
   return kanjiRegex.test(character);
 }
 

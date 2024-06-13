@@ -7,6 +7,7 @@ import {
   Collapse,
   Paper,
   Stack,
+  Tooltip,
   Typography,
   useTheme,
 } from "@mui/material";
@@ -187,12 +188,18 @@ const ChatList: React.FC = () => {
                     chat.chat_name || "Untitled"
                   )}
                 </Typography>
-                <Button
-                  color="tertiaryDark"
-                  onClick={handleEditChat(chat.chat_id)}
+                <Tooltip
+                  title="Edit Title"
+                  enterDelay={500}
+                  enterNextDelay={500}
                 >
-                  {editChat[chat.chat_id] ? <SaveIcon /> : <EditNoteIcon />}
-                </Button>
+                  <Button
+                    color="tertiaryDark"
+                    onClick={handleEditChat(chat.chat_id)}
+                  >
+                    {editChat[chat.chat_id] ? <SaveIcon /> : <EditNoteIcon />}
+                  </Button>
+                </Tooltip>
               </Stack>
               <Typography sx={{ color: theme.palette.text.secondary }}>
                 {chat.created_at}
@@ -207,9 +214,11 @@ const ChatList: React.FC = () => {
                 Confirm
               </Button>
             </Collapse>
-            <Button color="tertiaryDark" onClick={handleDelete(chat.chat_id)}>
-              <DeleteIcon />
-            </Button>
+            <Tooltip title="Delete" enterDelay={500} enterNextDelay={500}>
+              <Button color="tertiaryDark" onClick={handleDelete(chat.chat_id)}>
+                <DeleteIcon />
+              </Button>
+            </Tooltip>
           </Item>
         ))}
       </Stack>

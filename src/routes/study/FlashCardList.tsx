@@ -14,6 +14,7 @@ import {
   CardContent,
   CardHeader,
   Stack,
+  Tooltip,
   useTheme,
 } from "@mui/material";
 
@@ -106,18 +107,26 @@ export default function FlashCardList() {
                       Confirm
                     </Button>
                   </Collapse>
-                  <Button
-                    color="tertiaryDark"
-                    onClick={handleDelete(card.flash_card_id)}
+                  <Tooltip title="Delete" enterDelay={500} enterNextDelay={500}>
+                    <Button
+                      color="tertiaryDark"
+                      onClick={handleDelete(card.flash_card_id)}
+                    >
+                      <DeleteIcon />
+                    </Button>
+                  </Tooltip>
+                  <Tooltip
+                    title="Add to Review Pile"
+                    enterDelay={500}
+                    enterNextDelay={500}
                   >
-                    <DeleteIcon />
-                  </Button>
-                  <Button
-                    color="tertiaryDark"
-                    onClick={() => addToReviewsHandler(card.flash_card_id)}
-                  >
-                    <MoveToInboxIcon />
-                  </Button>
+                    <Button
+                      color="tertiaryDark"
+                      onClick={() => addToReviewsHandler(card.flash_card_id)}
+                    >
+                      <MoveToInboxIcon />
+                    </Button>
+                  </Tooltip>
                 </Stack>
               }
             />

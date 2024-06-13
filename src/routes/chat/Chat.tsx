@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { css } from "@emotion/react";
 
-import { Dialog, DialogContent, DialogTitle } from "@mui/material";
+import { Dialog, DialogContent, DialogTitle, Tooltip } from "@mui/material";
 
 import ChatMessageCarousel from "./ChatMessageCarousel";
 import { fetchChatMessages, postChatMessage } from "../../services/chatService";
@@ -132,15 +132,17 @@ export default function Chat() {
               onKeyDown={handleShiftEnter}
             />
             <input type="hidden" name="chatId" value={chatId} />
-            <Button
-              css={{ marginLeft: "8px" }}
-              type="submit"
-              variant="contained"
-              color="primary"
-              sx={{ border: 1, borderColor: "primary.dark" }}
-            >
-              Submit
-            </Button>
+            <Tooltip title="Ctrl+Enter" enterDelay={500} enterNextDelay={500}>
+              <Button
+                css={{ marginLeft: "8px" }}
+                type="submit"
+                variant="contained"
+                color="primary"
+                sx={{ border: 1, borderColor: "primary.dark" }}
+              >
+                Submit
+              </Button>
+            </Tooltip>
           </fieldset>
         </form>
       </Box>

@@ -176,7 +176,7 @@ export default function FlashCardReview() {
   };
   const loadFlashCardCounts = async () => {
     const res = await fetchFlashCardCounts();
-    setFlashCardCounts({ DUE: res["REVIEW"], DONE: 0 });
+    setFlashCardCounts({ DUE: res["DUE"], DONE: 0 });
   };
 
   useEffect(() => {

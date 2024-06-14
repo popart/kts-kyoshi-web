@@ -15,10 +15,196 @@ import {
   CardHeader,
   Stack,
   Tooltip,
+  Typography,
   useTheme,
 } from "@mui/material";
 
 import { deleteFlashCard } from "../../services/flashCardService";
+
+function FlashCardView(
+  theme,
+  idx,
+  card,
+  showConfirm,
+  handleConfirm,
+  handleDelete,
+  addToReviewsHandler,
+) {
+  const teachingNotes =
+    card.flash_card_content.teaching_notes.split(/(?<=[.!?]['"]?)\s+/);
+  return (
+    <Card key={idx} sx={{ backgroundColor: theme.palette.secondary.main }}>
+      <CardHeader
+        title={
+          <Stack direction="row">
+            <Box
+              sx={{
+                color: theme.palette.pop.main,
+                flexGrow: 1,
+                flexBasis: 0,
+                borderBottom: `1px solid ${theme.palette.text.secondary}`,
+              }}
+            >
+              <FuriganaText text={card.flash_card_content.japanese_example} />
+            </Box>
+            <Box
+              sx={{
+                color: theme.palette.text.secondary,
+                borderBottom: `1px solid ${theme.palette.text.secondary}`,
+              }}
+            >
+              [{card.flash_card_content.jlpt_level}]
+            </Box>
+            <Collapse
+              in={showConfirm[card.flash_card_id]}
+              orientation="horizontal"
+            >
+              <Button
+                color="tertiaryDark"
+                sx={{ height: "100%" }}
+                onClick={handleConfirm(card.flash_card_id)}
+              >
+                Confirm
+              </Button>
+            </Collapse>
+            <Tooltip title="Delete" enterDelay={500} enterNextDelay={500}>
+              <Button
+                color="tertiaryDark"
+                onClick={handleDelete(card.flash_card_id)}
+              >
+                <DeleteIcon />
+              </Button>
+            </Tooltip>
+            <Tooltip
+              title="Add to Review Pile"
+              enterDelay={500}
+              enterNextDelay={500}
+            >
+              <Button
+                color="tertiaryDark"
+                onClick={() => addToReviewsHandler(card.flash_card_id)}
+              >
+                <MoveToInboxIcon />
+              </Button>
+            </Tooltip>
+          </Stack>
+        }
+      />
+      <CardContent>
+        <Stack direction="column" spacing={1}>
+          <Typography variant="h6">{teachingNotes[0]}</Typography>
+          <div>{teachingNotes.slice(1).join(" ")}</div>
+          {card.flash_card_content.dictionary_form !==
+            card.flash_card_content.japanese_example && (
+            <Stack direction="row" sx={{ alignItems: "flex-end" }}>
+              Root:&nbsp;&nbsp;
+              <FuriganaText text={card.flash_card_content.dictionary_form} />
+            </Stack>
+          )}
+          <i>Example</i>
+          <div>
+            <FuriganaText text={card.flash_card_content.example_sentence} />
+          </div>
+          <div>{card.flash_card_content.example_sentence_translation}</div>
+        </Stack>
+      </CardContent>
+    </Card>
+  );
+}
+
+function FlashCardViewReversed(
+  theme,
+  idx,
+  card,
+  showConfirm,
+  handleConfirm,
+  handleDelete,
+  addToReviewsHandler,
+) {
+  const teachingNotes =
+    card.flash_card_content.teaching_notes.split(/(?<=[.!?]['"]?)\s+/);
+  return (
+    <Card key={idx} sx={{ backgroundColor: theme.palette.secondary.main }}>
+      <CardHeader
+        title={
+          <Stack direction="row">
+            <Box
+              sx={{
+                color: theme.palette.pop.main,
+                flexGrow: 1,
+                flexBasis: 0,
+                borderBottom: `1px solid ${theme.palette.text.secondary}`,
+              }}
+            >
+              <Box>{teachingNotes[0]}</Box>
+            </Box>
+            <Box
+              sx={{
+                color: theme.palette.text.secondary,
+                borderBottom: `1px solid ${theme.palette.text.secondary}`,
+              }}
+            >
+              [{card.flash_card_content.jlpt_level}]
+            </Box>
+            <Collapse
+              in={showConfirm[card.flash_card_id]}
+              orientation="horizontal"
+            >
+              <Button
+                color="tertiaryDark"
+                sx={{ height: "100%" }}
+                onClick={handleConfirm(card.flash_card_id)}
+              >
+                Confirm
+              </Button>
+            </Collapse>
+            <Tooltip title="Delete" enterDelay={500} enterNextDelay={500}>
+              <Button
+                color="tertiaryDark"
+                onClick={handleDelete(card.flash_card_id)}
+              >
+                <DeleteIcon />
+              </Button>
+            </Tooltip>
+            <Tooltip
+              title="Add to Review Pile"
+              enterDelay={500}
+              enterNextDelay={500}
+            >
+              <Button
+                color="tertiaryDark"
+                onClick={() => addToReviewsHandler(card.flash_card_id)}
+              >
+                <MoveToInboxIcon />
+              </Button>
+            </Tooltip>
+          </Stack>
+        }
+      />
+      <CardContent>
+        <Stack direction="column" spacing={1}>
+          <Typography variant="h6">
+            <FuriganaText text={card.flash_card_content.japanese_example} />
+          </Typography>
+          {card.flash_card_content.dictionary_form !==
+            card.flash_card_content.japanese_example && (
+            <Stack direction="row" sx={{ alignItems: "flex-end" }}>
+              Root:&nbsp;&nbsp;
+              <FuriganaText text={card.flash_card_content.dictionary_form} />
+            </Stack>
+          )}
+          <div>{teachingNotes.slice(1).join(" ")}</div>
+
+          <i>Example</i>
+          <div>
+            <FuriganaText text={card.flash_card_content.example_sentence} />
+          </div>
+          <div>{card.flash_card_content.example_sentence_translation}</div>
+        </Stack>
+      </CardContent>
+    </Card>
+  );
+}
 
 export default function FlashCardList() {
   const theme = useTheme();
@@ -67,89 +253,27 @@ export default function FlashCardList() {
     <Box sx={{ height: "100%", overflowY: "auto" }}>
       <Stack spacing={1} padding={1}>
         {cards.length === 0 && <Box> No cards to review 😎</Box>}
-        {cards.map((card, idx) => (
-          <Card
-            key={idx}
-            sx={{ backgroundColor: theme.palette.secondary.main }}
-          >
-            <CardHeader
-              title={
-                <Stack direction="row">
-                  <Box
-                    sx={{
-                      color: theme.palette.pop.main,
-                      flexGrow: 1,
-                      flexBasis: 0,
-                      borderBottom: `1px solid ${theme.palette.text.secondary}`,
-                    }}
-                  >
-                    <FuriganaText
-                      text={card.flash_card_content.japanese_example}
-                    />
-                  </Box>
-                  <Box
-                    sx={{
-                      color: theme.palette.text.secondary,
-                      borderBottom: `1px solid ${theme.palette.text.secondary}`,
-                    }}
-                  >
-                    [{card.flash_card_content.jlpt_level}]
-                  </Box>
-                  <Collapse
-                    in={showConfirm[card.flash_card_id]}
-                    orientation="horizontal"
-                  >
-                    <Button
-                      color="tertiaryDark"
-                      sx={{ height: "100%" }}
-                      onClick={handleConfirm(card.flash_card_id)}
-                    >
-                      Confirm
-                    </Button>
-                  </Collapse>
-                  <Tooltip title="Delete" enterDelay={500} enterNextDelay={500}>
-                    <Button
-                      color="tertiaryDark"
-                      onClick={handleDelete(card.flash_card_id)}
-                    >
-                      <DeleteIcon />
-                    </Button>
-                  </Tooltip>
-                  <Tooltip
-                    title="Add to Review Pile"
-                    enterDelay={500}
-                    enterNextDelay={500}
-                  >
-                    <Button
-                      color="tertiaryDark"
-                      onClick={() => addToReviewsHandler(card.flash_card_id)}
-                    >
-                      <MoveToInboxIcon />
-                    </Button>
-                  </Tooltip>
-                </Stack>
-              }
-            />
-            <CardContent>
-              <div>{card.flash_card_content.teaching_notes}</div>
-              {card.flash_card_content.dictionary_form !==
-                card.flash_card_content.japanese_example && (
-                <Stack direction="row" sx={{ alignItems: "flex-end" }}>
-                  Root:&nbsp;&nbsp;
-                  <FuriganaText
-                    text={card.flash_card_content.dictionary_form}
-                  />
-                </Stack>
-              )}
-              <br />
-              <i>Example</i>
-              <div>
-                <FuriganaText text={card.flash_card_content.example_sentence} />
-              </div>
-              <div>{card.flash_card_content.example_sentence_translation}</div>
-            </CardContent>
-          </Card>
-        ))}
+        {cards.map((card, idx) =>
+          card.reverse
+            ? FlashCardViewReversed(
+                theme,
+                idx,
+                card,
+                showConfirm,
+                handleConfirm,
+                handleDelete,
+                addToReviewsHandler,
+              )
+            : FlashCardView(
+                theme,
+                idx,
+                card,
+                showConfirm,
+                handleConfirm,
+                handleDelete,
+                addToReviewsHandler,
+              ),
+        )}
       </Stack>
     </Box>
   );

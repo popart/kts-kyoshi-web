@@ -15,6 +15,7 @@ import {
   Container,
   Collapse,
   Stack,
+  Typography,
   useTheme,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -61,6 +62,9 @@ function FlashCardFlipper({
     setShowConfirm(false);
   };
 
+  const teachingNotes =
+    card.flash_card_content.teaching_notes.split(/(?<=[.!?]['"]?)\s+/);
+
   return (
     <Card sx={{ backgroundColor: theme.palette.secondary.main }}>
       <CardHeader
@@ -72,7 +76,11 @@ function FlashCardFlipper({
                 borderBottom: `1px solid ${theme.palette.text.secondary}`,
               }}
             >
-              <FuriganaText text={card.flash_card_content.japanese_example} />
+              {card.reverse ? (
+                teachingNotes[0]
+              ) : (
+                <FuriganaText text={card.flash_card_content.japanese_example} />
+              )}
             </Box>
             <Box
               sx={{
@@ -86,23 +94,48 @@ function FlashCardFlipper({
         }
       />
       <CardContent>
-        {!showFront && (
-          <>
-            <div>{card.flash_card_content.teaching_notes}</div>
-            {card.flash_card_content.dictionary_form !==
-              card.flash_card_content.japanese_example && (
-              <>
-                <br />
-                <div>Root: {card.flash_card_content.dictionary_form}</div>
-              </>
-            )}
-            <br />
-            <div>
-              <FuriganaText text={card.flash_card_content.example_sentence} />
-            </div>
-            <div>{card.flash_card_content.example_sentence_translation}</div>
-          </>
-        )}
+        <Stack direction="column" spacing={1}>
+          {!showFront && (
+            <>
+              {card.reverse ? (
+                <Typography variant="h6" sx={{ color: theme.palette.pop.main }}>
+                  <FuriganaText
+                    text={card.flash_card_content.japanese_example}
+                  />
+                </Typography>
+              ) : (
+                <>
+                  <Typography
+                    variant="h6"
+                    sx={{ color: theme.palette.pop.main }}
+                  >
+                    {teachingNotes[0]}
+                  </Typography>
+                  <div>{teachingNotes.slice(1).join(" ")}</div>
+                </>
+              )}
+
+              {card.flash_card_content.dictionary_form !==
+                card.flash_card_content.japanese_example && (
+                <>
+                  <div>Root: {card.flash_card_content.dictionary_form}</div>
+                </>
+              )}
+
+              {card.reverse && (
+                <>
+                  <div>{teachingNotes.slice(1).join(" ")}</div>
+                </>
+              )}
+
+              <i>Example</i>
+              <div>
+                <FuriganaText text={card.flash_card_content.example_sentence} />
+              </div>
+              <div>{card.flash_card_content.example_sentence_translation}</div>
+            </>
+          )}
+        </Stack>
       </CardContent>
       <CardActions>
         {showFront ? (
@@ -169,7 +202,6 @@ export default function FlashCardReview() {
 
   const loadFlashCards = async () => {
     const res = await fetchFlashCards("review");
-    console.log(res);
     setCards(res);
     setCard(getRandomElement(res));
     setShowFront(true);

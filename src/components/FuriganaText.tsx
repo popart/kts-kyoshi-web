@@ -29,7 +29,10 @@ function addRubyTags(text: string) {
       const kanjiEndIndex = startIndex;
       let kanjiBeginIndex = startIndex;
       let kanjiNotFoundYet = true; // catch things like 悪い(わるい)
-      while (kanjiBeginIndex >= 1 && (isKanji(inputText[kanjiBeginIndex - 1]) || kanjiNotFoundYet)) {
+      while (
+        kanjiBeginIndex >= 1 &&
+        (isKanji(inputText[kanjiBeginIndex - 1]) || kanjiNotFoundYet)
+      ) {
         kanjiBeginIndex--;
         if (isKanji(inputText[kanjiBeginIndex])) kanjiNotFoundYet = false;
       }

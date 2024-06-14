@@ -127,6 +127,7 @@ export default function Chat() {
           <fieldset disabled={isSubmitting} css={chatInputStyle}>
             <Textarea
               minRows={2}
+              maxLength={70}
               css={{ flexGrow: 1 }}
               name="message"
               onKeyDown={handleShiftEnter}
